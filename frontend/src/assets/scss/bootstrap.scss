@@ -1,0 +1,33 @@
+/*
+Template Name: A2ZTech - Responsive Bootstrap 5 Admin Dashboard
+Author: A2ZTech
+Version: 2.0.0
+Website: https://a2ztech.vn/
+Contact: support@a2ztech.vn
+File: Custom Bootstrap Css File
+*/
+
+//Core files
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "config/variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+//Components
+@import "custom/components/accordions";
+@import "custom/components/alerts";
+@import "custom/components/badge";
+@import "custom/components/backgrounds";
+@import "custom/components/breadcrumb";
+@import "custom/components/buttons";
+@import "custom/components/card";
+@import "custom/components/dropdown";
+@import "custom/components/forms";
+@import "custom/components/modal";
+@import "custom/components/nav";
+@import "custom/components/pagination";
+@import "custom/components/popover";
+@import "custom/components/progress";
+@import "custom/components/reboot";
+@import "custom/components/tables";
+@import "custom/components/type";
