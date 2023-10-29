@@ -14,12 +14,11 @@ import { CreateProductDto, typeImage } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { ImagesService } from 'src/images/images.service';
-import { CategoriesService } from 'src/categories/services/categories.service';
 
 @Controller('products')
 @ApiTags('Products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService, private readonly imagesService: ImagesService, private readonly categoriesService: CategoriesService) { }
+  constructor(private readonly productsService: ProductsService, private readonly imagesService: ImagesService) { }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('authorization')
@@ -63,14 +62,12 @@ export class ProductsController {
         name: e.name,
         url: e.url,
         price: e.price,
-        category: await this.categoriesService.findOne({ _id: e.category_id })
       }))
     )
     let rs = values.map(v => ({
       name: v.name,
       url: v.url,
       price: v.price,
-      path: (v.category.page == 'home' ? '' : `/${v.category.page}`) + '/' + v.category.name[0].name + '/' + v.name[0].name
     }))
 
     return rs
