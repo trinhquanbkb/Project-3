@@ -10,7 +10,7 @@ const Root = () => {
 		if (isUserAuthenticated() === false) {
 			url = "auth/login";
 		} else {
-			url = "dashboard/ecommerce";
+			url = "receipt";
 		}
 		return url;
 	};
