@@ -1,168 +1,223 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames';
+import React, { useEffect, useRef, useState } from "react";
+import classNames from "classnames";
 
 interface PaginationProps {
-    tableProps: any;
-    sizePerPageList: {
-        text: string;
-        value: number;
-    }[];
+	visiblePage: number[];
+	pageCurrent: any;
+	handleBlock: any;
+	tableProps: any;
+	pageSize: number;
+	totalPage: number;
+	handleFilter: any;
+	paginations: any;
+	sizePerPageList: {
+		text: string;
+		value: number;
+	}[];
+	isMobile?: boolean;
 }
 
-const Pagination = ({ tableProps, sizePerPageList }: PaginationProps) => {
-    /**
-     * pagination count , index
-     */
-    const [pageCount, setPageCount] = useState<number>(tableProps.pageCount);
-    const [pageIndex, setPageIndex] = useState<number>(tableProps.state.pageIndex);
+const Pagination = ({
+	visiblePage,
+	pageCurrent,
+	totalPage,
+	tableProps,
+	sizePerPageList,
+	paginations,
+	handleFilter,
+	handleBlock,
+	pageSize,
+	isMobile,
+}: PaginationProps) => {
+	const [filterPage, setFilterPage] = useState({
+		page: 1,
+		pageSize: 10,
+	});
 
-    useEffect(() => {
-        setPageCount(tableProps.pageCount);
-        setPageIndex(tableProps.state.pageIndex);
-    }, [tableProps.pageCount, tableProps.state.pageIndex]);
+	const [isInitialRender, setIsInitialRender] = useState(true);
 
-    /**
-     * get filter pages
-     */
-    const filterPages = useCallback(
-        (visiblePages: any, totalPages: number) => {
-            return visiblePages.filter((page: any) => page <= pageCount);
-        },
-        [pageCount]
-    );
+	// Sử dụng useRef để lưu trữ giá trị trước đó của filterPage
+	const prevFilterPage = useRef(filterPage);
 
-    /**
-     * handle visible pages
-     */
-    const getVisiblePages = useCallback(
-        (page: number | null, total: number) => {
-            if (total < 7) {
-                return filterPages([1, 2, 3, 4, 5, 6], total);
-            } else {
-                if (page! % 5 >= 0 && page! > 4 && page! + 2 < total) {
-                    return [1, page! - 1, page!, page! + 1, total];
-                } else if (page! % 5 >= 0 && page! > 4 && page! + 2 >= total) {
-                    return [1, total - 3, total - 2, total - 1, total];
-                } else {
-                    return [1, 2, 3, 4, 5, total];
-                }
-            }
-        },
-        [filterPages]
-    );
+	// Sử dụng useEffect để cập nhật giá trị prevFilterPage khi filterPage thay đổi
+	useEffect(() => {
+		prevFilterPage.current = filterPage;
+	}, [filterPage]);
+	// Sử dụng useEffect để gọi đánh dấu đã qua lần đầu render
+	useEffect(() => {
+		if (!isInitialRender) {
+			handleFilter(filterPage);
+		}
+		setIsInitialRender(false);
+	}, [filterPage]);
 
-    /**
-     * handle page change
-     * @param page - current page
-     * @returns
-     */
-    const changePage = (page: number) => {
-        const activePage = pageIndex + 1;
+	// Sử dụng useEffect để gọi handleFilter khi filterPage thay đổi thực sự
+	useEffect(() => {
+		if (
+			!isInitialRender &&
+			(filterPage.page !== prevFilterPage.current.page ||
+				filterPage.pageSize !== prevFilterPage.current.pageSize)
+		) {
+			handleFilter(filterPage);
+		}
+	}, [filterPage]);
 
-        if (page === activePage) {
-            return;
-        }
+	/**
+	 * handle page change
+	 * @param page - current page
+	 * @returns
+	 */
+	const changePage = (page: number) => {
+		handleBlock(page);
+		setFilterPage({ page: page, pageSize: pageSize });
+		const activePage = filterPage.page;
 
-        const visiblePages = getVisiblePages(page, pageCount);
-        setVisiblePages(filterPages(visiblePages, pageCount));
+		if (page === activePage) {
+			return;
+		}
+	};
 
-        tableProps.gotoPage(page - 1);
-    };
+	return (
+		<>
+			<div className="d-flex align-items-center flex-wrap text-center table-user-bottom">
+				{sizePerPageList.length > 0 && (
+					<div className="d-inline-block me-0 me-sm-3 ms-auto ms-sm-0 ml-a my-1">
+						{isMobile ? null : (
+							<label className="me-1 fw-normal">
+								{`${
+									paginations.pageSize *
+										(paginations.page - 1) +
+									1
+								}-${
+									paginations.pageSize * paginations.page
+								} of ${paginations.total}`}
+							</label>
+						)}
+						<select
+							value={pageSize}
+							onChange={(e: any) => {
+								setFilterPage({
+									page:
+										Math.floor(
+											(pageSize * (pageCurrent - 1) + 1) /
+												e.target.value
+										) + 1,
+									pageSize: e.target.value,
+								});
+								if (isMobile) {
+									handleFilter({
+										...filterPage,
+										pageSize: Number(e.target.value),
+									});
+								} else {
+									tableProps.setPageSize(
+										Number(e.target.value)
+									);
+								}
+							}}
+							className="form-select d-inline-block w-auto"
+						>
+							{(sizePerPageList || []).map((pageSize, index) => {
+								return (
+									<option key={index} value={pageSize.value}>
+										{pageSize.text}
+									</option>
+								);
+							})}
+						</select>
+					</div>
+				)}
 
-    useEffect(() => {
-        const visiblePages = getVisiblePages(null, pageCount);
-        setVisiblePages(visiblePages);
-    }, [pageCount, getVisiblePages]);
-
-    const [visiblePages, setVisiblePages] = useState<number[]>(getVisiblePages(null, pageCount));
-    const activePage: number = pageIndex + 1;
-
-    return (
-        <>
-            <div className="d-lg-flex align-items-center text-center table-user-bottom">
-                {sizePerPageList.length > 0 && (
-                    <div className="d-inline-block me-3">
-                        <label className="me-1 fw-normal">1-10 of 85 items</label>
-                        <select
-                            value={tableProps.state.pageSize}
-                            onChange={(e: any) => {
-                                tableProps.setPageSize(Number(e.target.value));
-                            }}
-                            className="form-select d-inline-block w-auto">
-                            {(sizePerPageList || []).map((pageSize, index) => {
-                                return (
-                                    <option key={index} value={pageSize.value}>
-                                        {pageSize.text}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </div>
-                )}
-
-                <ul className="pagination pagination-rounded d-inline-flex ms-auto mb-0">
-                    <li
-                        key="prevpage"
-                        className={classNames('page-item', 'paginate_button', 'previous', {
-                            disabled: activePage === 1,
-                        })}
-                        onClick={() => {
-                            if (activePage === 1) return;
-                            changePage(activePage - 1);
-                        }}>
-                        <Link to="#" className="page-link">
-                            <i className="uil uil-angle-left"></i>
-                        </Link>
-                    </li>
-                    {(visiblePages || []).map((page, index, array) => {
-                        return array[index - 1] + 1 < page ? (
-                            <React.Fragment key={page}>
-                                <li className="page-item disabled d-none d-xl-inline-block">
-                                    <Link to="#" className="page-link">
-                                        ...
-                                    </Link>
-                                </li>
-                                <li
-                                    className={classNames('page-item', 'd-none', 'd-xl-inline-block', {
-                                        active: activePage === page,
-                                    })}
-                                    onClick={(e: any) => changePage(page)}>
-                                    <Link to="#" className="page-link">
-                                        {page}
-                                    </Link>
-                                </li>
-                            </React.Fragment>
-                        ) : (
-                            <li
-                                key={page}
-                                className={classNames('page-item', 'd-none', 'd-xl-inline-block', {
-                                    active: activePage === page,
-                                })}
-                                onClick={(e: any) => changePage(page)}>
-                                <Link to="#" className="page-link">
-                                    {page}
-                                </Link>
-                            </li>
-                        );
-                    })}
-                    <li
-                        key="nextpage"
-                        className={classNames('page-item', 'paginate_button', 'next', {
-                            disabled: activePage === tableProps.pageCount,
-                        })}
-                        onClick={() => {
-                            if (activePage === tableProps.pageCount) return;
-                            changePage(activePage + 1);
-                        }}>
-                        <Link to="#" className="page-link">
-                            <i className="uil uil-angle-right"></i>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-        </>
-    );
+				<ul className="pagination pagination-rounded ms-auto my-1 d-inline-flex">
+					<li
+						key="prevpage"
+						className={classNames(
+							"page-item",
+							"paginate_button",
+							"previous",
+							{
+								disabled: pageCurrent === 1,
+							}
+						)}
+						onClick={() => {
+							if (pageCurrent === 1) return;
+							changePage(pageCurrent - 1);
+						}}
+					>
+						<div className="page-link">
+							<i
+								className={classNames("uil", "uil-angle-left", {
+									disabled: pageCurrent === 1,
+								})}
+							></i>
+						</div>
+					</li>
+					{(visiblePage || []).map((page, index, array) => {
+						return array[index - 1] + 1 < page ? (
+							<React.Fragment key={page}>
+								<li className="page-item disabled d-inline-block">
+									<div className="page-link">...</div>
+								</li>
+								<li
+									className={classNames(
+										"page-item",
+										"d-inline-block",
+										{
+											active: pageCurrent === page,
+										}
+									)}
+									onClick={(e: any) => changePage(page)}
+								>
+									<div className="page-link">{page}</div>
+								</li>
+							</React.Fragment>
+						) : (
+							<li
+								key={page}
+								className={classNames(
+									"page-item",
+									"d-inline-block",
+									{
+										active: pageCurrent === page,
+									}
+								)}
+								onClick={(e: any) => changePage(page)}
+							>
+								<div className="page-link">{page}</div>
+							</li>
+						);
+					})}
+					<li
+						key="nextpage"
+						className={classNames(
+							"page-item",
+							"paginate_button",
+							"next",
+							{
+								disabled: pageCurrent === totalPage,
+							}
+						)}
+						onClick={() => {
+							if (pageCurrent === totalPage) return;
+							changePage(pageCurrent + 1);
+						}}
+					>
+						<div className="page-link">
+							<i
+								className={classNames(
+									"uil",
+									"uil-angle-right",
+									{
+										disabled: pageCurrent === totalPage,
+									}
+								)}
+							></i>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</>
+	);
 };
 
 export default Pagination;
