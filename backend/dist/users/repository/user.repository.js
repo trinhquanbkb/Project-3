@@ -31,11 +31,14 @@ let UsersRepository = class UsersRepository {
     async update(id, updateDto) {
         return await this.userModel.findByIdAndUpdate(id, updateDto);
     }
-    async findAll(filter) {
-        return this.userModel.find(filter);
+    async findAll(filter, skip, limit) {
+        return this.userModel.find(filter).skip(skip).limit(limit).exec();
     }
     async delete(_id) {
         return await this.userModel.findByIdAndDelete(_id);
+    }
+    async countAll(filter) {
+        return this.userModel.countDocuments(filter).exec();
     }
 };
 UsersRepository = __decorate([

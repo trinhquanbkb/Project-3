@@ -15,7 +15,6 @@ let JwtAuthGuard = class JwtAuthGuard extends (0, passport_1.AuthGuard)('jwt') {
     }
     handleRequest(err, user, info) {
         if (err || !user) {
-            console.log('firs1t');
             throw err || new common_1.UnauthorizedException();
         }
         return user;

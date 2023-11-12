@@ -2,7 +2,6 @@ import { UsersService } from 'src/users/services/users.service';
 import { SignInDto } from '../dto/sign-in.dto';
 import { SignUpDto } from '../dto/sign-up.dto';
 import { JwtService } from '@nestjs/jwt';
-import { ActiveDto } from '../dto/active.dto';
 export declare class AuthService {
     private readonly userService;
     private jwtService;
@@ -12,8 +11,5 @@ export declare class AuthService {
         accessToken: string;
         credential: any;
     }>;
-    activeAccount(body: ActiveDto, token: string): Promise<{
-        accessToken: string;
-        credential: any;
-    }>;
+    checkIfDataSeeded(): Promise<boolean>;
 }
