@@ -12,8 +12,10 @@ const mongoose_1 = require("@nestjs/mongoose");
 const config_1 = require("@nestjs/config");
 const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
-const products_module_1 = require("./products/products.module");
 const images_module_1 = require("./images/images.module");
+const roles_module_1 = require("./roles/roles.module");
+const permisstions_module_1 = require("./permissions/permisstions.module");
+const warehouses_module_1 = require("./warehouse/warehouses.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -27,8 +29,10 @@ AppModule = __decorate([
             }),
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
-            products_module_1.ProductsModule,
             images_module_1.ImagesModule,
+            roles_module_1.RolesModule,
+            permisstions_module_1.PermisstionsModule,
+            warehouses_module_1.WarehousesModule
         ],
     })
 ], AppModule);

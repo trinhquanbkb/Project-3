@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
-const mongodb_1 = require("mongodb");
 const common_1 = require("@nestjs/common");
 const lodash_1 = require("lodash");
 const users_service_1 = require("../../users/services/users.service");
@@ -27,7 +26,7 @@ let AuthService = class AuthService {
         return await this.userService.create(data);
     }
     async signIn(data) {
-        const user = await this.userService.findOne({ username: data.username });
+        const user = await this.userService.findOne({ email: data.email });
         const credential = (0, lodash_1.omit)(user.toObject(), [
             'password',
             'createdAt',
@@ -37,31 +36,9 @@ let AuthService = class AuthService {
         const accessToken = await this.jwtService.signAsync(credential);
         return { accessToken, credential };
     }
-    async activeAccount(body, token) {
-        const verified = await this.jwtService.verifyAsync(token.split(' ')[1]);
-        const user = await this.userService.findOne({
-            _id: new mongodb_1.ObjectId(verified._id),
-        });
-        if (!user) {
-            throw new common_1.UnauthorizedException('User can not found');
-        }
-        if ((0, bcrypt_1.compareSync)(body.old_password, user.password)) {
-            const updated = await this.userService.update(verified._id, {
-                password: (0, bcrypt_1.hashSync)(body.password, configuration_1.configs.saltOrRound),
-                isActive: true,
-            });
-            const credential = (0, lodash_1.omit)(updated.toObject(), [
-                'password',
-                'createdAt',
-                'updatedAt',
-                '__v',
-            ]);
-            const accessToken = await this.jwtService.signAsync(credential);
-            return { accessToken, credential };
-        }
-        else {
-            throw new common_1.BadRequestException('Old password is not invalid');
-        }
+    async checkIfDataSeeded() {
+        const adminUser = await this.userService.findOne({ email: 'admin@gmail.com' });
+        return !!adminUser;
     }
 };
 AuthService = __decorate([

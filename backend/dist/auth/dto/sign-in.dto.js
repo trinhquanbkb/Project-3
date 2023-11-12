@@ -14,11 +14,11 @@ const swagger_1 = require("@nestjs/swagger");
 class SignInDto {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ example: "admin@gmail.com", description: 'email đăng ký' }),
     __metadata("design:type", String)
-], SignInDto.prototype, "username", void 0);
+], SignInDto.prototype, "email", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ example: '123456', description: 'mật khẩu' }),
     __metadata("design:type", String)
 ], SignInDto.prototype, "password", void 0);
 exports.SignInDto = SignInDto;
