@@ -4,6 +4,7 @@ import { Row, Col, Button, Form, Breadcrumb, Card } from "react-bootstrap";
 //dummy data
 import { records as data } from "./dataDemo";
 import TableEmployee from "./component/TableEmployee";
+import { useGetUserListQuery } from "../../api/userApi";
 
 const listBreadCrumb = [
 	{
@@ -23,6 +24,8 @@ const TrackingList = () => {
 	const [btnData, setBtnData] = useState("tat-ca");
 	const [keywordTracking, setKeywordTracking] = useState();
 	const [dataDemo, setDataDemo] = useState(data);
+	const { data: listUser, isFetching } = useGetUserListQuery();
+	console.log(listUser);
 
 	const handleKeywordTracking = (event: any) => {
 		setKeywordTracking(event.target.value);
