@@ -37,7 +37,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 	},
 	{
 		key: "employee",
-		label: "Nhân viên",
+		label: "Nhân sự",
 		isTitle: false,
 		icon: "users",
 		url: "/employees",

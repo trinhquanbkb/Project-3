@@ -7,9 +7,10 @@ const userApi = api.injectEndpoints({
 	endpoints: (build) => ({
 		getUserList: build.query<any, void>({
 			query: () => ({
-				url: "api/users/list",
+				url: "users",
 				method: "GET",
 			}),
+			providesTags: [{ type: "User", id: "List" }],
 		}),
 	}),
 });

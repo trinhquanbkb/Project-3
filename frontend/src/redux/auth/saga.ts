@@ -18,7 +18,6 @@ import {
  */
 
 export const setSession = (key?: string, value?: any, httpOnly?: boolean) => {
-	console.log("gsdgsd");
 	let cookies = new Cookies();
 	if (key && value)
 		cookies.set(key, value, {
