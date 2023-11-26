@@ -16,23 +16,29 @@ const images_module_1 = require("./images/images.module");
 const roles_module_1 = require("./roles/roles.module");
 const permisstions_module_1 = require("./permissions/permisstions.module");
 const warehouses_module_1 = require("./warehouse/warehouses.module");
+const orders_module_1 = require("./orders/orders.module");
+const products_module_1 = require("./products/products.module");
+const products_module_2 = require("./product_items/products.module");
+const suppliers_module_1 = require("./suppliers/suppliers.module");
+const financial_transaction_module_1 = require("./financial_transactions/financial-transaction.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
-            mongoose_1.MongooseModule.forRoot(process.env.MONGO_DB, {
-                useNewUrlParser: true,
-                useFindAndModify: false,
-                useCreateIndex: true,
-            }),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGO_DB),
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             images_module_1.ImagesModule,
             roles_module_1.RolesModule,
             permisstions_module_1.PermisstionsModule,
-            warehouses_module_1.WarehousesModule
+            warehouses_module_1.WarehousesModule,
+            orders_module_1.OrdersModule,
+            products_module_1.ProductsModule,
+            products_module_2.ProductItemsModule,
+            suppliers_module_1.SuppliersModule,
+            financial_transaction_module_1.FinancialTransactionModule,
         ],
     })
 ], AppModule);

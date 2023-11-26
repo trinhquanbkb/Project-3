@@ -9,7 +9,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) { }
 
-  async findOne(filter: FilterQuery<any>): Promise<UserDocument | null> {
+  async findOne(filter: any): Promise<UserDocument | null> {
     return this.userModel.findOne(filter);
   }
 
@@ -25,13 +25,13 @@ export class UsersRepository {
     return await this.userModel.findByIdAndUpdate(id, updateDto);
   }
 
-  async findAll(filter: FilterQuery<any>, skip: number, limit: number): Promise<UserDocument[]> {
+  async findAll(filter: any, skip: number, limit: number): Promise<UserDocument[]> {
     return this.userModel.find(filter).skip(skip).limit(limit).exec();
   }
   async delete(_id: string): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(_id);
   }
-  async countAll(filter: FilterQuery<any>): Promise<number> {
+  async countAll(filter: any): Promise<number> {
     return this.userModel.countDocuments(filter).exec();
   }
 }

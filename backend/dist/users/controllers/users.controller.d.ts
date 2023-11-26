@@ -1,10 +1,9 @@
 import { UsersService } from '../services/users.service';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { FilterQuery } from 'mongoose';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    findAll(pagination: any, filter: FilterQuery<any>): Promise<{
+    findAll(pagination: any, filter: string): Promise<{
         data: import("../schema/user.schema").UserDocument[];
         paginations: {
             page: any;

@@ -26,7 +26,7 @@ let WarehousesController = class WarehousesController {
         return this.rolesService.createRole(roleDto);
     }
     async findAll(pagination, filter) {
-        return this.rolesService.findAllRoles(pagination, filter);
+        return this.rolesService.findAllRoles(pagination, JSON.parse(filter));
     }
     findRoleById(id) {
         return this.rolesService.findRoleById(id);
@@ -49,11 +49,11 @@ __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
     (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),
-    (0, swagger_1.ApiQuery)({ name: 'filter', type: 'object', required: false, description: 'Filter' }),
+    (0, swagger_1.ApiQuery)({ name: 'filter', type: String, required: false, description: 'Filter' }),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Query)('filter')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], WarehousesController.prototype, "findAll", null);
 __decorate([

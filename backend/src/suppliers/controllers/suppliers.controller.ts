@@ -1,48 +1,43 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+
+import { Controller, Post, Get, Put, Delete, Param, Body, UseGuards, Query } from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { SuppliersService } from '../services/suppliers.service';
 import { CreateSupplierDto } from '../dto/create-supplier.dto';
-import { UpdateSupplierDto } from '../dto/update-supplier.dto';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('suppliers')
 @ApiTags('Suppliers')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('authorization')
 export class SuppliersController {
-  constructor(private readonly suppliersService: SuppliersService) {}
+  constructor(private readonly rolesService: SuppliersService) {}
 
   @Post()
-  create(@Body() createSupplierDto: CreateSupplierDto) {
-    return this.suppliersService.create(createSupplierDto);
+  createRole(@Body() roleDto: CreateSupplierDto) {
+    return this.rolesService.createRole(roleDto);
   }
 
+  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
+  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
+  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   @Get()
-  findAll() {
-    return this.suppliersService.findAll();
+  findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
+    const parsedFilter = JSON.parse(filter);
+    return this.rolesService.findAllRoles(pagination, parsedFilter);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.suppliersService.findOne({ _id: id });
+  findRoleById(@Param('id') id: string) {
+    return this.rolesService.findRoleById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSupplierDto: UpdateSupplierDto) {
-    return this.suppliersService.update(id, updateSupplierDto);
+  @Put(':id')
+  updateRole(@Param('id') id: string, @Body() roleDto: CreateSupplierDto) {
+    return this.rolesService.updateRole(id, roleDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.suppliersService.remove(+id);
+  deleteRole(@Param('id') id: string) {
+    return this.rolesService.deleteRole(id);
   }
 }

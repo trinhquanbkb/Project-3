@@ -10,21 +10,18 @@ exports.ProductsModule = void 0;
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./services/products.service");
 const products_controller_1 = require("./controllers/products.controller");
-const product_repository_1 = require("./repository/product.repository");
 const mongoose_1 = require("@nestjs/mongoose");
 const product_schema_1 = require("./schema/product.schema");
-const images_module_1 = require("../images/images.module");
 let ProductsModule = class ProductsModule {
 };
 ProductsModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([{ name: product_schema_1.Product.name, schema: product_schema_1.ProductSchema }]),
-            images_module_1.ImagesModule,
         ],
-        controllers: [products_controller_1.ProductsController],
-        providers: [products_service_1.ProductsService, product_repository_1.ProductsRepository],
-        exports: [products_service_1.ProductsService],
+        controllers: [products_controller_1.OrdersController],
+        providers: [products_service_1.OrdersService],
+        exports: [],
     })
 ], ProductsModule);
 exports.ProductsModule = ProductsModule;

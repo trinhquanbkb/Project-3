@@ -21,10 +21,11 @@ export class RolesController {
 
   @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
   @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: 'object', required: false, description: 'Filter' })
+  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   @Get()
-  findAllRoles(@Query() pagination: any, @Query('filter') filter: FilterQuery<any>) {
-    return this.rolesService.findAllRoles(pagination, filter);
+  findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
+    const parsedFilter = JSON.parse(filter);
+    return this.rolesService.findAllRoles(pagination, parsedFilter);
   }
 
   @Get(':id')

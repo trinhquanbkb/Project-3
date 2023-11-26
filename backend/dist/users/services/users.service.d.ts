@@ -6,7 +6,7 @@ export declare class UsersService {
     private readonly usersRepository;
     constructor(usersRepository: UsersRepository);
     create(createUserDto: CreateUserDto): Promise<import("../schema/user.schema").UserDocument>;
-    findAll(pagination: any, filter: FilterQuery<any>): Promise<{
+    findAll(pagination: any, filter: any): Promise<{
         data: import("../schema/user.schema").UserDocument[];
         paginations: {
             page: any;

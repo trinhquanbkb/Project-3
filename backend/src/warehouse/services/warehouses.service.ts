@@ -15,7 +15,7 @@ export class WarehousesService {
     return createdRole.save();
   }
 
-  async findAllRoles(pagination: any, filter: FilterQuery<any>){
+  async findAllRoles(pagination: any, filter: any){
     const {  page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
     const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10)).exec();;
