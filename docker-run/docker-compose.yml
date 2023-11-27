@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  backend:
+    image: quando/be-warehouse:v1.0
+    container_name: be-warehouse
+    restart: unless-stopped
+    ports:
+      - "3303:3303"
+    env_file:
+      - .env

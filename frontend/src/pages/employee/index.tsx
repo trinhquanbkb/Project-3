@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Form, Breadcrumb, Card } from "react-bootstrap";
+import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
+import queryString from "query-string";
 
 //dummy data
-import { records as data } from "./dataDemo";
+import { useLocation } from "react-router-dom";
 import TableEmployee from "./component/TableEmployee";
-import { useGetUserListQuery } from "../../api/userApi";
+import { useDeleteUserMutation, useGetUserListQuery } from "../../api/userApi";
+import { IUserQuery } from "../../models/user.model";
+import Loading from "../../components/Loading";
+import ViewEmployee from "./component/ViewEmployee";
+import NotFoundTable from "../../components/NotFoundTable";
+import EditEmployee from "./component/EditEmployee";
+import ModalConfirm from "../../components/ModalConfirm";
+import { toast } from "react-toastify";
 
 const listBreadCrumb = [
 	{
@@ -21,24 +29,107 @@ const listBreadCrumb = [
 ];
 
 const TrackingList = () => {
+	const location = useLocation();
 	const [btnData, setBtnData] = useState("tat-ca");
+	const [idUser, setIdUser] = useState("");
 	const [keywordTracking, setKeywordTracking] = useState();
-	const [dataDemo, setDataDemo] = useState(data);
-	const { data: listUser, isFetching } = useGetUserListQuery();
-	console.log(listUser);
+	const [viewModal, setViewModal] = useState(false);
+	const [editModal, setEditModal] = useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [search, setSearch] = useState<IUserQuery>({
+		page: 1,
+		pageSize: 10,
+		username: "",
+	});
+
+	// fetch user
+	const { data: listUser, isFetching } = useGetUserListQuery({ ...search });
+
+	// api delete user
+	const [deleteUserApi] = useDeleteUserMutation();
+
+	useEffect(() => {
+		const query = location.search;
+		const parsed = queryString.parse(query);
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const username = parsed.username ? parsed.username.toString() : "";
+
+		setSearch({
+			...search,
+			page,
+			pageSize,
+			username,
+		});
+	}, []);
+
+	// xử lý việc url thay đổi khi có filter
+	useEffect(() => {
+		const query = queryString.stringifyUrl(
+			{
+				url: "/employees",
+				query: {
+					page: search.page,
+					pageSize: search.pageSize,
+					username: search.username,
+				},
+			},
+			{
+				skipEmptyString: true,
+			}
+		);
+		window.history.pushState(null, "", query);
+	}, [search]);
+
+	// handle filter page with page and pageSize
+	const handleFilterPage = (filter: any) => {
+		setSearch({
+			...search,
+			page: filter.page,
+			pageSize: filter.pageSize,
+		});
+	};
 
 	const handleKeywordTracking = (event: any) => {
 		setKeywordTracking(event.target.value);
 	};
 
-	useEffect(() => {
-		// fetch(`https://jsonplaceholder.typicode.com/${btnData}`)
-		// .then(res => res.json())
-		// .then(posts => {
-		//   setDataFilter(posts)
-		//     // in vao state se bi vong lap vo han
-		// })
-	}, [btnData]);
+	const handleViewUser = (id: string) => {
+		setViewModal(!viewModal);
+		setIdUser(id);
+	};
+
+	const handleEditUser = (id: string) => {
+		setEditModal(!editModal);
+		setIdUser(id);
+	};
+
+	const handleDeleteUser = (id: string) => {
+		setDeleteModal(!deleteModal);
+		setIdUser(id);
+	};
+
+	const handleClosePopup = () => {
+		if (viewModal) {
+			setViewModal(!viewModal);
+		}
+		if (editModal) {
+			setEditModal(!editModal);
+		}
+		if (deleteModal) {
+			setDeleteModal(!deleteModal);
+		}
+	};
+
+	const apiDeleteUser = async () => {
+		const res: any = await deleteUserApi(idUser);
+		if (res?.data) {
+			setDeleteModal(!deleteModal);
+			toast.success("Xóa nhân sự thành công!");
+		} else {
+			toast.error("Xóa nhân sự thất bại");
+		}
+	};
 
 	return (
 		<>
@@ -46,8 +137,6 @@ const TrackingList = () => {
 				<Col xs={12}>
 					<div className="page-title-box">
 						<Breadcrumb listProps={{ className: "m-0" }}>
-							{/* {console.log(listBreadCrumb) } */}
-
 							{(listBreadCrumb || []).map((item, index) => {
 								return item.active ? (
 									<Breadcrumb.Item active key={index}>
@@ -143,23 +232,57 @@ const TrackingList = () => {
 				</Col>
 			</Row>
 
-			<Row>
-				<Col>
-					<Card>
-						<Card.Body>
-							<TableEmployee
-								data={dataDemo}
-								paginations={{
-									page: 1,
-									pageSize: 10,
-									total: 92,
-									totalPage: 1,
-								}}
-							/>
-						</Card.Body>
-					</Card>
-				</Col>
-			</Row>
+			{isFetching ? (
+				<Loading />
+			) : listUser ? (
+				<TableEmployee
+					handleFilter={handleFilterPage}
+					paginations={listUser.paginations}
+					handleViewUser={handleViewUser}
+					handleEditUser={handleEditUser}
+					handleDeleteUser={handleDeleteUser}
+					data={
+						listUser
+							? listUser.data.map((item) => {
+									return {
+										id: item._id,
+										code: item._id,
+										username: item.username,
+										email: item.email,
+										phone: item.phone,
+									};
+							  })
+							: null
+					}
+				/>
+			) : (
+				<NotFoundTable />
+			)}
+
+			{viewModal && (
+				<ViewEmployee
+					isClass={"active"}
+					id={idUser}
+					handleClose={handleClosePopup}
+				/>
+			)}
+
+			{editModal && (
+				<EditEmployee
+					isClass={"active"}
+					id={idUser}
+					handleClose={handleClosePopup}
+				/>
+			)}
+
+			{deleteModal && (
+				<ModalConfirm
+					show={deleteModal}
+					content={`Xác nhận xóa nhân viên?`}
+					handleAction={apiDeleteUser}
+					onHide={() => setDeleteModal(false)}
+				/>
+			)}
 		</>
 	);
 };

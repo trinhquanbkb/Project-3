@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 interface PaginationProps {
 	visiblePage: number[];
-	pageCurrent: any;
+	pageCurrent: number | null | undefined;
 	handleBlock: any;
 	tableProps: any;
 	pageSize: number;
@@ -99,7 +99,8 @@ const Pagination = ({
 								setFilterPage({
 									page:
 										Math.floor(
-											(pageSize * (pageCurrent - 1) + 1) /
+											(pageSize * (pageCurrent || 1 - 1) +
+												1) /
 												e.target.value
 										) + 1,
 									pageSize: e.target.value,
@@ -141,10 +142,10 @@ const Pagination = ({
 						)}
 						onClick={() => {
 							if (pageCurrent === 1) return;
-							changePage(pageCurrent - 1);
+							changePage(pageCurrent || 1 - 1);
 						}}
 					>
-						<div className="page-link">
+						<div className="page-link px-md-2 px-1">
 							<i
 								className={classNames("uil", "uil-angle-left", {
 									disabled: pageCurrent === 1,
@@ -156,7 +157,9 @@ const Pagination = ({
 						return array[index - 1] + 1 < page ? (
 							<React.Fragment key={page}>
 								<li className="page-item disabled d-inline-block">
-									<div className="page-link">...</div>
+									<div className="page-link px-md-2 px-1">
+										...
+									</div>
 								</li>
 								<li
 									className={classNames(
@@ -168,7 +171,9 @@ const Pagination = ({
 									)}
 									onClick={(e: any) => changePage(page)}
 								>
-									<div className="page-link">{page}</div>
+									<div className="page-link px-md-2 px-1">
+										{page}
+									</div>
 								</li>
 							</React.Fragment>
 						) : (
@@ -183,7 +188,9 @@ const Pagination = ({
 								)}
 								onClick={(e: any) => changePage(page)}
 							>
-								<div className="page-link">{page}</div>
+								<div className="page-link px-md-2 px-1">
+									{page}
+								</div>
 							</li>
 						);
 					})}
@@ -199,10 +206,10 @@ const Pagination = ({
 						)}
 						onClick={() => {
 							if (pageCurrent === totalPage) return;
-							changePage(pageCurrent + 1);
+							changePage(pageCurrent || 1 + 1);
 						}}
 					>
-						<div className="page-link">
+						<div className="page-link px-md-2 px-1">
 							<i
 								className={classNames(
 									"uil",

@@ -8,7 +8,7 @@ import {
   Param,
   Delete,
   UseGuards,
-  Query
+  Query,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -24,12 +24,29 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
-  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: 'object', required: false, description: 'Filter' })
-  async findAll(@Query() pagination: any, @Query('filter') filter: FilterQuery<any>) {
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'pageSize',
+    type: Number,
+    required: false,
+    description: 'Page size',
+  })
+  @ApiQuery({
+    name: 'filter',
+    type: 'object',
+    required: false,
+    description: 'Filter',
+  })
+  async findAll(
+    @Query() pagination: any,
+    @Query('filter') filter: FilterQuery<any>,
+  ) {
     return this.usersService.findAll(pagination, filter);
-     
   }
 
   @Get(':id')
@@ -44,6 +61,6 @@ export class UsersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(id);
   }
 }

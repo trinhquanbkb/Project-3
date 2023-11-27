@@ -3,7 +3,7 @@ export type UserDocument = User & Document;
 export declare class User {
     email: string;
     username: string;
-    phone: number;
+    phone: string;
     parent_id: string;
     password: string;
     role_id?: Array<String>;

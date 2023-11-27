@@ -1,69 +1,95 @@
-// 
+//
 // modal.scss
 //
 
 // Title text within header
 .modal-title {
-    margin-top: 0;
+	margin-top: 0;
 }
 
 // Modal full width
 .modal-full-width {
-    width: 95%;
-    max-width: none;
+	width: 95%;
+	max-width: none;
 }
 
 // Modal Positions
 .modal-top {
-    margin: 0 auto;
+	margin: 0 auto;
 }
 
 // Right Modal
 .modal-right {
-    position: absolute;
-    right: 0;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    height: 100%;
-    margin: 0;
-    background-color: $modal-content-bg;
-    align-content: center;
-    transform: translate(25%,0) !important;
+	position: absolute;
+	right: 0;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	height: 100%;
+	margin: 0;
+	background-color: $modal-content-bg;
+	align-content: center;
+	transform: translate(25%, 0) !important;
 
-    button.close {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1;
-    }
+	button.close {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		z-index: 1;
+	}
 }
 
 .modal {
-    &.show {
-        .modal-right {
-            transform: translate(0,0) !important;
-        }
-    }
+	&.show {
+		.modal-right {
+			transform: translate(0, 0) !important;
+		}
+	}
 }
 
 // Bottom modal
 .modal-bottom {
-    display: flex;
-    flex-flow: column nowrap;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
-    height: 100%;
-    margin: 0 auto;
-    align-content: center;
+	display: flex;
+	flex-flow: column nowrap;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+	height: 100%;
+	margin: 0 auto;
+	align-content: center;
 }
 
 // Colored modal header
 .modal-colored-header {
-    color: $white;
-    border-radius: 0;
+	color: $white;
+	border-radius: 0;
 
-    .close {
-        color: $white !important;
-    }
+	.close {
+		color: $white !important;
+	}
+}
+
+.textarea-modal {
+	width: 100%;
+	min-height: 100px;
+}
+
+.modal-content {
+	border: 1px solid rgb(207, 198, 195);
+}
+
+.header-approve-transaction {
+	position: relative;
+	.close {
+		background-image: url("../../../images/icons/close-popup.svg");
+		width: 1.2rem;
+		height: 1.2rem;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		display: inline-block;
+		position: absolute;
+		right: 5%;
+		top: 20%;
+		cursor: pointer;
+	}
 }
