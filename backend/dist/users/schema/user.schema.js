@@ -32,9 +32,9 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         required: true,
-        type: Number,
+        type: String,
     }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], User.prototype, "phone", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
@@ -67,7 +67,7 @@ __decorate([
 ], User.prototype, "warehouse_id", void 0);
 User = __decorate([
     (0, mongoose_1.Schema)({
-        timestamps: true
+        timestamps: true,
     })
 ], User);
 exports.User = User;

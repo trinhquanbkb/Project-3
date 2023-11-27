@@ -32,14 +32,29 @@ let UsersController = class UsersController {
         return this.usersService.update(id, updateUserDto);
     }
     remove(id) {
-        return this.usersService.remove(+id);
+        return this.usersService.remove(id);
     }
 };
 __decorate([
     (0, common_1.Get)(),
-    (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
-    (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),
-    (0, swagger_1.ApiQuery)({ name: 'filter', type: 'object', required: false, description: 'Filter' }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'pageSize',
+        type: Number,
+        required: false,
+        description: 'Page size',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'filter',
+        type: 'object',
+        required: false,
+        description: 'Filter',
+    }),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Query)('filter')),
     __metadata("design:type", Function),

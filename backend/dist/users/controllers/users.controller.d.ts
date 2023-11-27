@@ -16,5 +16,13 @@ export declare class UsersController {
     }>;
     findOne(id: string): Promise<import("../schema/user.schema").UserDocument>;
     update(id: string, updateUserDto: UpdateUserDto): Promise<import("../schema/user.schema").UserDocument>;
-    remove(id: string): string;
+    remove(id: string): Promise<{
+        data: import("../schema/user.schema").UserDocument;
+        message: string;
+        error?: undefined;
+    } | {
+        error: string;
+        data?: undefined;
+        message?: undefined;
+    }>;
 }
