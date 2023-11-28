@@ -21,6 +21,15 @@ export interface IUpdateUser {
 	password: string;
 }
 
+export interface ICreateUser {
+	username: string;
+	phone: string;
+	email: string;
+	password: string;
+	role_id: number;
+	warehouse_id: number;
+}
+
 export interface IUserQuery {
 	page: number;
 	pageSize: number;

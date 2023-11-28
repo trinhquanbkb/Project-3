@@ -42,11 +42,8 @@ export class UsersController {
     required: false,
     description: 'Filter',
   })
-  async findAll(
-    @Query() pagination: any,
-    @Query('filter') filter: FilterQuery<any>,
-  ) {
-    return this.usersService.findAll(pagination, filter);
+  async findAll(@Query() filter: any) {
+    return this.usersService.findAll(filter);
   }
 
   @Get(':id')

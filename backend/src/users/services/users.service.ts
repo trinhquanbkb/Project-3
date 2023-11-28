@@ -17,11 +17,11 @@ export class UsersService {
     return await this.usersRepository.create(createUserDto);
   }
 
-  async findAll(pagination: any, filter: FilterQuery<any>) {
-    const { page, pageSize } = pagination;
+  async findAll(filter: FilterQuery<any>) {
+    const { page, pageSize } = filter;
     const skip = (page - 1) * pageSize;
     const data = await this.usersRepository.findAll(
-      filter,
+      { username: filter.username },
       skip,
       parseInt(pageSize, 10),
     );

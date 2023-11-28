@@ -1,10 +1,9 @@
 import { UsersService } from '../services/users.service';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { FilterQuery } from 'mongoose';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    findAll(pagination: any, filter: FilterQuery<any>): Promise<{
+    findAll(filter: any): Promise<{
         data: import("../schema/user.schema").UserDocument[];
         paginations: {
             page: any;
@@ -16,13 +15,7 @@ export declare class UsersController {
     }>;
     findOne(id: string): Promise<import("../schema/user.schema").UserDocument>;
     update(id: string, updateUserDto: UpdateUserDto): Promise<import("../schema/user.schema").UserDocument>;
-    remove(id: string): Promise<{
-        data: import("../schema/user.schema").UserDocument;
-        message: string;
-        error?: undefined;
-    } | {
+    remove(id: string): Promise<import("../schema/user.schema").UserDocument | {
         error: string;
-        data?: undefined;
-        message?: undefined;
     }>;
 }

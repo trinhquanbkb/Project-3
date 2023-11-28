@@ -26,7 +26,6 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async signUp(body, req) {
-        console.log(req.user);
         body.parent_id = req.user.userId;
         const data = await this.authService.signUp(body);
         return data;
