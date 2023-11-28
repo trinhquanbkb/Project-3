@@ -32,7 +32,11 @@ let UsersRepository = class UsersRepository {
         return await this.userModel.findByIdAndUpdate(id, updateDto);
     }
     async findAll(filter, skip, limit) {
-        return this.userModel.find(filter).skip(skip).limit(limit).exec();
+        const query = {};
+        if (filter.username) {
+            query.username = { $regex: '.*' + filter.username + '.*' };
+        }
+        return this.userModel.find(query).skip(skip).limit(limit).exec();
     }
     async delete(_id) {
         return await this.userModel.findByIdAndDelete(_id);

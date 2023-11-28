@@ -22,8 +22,8 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    async findAll(pagination, filter) {
-        return this.usersService.findAll(pagination, filter);
+    async findAll(filter) {
+        return this.usersService.findAll(filter);
     }
     findOne(id) {
         return this.usersService.findOne({ _id: id });
@@ -56,9 +56,8 @@ __decorate([
         description: 'Filter',
     }),
     __param(0, (0, common_1.Query)()),
-    __param(1, (0, common_1.Query)('filter')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findAll", null);
 __decorate([

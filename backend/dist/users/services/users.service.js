@@ -22,10 +22,10 @@ let UsersService = class UsersService {
         createUserDto.password = (0, bcrypt_1.hashSync)(createUserDto.password, configuration_1.configs.saltOrRound);
         return await this.usersRepository.create(createUserDto);
     }
-    async findAll(pagination, filter) {
-        const { page, pageSize } = pagination;
+    async findAll(filter) {
+        const { page, pageSize } = filter;
         const skip = (page - 1) * pageSize;
-        const data = await this.usersRepository.findAll(filter, skip, parseInt(pageSize, 10));
+        const data = await this.usersRepository.findAll({ username: filter.username }, skip, parseInt(pageSize, 10));
         const total = await this.usersRepository.countAll(filter);
         const paginations = {
             page: page,
@@ -44,10 +44,7 @@ let UsersService = class UsersService {
     async remove(id) {
         const removeUser = await this.usersRepository.delete(id);
         if (removeUser) {
-            return {
-                data: removeUser,
-                message: 'success',
-            };
+            return removeUser;
         }
         else {
             return {

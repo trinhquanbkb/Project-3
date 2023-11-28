@@ -13,25 +13,13 @@ exports.SignUpValidation = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("../../users/services/users.service");
 const types_enum_1 = require("../enums/types.enum");
-const regex_1 = require("../utils/regex");
 let SignUpValidation = class SignUpValidation {
     constructor(usersService) {
         this.usersService = usersService;
     }
     async transform(value) {
-        await this.validateUsername(value);
         this.validateRole(value);
         return value;
-    }
-    async validateUsername(value) {
-        const username = value.username;
-        const existUsername = await this.usersService.findOne({ username });
-        if (existUsername) {
-            throw new common_1.BadRequestException('Username has been already used');
-        }
-        if (!regex_1.regUsername.test(username)) {
-            throw new common_1.BadRequestException('Username must include string and number may include _ and – having a length of 3 to 16 characters ');
-        }
     }
     validateRole(value) {
         const role = value.role;

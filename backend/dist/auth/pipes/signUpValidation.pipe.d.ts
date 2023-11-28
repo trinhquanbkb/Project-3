@@ -5,6 +5,5 @@ export declare class SignUpValidation implements PipeTransform<any> {
     protected readonly usersService: UsersService;
     constructor(usersService: UsersService);
     transform(value: SignUpDto): Promise<SignUpDto>;
-    validateUsername(value: any): Promise<void>;
     validateRole(value: any): void;
 }

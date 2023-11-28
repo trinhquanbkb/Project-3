@@ -1,6 +1,11 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
-import { IUpdateUser, IUser, IUserQuery } from "../models/user.model";
+import {
+	ICreateUser,
+	IUpdateUser,
+	IUser,
+	IUserQuery,
+} from "../models/user.model";
 import { IPagination } from "../models/pagination.model";
 
 export const successToastAction = createAction<string>("toast/success");
@@ -53,6 +58,14 @@ const userApi = api.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: "User", id: "List" }],
 		}),
+		createUser: build.mutation<any, ICreateUser>({
+			query: (data) => ({
+				url: `auth/sign-up`,
+				method: "POST",
+				data,
+			}),
+			invalidatesTags: [{ type: "User", id: "List" }],
+		}),
 	}),
 });
 
@@ -61,4 +74,5 @@ export const {
 	useGetUserDetailQuery,
 	useUpdateUserMutation,
 	useDeleteUserMutation,
+	useCreateUserMutation,
 } = userApi;

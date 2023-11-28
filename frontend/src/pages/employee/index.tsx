@@ -13,6 +13,7 @@ import NotFoundTable from "../../components/NotFoundTable";
 import EditEmployee from "./component/EditEmployee";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
+import CreateEmployee from "./component/CreateEmployee";
 
 const listBreadCrumb = [
 	{
@@ -32,8 +33,9 @@ const TrackingList = () => {
 	const location = useLocation();
 	const [btnData, setBtnData] = useState("tat-ca");
 	const [idUser, setIdUser] = useState("");
-	const [keywordTracking, setKeywordTracking] = useState();
+	const [keywordUsername, setKeywordUsername] = useState("");
 	const [viewModal, setViewModal] = useState(false);
+	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [search, setSearch] = useState<IUserQuery>({
@@ -61,6 +63,10 @@ const TrackingList = () => {
 			pageSize,
 			username,
 		});
+
+		if (username) {
+			setKeywordUsername(username);
+		}
 	}, []);
 
 	// xử lý việc url thay đổi khi có filter
@@ -90,10 +96,6 @@ const TrackingList = () => {
 		});
 	};
 
-	const handleKeywordTracking = (event: any) => {
-		setKeywordTracking(event.target.value);
-	};
-
 	const handleViewUser = (id: string) => {
 		setViewModal(!viewModal);
 		setIdUser(id);
@@ -109,6 +111,16 @@ const TrackingList = () => {
 		setIdUser(id);
 	};
 
+	const handleSearchOnEnter = (event: any) => {
+		event.preventDefault();
+		if (event.key === "Enter") {
+			setSearch({
+				...search,
+				username: keywordUsername.trim(),
+			});
+		}
+	};
+
 	const handleClosePopup = () => {
 		if (viewModal) {
 			setViewModal(!viewModal);
@@ -118,6 +130,9 @@ const TrackingList = () => {
 		}
 		if (deleteModal) {
 			setDeleteModal(!deleteModal);
+		}
+		if (createModal) {
+			setCreateModal(!createModal);
 		}
 	};
 
@@ -171,6 +186,9 @@ const TrackingList = () => {
 								<Button
 									variant="primary"
 									className="mb-2 mb-sm-0"
+									onClick={() => {
+										setCreateModal(!createModal);
+									}}
 								>
 									<i className="uil-plus me-1"></i> Thêm nhân
 									sự
@@ -195,11 +213,14 @@ const TrackingList = () => {
 												<Form.Control
 													type="search"
 													placeholder="Tìm kiếm theo tên"
-													onChange={
-														handleKeywordTracking
-													}
-													value={
-														keywordTracking || ""
+													onChange={(e) => {
+														setKeywordUsername(
+															e.target.value
+														);
+													}}
+													value={keywordUsername}
+													onKeyUp={
+														handleSearchOnEnter
 													}
 												/>
 												<Button
@@ -281,6 +302,13 @@ const TrackingList = () => {
 					content={`Xác nhận xóa nhân viên?`}
 					handleAction={apiDeleteUser}
 					onHide={() => setDeleteModal(false)}
+				/>
+			)}
+
+			{createModal && (
+				<CreateEmployee
+					isClass={"active"}
+					handleClose={handleClosePopup}
 				/>
 			)}
 		</>
