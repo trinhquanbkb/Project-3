@@ -17,35 +17,40 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 let WarehousesService = class WarehousesService {
-    constructor(roleModel) {
-        this.roleModel = roleModel;
+    constructor(warehouseModel) {
+        this.warehouseModel = warehouseModel;
     }
-    async createRole(roleDto) {
-        const createdRole = new this.roleModel(roleDto);
-        return createdRole.save();
+    async createWarehouse(warehouseDto) {
+        const createdWarehouse = new this.warehouseModel(warehouseDto);
+        return createdWarehouse.save();
     }
-    async findAllRoles(pagination, filter) {
+    async findAllWarehouse(pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
-        const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10)).exec();
-        ;
-        const total = await this.roleModel.countDocuments(filter).exec();
+        const data = await this.warehouseModel
+            .find(filter)
+            .skip(skip)
+            .limit(parseInt(pageSize, 10))
+            .exec();
+        const total = await this.warehouseModel.countDocuments(filter).exec();
         const paginations = {
-            "page": page,
-            "pageSize": pageSize,
-            "total": total,
-            "totalPage": Math.ceil(total / pageSize)
+            page: page,
+            pageSize: pageSize,
+            total: total,
+            totalPage: Math.ceil(total / pageSize),
         };
-        return { data, paginations, messenger: "succes" };
+        return { data, paginations, messenger: 'succes' };
     }
-    async findRoleById(id) {
-        return this.roleModel.findById(id).exec();
+    async findWarehouseById(id) {
+        return this.warehouseModel.findById(id).exec();
     }
-    async updateRole(id, roleDto) {
-        return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
+    async updateWarehouse(id, warehouseDto) {
+        return this.warehouseModel
+            .findByIdAndUpdate(id, warehouseDto, { new: true })
+            .exec();
     }
-    async deleteRole(id) {
-        return this.roleModel.findByIdAndRemove(id).exec();
+    async deleteWarehouse(id) {
+        return this.warehouseModel.findByIdAndRemove(id).exec();
     }
 };
 WarehousesService = __decorate([
