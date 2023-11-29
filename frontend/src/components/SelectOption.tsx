@@ -10,8 +10,9 @@ interface IProps {
 	placeholder?: string;
 	className?: string;
 	keywordId?: number | null;
-	label: string;
+	label?: string;
 	optionData: OptionTypes[];
+	isLabel?: boolean;
 }
 
 export default function SelectOption(props: IProps) {
@@ -29,7 +30,7 @@ export default function SelectOption(props: IProps) {
 	return (
 		<div>
 			<Form.Group className={className}>
-				<Form.Label>{props.label}</Form.Label>
+				{props.isLabel ? <Form.Label>{props.label}</Form.Label> : null}
 				<Select
 					isClearable
 					placeholder={props.placeholder}
@@ -37,11 +38,9 @@ export default function SelectOption(props: IProps) {
 					classNamePrefix="select"
 					isSearchable={true}
 					value={{
-						label: idSelect
-							? props.optionData.find(
-									(item) => item.value === idSelect
-							  )?.label
-							: null,
+						label: props.optionData.find(
+							(item) => item.value === idSelect
+						)?.label,
 						value: idSelect,
 					}}
 					options={props.optionData}

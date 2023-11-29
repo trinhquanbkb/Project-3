@@ -21,7 +21,7 @@ export class UsersService {
     const { page, pageSize } = filter;
     const skip = (page - 1) * pageSize;
     const data = await this.usersRepository.findAll(
-      { username: filter.username },
+      filter,
       skip,
       parseInt(pageSize, 10),
     );

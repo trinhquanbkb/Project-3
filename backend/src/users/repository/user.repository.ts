@@ -34,6 +34,12 @@ export class UsersRepository {
     if (filter.username) {
       query.username = { $regex: '.*' + filter.username + '.*' };
     }
+    if (filter.email) {
+      query.email = { $regex: '.*' + filter.email + '.*' };
+    }
+    if (filter.role_id) {
+      query.role_id = filter.role_id;
+    }
 
     return this.userModel.find(query).skip(skip).limit(limit).exec();
   }

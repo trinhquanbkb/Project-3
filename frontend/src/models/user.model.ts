@@ -34,6 +34,8 @@ export interface IUserQuery {
 	page: number;
 	pageSize: number;
 	username?: string;
+	role_id: string;
+	email: string;
 }
 
 export interface ITableUser {
