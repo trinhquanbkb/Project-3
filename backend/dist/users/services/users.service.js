@@ -25,7 +25,7 @@ let UsersService = class UsersService {
     async findAll(filter) {
         const { page, pageSize } = filter;
         const skip = (page - 1) * pageSize;
-        const data = await this.usersRepository.findAll({ username: filter.username }, skip, parseInt(pageSize, 10));
+        const data = await this.usersRepository.findAll(filter, skip, parseInt(pageSize, 10));
         const total = await this.usersRepository.countAll(filter);
         const paginations = {
             page: page,

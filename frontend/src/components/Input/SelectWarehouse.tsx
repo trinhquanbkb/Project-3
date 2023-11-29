@@ -4,8 +4,9 @@ import SelectOption from "../SelectOption";
 import { OptionTypes } from "../../models/util.model";
 
 interface IProps {
-	id: number | null;
+	id: any;
 	handleChange: any;
+	isLabel?: boolean;
 }
 
 export default function SelectWarehouse(props: IProps) {
@@ -15,6 +16,7 @@ export default function SelectWarehouse(props: IProps) {
 	});
 
 	let optionWarehouse: OptionTypes[] = [];
+	optionWarehouse.push({ value: null, label: "Select" });
 	if (data) {
 		data.data.forEach((item) => {
 			optionWarehouse.push({
@@ -37,6 +39,7 @@ export default function SelectWarehouse(props: IProps) {
 				label="Kho"
 				handleChange={handleChangeWarehouse}
 				optionData={optionWarehouse}
+				isLabel={props.isLabel}
 			/>
 		</div>
 	);

@@ -4,8 +4,9 @@ import { OptionTypes } from "../../models/util.model";
 import { useGetRoleListQuery } from "../../api/roleApi";
 
 interface IProps {
-	id: number | null;
+	id: any;
 	handleChange: any;
+	isLabel?: boolean;
 }
 
 export default function SelectRole(props: IProps) {
@@ -15,6 +16,7 @@ export default function SelectRole(props: IProps) {
 	});
 
 	let optionRole: OptionTypes[] = [];
+	optionRole.push({ value: null, label: "Select" });
 	if (data) {
 		data.data.forEach((item) => {
 			optionRole.push({
@@ -35,6 +37,7 @@ export default function SelectRole(props: IProps) {
 				label="Vai trò"
 				handleChange={handleChangeRole}
 				optionData={optionRole}
+				isLabel={props.isLabel}
 			/>
 		</div>
 	);

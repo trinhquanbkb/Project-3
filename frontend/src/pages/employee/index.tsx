@@ -14,6 +14,7 @@ import EditEmployee from "./component/EditEmployee";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import CreateEmployee from "./component/CreateEmployee";
+import SelectRole from "../../components/Input/SelectRole";
 
 const listBreadCrumb = [
 	{
@@ -31,9 +32,9 @@ const listBreadCrumb = [
 
 const TrackingList = () => {
 	const location = useLocation();
-	const [btnData, setBtnData] = useState("tat-ca");
 	const [idUser, setIdUser] = useState("");
 	const [keywordUsername, setKeywordUsername] = useState("");
+	const [keywordEmail, setKeywordEmail] = useState("");
 	const [viewModal, setViewModal] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
@@ -42,6 +43,8 @@ const TrackingList = () => {
 		page: 1,
 		pageSize: 10,
 		username: "",
+		role_id: "",
+		email: "",
 	});
 
 	// fetch user
@@ -56,16 +59,23 @@ const TrackingList = () => {
 		const page = parsed.page ? Number(parsed.page) : 1;
 		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
 		const username = parsed.username ? parsed.username.toString() : "";
+		const roleId = parsed.roleId ? parsed.roleId.toString() : "";
+		const email = parsed.email ? parsed.email.toString() : "";
 
 		setSearch({
 			...search,
 			page,
 			pageSize,
 			username,
+			role_id: roleId,
+			email: email,
 		});
 
 		if (username) {
 			setKeywordUsername(username);
+		}
+		if (email) {
+			setKeywordEmail(email);
 		}
 	}, []);
 
@@ -78,6 +88,8 @@ const TrackingList = () => {
 					page: search.page,
 					pageSize: search.pageSize,
 					username: search.username,
+					roleId: search.role_id,
+					email: search.email,
 				},
 			},
 			{
@@ -117,6 +129,7 @@ const TrackingList = () => {
 			setSearch({
 				...search,
 				username: keywordUsername.trim(),
+				email: keywordEmail.trim(),
 			});
 		}
 	};
@@ -226,25 +239,64 @@ const TrackingList = () => {
 												<Button
 													type="submit"
 													className="btn-search"
+													onClick={() => {
+														setSearch({
+															...search,
+															username:
+																keywordUsername.trim(),
+														});
+													}}
 												></Button>
 											</Form.Group>
 										</div>
 									</div>
 								</Col>
 
-								<Col xs={6}>
+								<Col xs={3}>
 									<div className="col-right">
-										<Form.Select
-											className="list-time-select"
-											aria-label="Default select example"
-										>
-											<option value="1">Admin</option>
-											<option value="2">Quản lý</option>
-											<option value="3">
-												Nhân viên kho
-											</option>
-											<option value="4">Ké toán</option>
-										</Form.Select>
+										<div className="input-search">
+											<Form.Group className="form-search-user form-search-tracking">
+												<Form.Control
+													type="search"
+													placeholder="Tìm kiếm theo email"
+													onChange={(e) => {
+														setKeywordEmail(
+															e.target.value
+														);
+													}}
+													value={keywordEmail}
+													onKeyUp={
+														handleSearchOnEnter
+													}
+												/>
+												<Button
+													type="submit"
+													className="btn-search"
+													onClick={() => {
+														setSearch({
+															...search,
+															email: keywordEmail.trim(),
+														});
+													}}
+												></Button>
+											</Form.Group>
+										</div>
+									</div>
+								</Col>
+
+								<Col xs={3}>
+									<div className="col-right">
+										<div className="input-search">
+											<SelectRole
+												id={search.role_id}
+												handleChange={(id: any) => {
+													setSearch({
+														...search,
+														role_id: id,
+													});
+												}}
+											/>
+										</div>
 									</div>
 								</Col>
 							</Row>
