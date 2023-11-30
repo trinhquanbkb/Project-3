@@ -2,9 +2,9 @@ import { WarehousesService } from '../services/warehouses.service';
 import { WarehouseDTO } from '../dto/warehouse.dto';
 import { FilterQuery } from 'mongoose';
 export declare class WarehousesController {
-    private readonly rolesService;
-    constructor(rolesService: WarehousesService);
-    createRole(roleDto: WarehouseDTO): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
+    private readonly warehouseService;
+    constructor(warehouseService: WarehousesService);
+    createWarehouse(warehouseDto: WarehouseDTO): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
     findAll(pagination: any, filter: FilterQuery<any>): Promise<{
         data: import("../schema/warehouse.schema").WarehouseDocument[];
         paginations: {
@@ -15,7 +15,7 @@ export declare class WarehousesController {
         };
         messenger: string;
     }>;
-    findRoleById(id: string): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
-    updateRole(id: string, roleDto: WarehouseDTO): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
-    deleteRole(id: string): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
+    findWarehouseById(id: string): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
+    updateWarehouse(id: string, warehouseDto: WarehouseDTO): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
+    deleteWarehouse(id: string): Promise<import("../schema/warehouse.schema").WarehouseDocument>;
 }

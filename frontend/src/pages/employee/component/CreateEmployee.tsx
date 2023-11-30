@@ -203,6 +203,7 @@ const CreateEmployee = ({
 															role_id: id,
 														});
 													}}
+													isLabel={true}
 												/>
 												{formik.errors.role_id &&
 													formik.touched.role_id && (
@@ -228,6 +229,7 @@ const CreateEmployee = ({
 															warehouse_id: id,
 														});
 													}}
+													isLabel={true}
 												/>
 												{formik.errors.warehouse_id &&
 													formik.touched

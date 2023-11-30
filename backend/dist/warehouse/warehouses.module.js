@@ -17,7 +17,9 @@ let WarehousesModule = class WarehousesModule {
 WarehousesModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forFeature([{ name: warehouse_schema_1.Warehouse.name, schema: warehouse_schema_1.WarehouseSchema }]),
+            mongoose_1.MongooseModule.forFeature([
+                { name: warehouse_schema_1.Warehouse.name, schema: warehouse_schema_1.WarehouseSchema },
+            ]),
         ],
         controllers: [warehouses_controller_1.WarehousesController],
         providers: [warehouses_service_1.WarehousesService],
