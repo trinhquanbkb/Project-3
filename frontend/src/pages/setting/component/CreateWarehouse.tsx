@@ -1,12 +1,16 @@
-import React from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useCreateWarehouseMutation } from "../../../api/warehouseApi";
+import {
+	useCreateWarehouseMutation
+} from "../../../api/warehouseApi";
 import SelectWarehouse from "../../../components/Input/SelectWarehouse";
+import FormAddress from "../../../components/FormAddress";
 
-const CreateEmployee = ({
+
+
+const CreateWarehouse = ({
 	handleClose,
 	isClass,
 }: {
@@ -15,75 +19,51 @@ const CreateEmployee = ({
 }) => {
 	const [createWarehouse] = useCreateWarehouseMutation();
 
-	// regex data
-	const phoneRegex =
-		/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 	const formik = useFormik({
 		initialValues: {
-			username: "",
-			phone: "",
-			email: "",
-			role_id: "",
-			warehouse_id: "",
-			password: "",
-			passwordConfirm: "",
+			name: "",
+			address: "",
+			wards: "",
+			district: "",
+			city: ""
 		},
 		validationSchema: Yup.object({
-			username: Yup.string().required("Trường bắt buộc!"),
-			phone: Yup.string()
+			address: Yup.string()
 				.required("Trường bắt buộc!")
-				.matches(phoneRegex, "Số điện thoại không hợp lệ"),
-			email: Yup.string()
-				.required("Trường bắt buộc!")
-				.matches(emailRegex, "Email không hợp lệ"),
-			role_id: Yup.string().nullable().required("Trường bắt buộc!"),
-			warehouse_id: Yup.string().nullable().required("Trường bắt buộc!"),
-			password: Yup.string()
-				.required("Trường bắt buộc!")
-				.matches(
-					passwordRegex,
-					"Mật khẩu có ít nhất 1 chữ cái, 1 số và 8 ký tự"
-				),
-			passwordConfirm: Yup.string()
-				.required("Trường bắt buộc!")
-				.matches(
-					passwordRegex,
-					"Mật khẩu có ít nhất 1 chữ cái, 1 số và 8 ký tự"
-				),
 		}),
 		onSubmit: async (values: any) => {
-			if (values.password === values.passwordConfim) {
-				formik.setFieldError(
-					"rePassword",
-					"Mật khẩu không trùng khớp!"
-				);
-			} else {
-				let dataRequest = values;
-				delete dataRequest["passwordConfirm"];
-				const res: any = await createWarehouse(dataRequest);
-				if (res?.data) {
-					toast.success("Tạo mới nhân sự thành công");
-					handleClose();
-				} else {
-					toast.error("Tạo mới nhân sự thất bại");
+
+			const res: any = await createWarehouse(
+				{
+					name: values.name,
+					address: {
+						district: values.district,
+						wards: values.wards,
+						city: values.city,
+						address: values.address,
+					}
 				}
+			);
+			if (res?.data) {
+				toast.success("Tạo mới nhà kho thành công");
+				handleClose();
+			} else {
+				toast.error("Tạo mới nhà kho thất bại");
 			}
+
 		},
 	});
 
 	return (
 		<>
 			<div
-				className={`popup-info main-view-order ${
-					isClass === "active" ? "opened" : ""
-				}`}
+				className={`popup-info main-view-order ${isClass === "active" ? "opened" : ""
+					}`}
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Tạo nhân sự mới</h2>
+						<h2>Tạo nhà kho mới</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 
@@ -101,183 +81,60 @@ const CreateEmployee = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Tên nhân sự
+														Tên nhà kho
 													</Form.Label>
 													<Form.Control
 														type="text"
-														name="username"
-														placeholder="Nguyễn Văn A"
+														name="name"
 														value={
-															formik.values
-																.username
+															formik.values.name
 														}
 														onChange={
 															formik.handleChange
 														}
 													/>
-													{formik.errors.username &&
-														formik.touched
-															.username && (
-															<p className="error mb-0">
-																{
-																	formik
-																		.errors
-																		.username as string
-																}
-															</p>
-														)}
 												</Form.Group>
 											</Col>
 
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Số điện thoại
+														Đường
 													</Form.Label>
 													<Form.Control
 														type="text"
-														name="phone"
-														placeholder="0327*******"
+														name="address"
 														value={
-															formik.values.phone
+															formik.values.address
 														}
 														onChange={
 															formik.handleChange
 														}
 													/>
-													{formik.errors.phone &&
+													{formik.errors.address &&
 														formik.touched
-															.phone && (
+															.address && (
 															<p className="error mb-0">
 																{
 																	formik
 																		.errors
-																		.phone as string
+																		.address as string
 																}
 															</p>
 														)}
 												</Form.Group>
 											</Col>
 
-											<Col xs={12} md={6}>
-												<Form.Group className="mb-3">
-													<Form.Label>
-														Email
-													</Form.Label>
-													<Form.Control
-														type="text"
-														name="email"
-														placeholder="Abc@gmail.com"
-														value={
-															formik.values.email
-														}
-														onChange={
-															formik.handleChange
-														}
-													/>
-													{formik.errors.email &&
-														formik.touched
-															.email && (
-															<p className="error mb-0">
-																{
-																	formik
-																		.errors
-																		.email as string
-																}
-															</p>
-														)}
-												</Form.Group>
-											</Col>
-
-
-											<Col
-												xs={12}
-												md={6}
-												className="mb-3"
-											>
-												<SelectWarehouse
-													id={null}
-													handleChange={(id: any) => {
-														formik.setValues({
-															...formik.values,
-															warehouse_id: id,
-														});
-													}}
+											<Form onSubmit={formik.handleSubmit}>
+												<FormAddress
+													city={formik.values.city}
+													district={formik.values.district}
+													wards={formik.values.wards}
+													onCityChange={(value: any) => formik.setFieldValue("city", value)}
+													onDistrictChange={(value: any) => formik.setFieldValue("district", value)}
+													onWardsChange={(value: any) => formik.setFieldValue("wards", value)}
 												/>
-												{formik.errors.warehouse_id &&
-													formik.touched
-														.warehouse_id && (
-														<p className="error mb-0">
-															{
-																formik.errors
-																	.warehouse_id as string
-															}
-														</p>
-													)}
-											</Col>
-
-											<Col xs={12} md={6}></Col>
-
-											<Col xs={12} md={6}>
-												<Form.Group className="mb-3">
-													<Form.Label>
-														Mật khẩu
-													</Form.Label>
-													<Form.Control
-														type="password"
-														name="password"
-														value={
-															formik.values
-																.password
-														}
-														onChange={
-															formik.handleChange
-														}
-													/>
-													{formik.errors.password &&
-														formik.touched
-															.password && (
-															<p className="error mb-0">
-																{
-																	formik
-																		.errors
-																		.password as any
-																}
-															</p>
-														)}
-												</Form.Group>
-											</Col>
-
-											<Col xs={12} md={6}>
-												<Form.Group className="mb-3">
-													<Form.Label>
-														Nhập lại mật khẩu
-													</Form.Label>
-													<Form.Control
-														type="password"
-														name="passwordConfirm"
-														value={
-															formik.values
-																.passwordConfirm
-														}
-														onChange={
-															formik.handleChange
-														}
-													/>
-													{formik.errors
-														.passwordConfirm &&
-														formik.touched
-															.passwordConfirm && (
-															<p className="error mb-0">
-																{
-																	formik
-																		.errors
-																		.passwordConfirm as any
-																}
-															</p>
-														)}
-												</Form.Group>
-											</Col>
+											</Form>
 
 											<Col
 												xs={12}
@@ -315,4 +172,5 @@ const CreateEmployee = ({
 	);
 };
 
-export default CreateEmployee;
+export default CreateWarehouse;
+
