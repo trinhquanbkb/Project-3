@@ -72,7 +72,7 @@ const ViewWarehouse = ({
 														type="text"
 														name="address"
 														value={
-															JSON.stringify(warehouseDetail?.address)
+															warehouseDetail?.address?.address
 														}
 														disabled
 													/>

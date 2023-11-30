@@ -32,7 +32,7 @@ const listBreadCrumb = [
 
 
 const WarehouseList = () => {
-	const location = useLocation();
+	// const location = useLocation();
 	const [idWarehouse, setIdWarehouse] = useState("");
 	const [keywordWarehouseName, setKeywordWarehouseName] = useState("");
 	const [viewModal, setViewModal] = useState(false);
@@ -51,37 +51,35 @@ const WarehouseList = () => {
 		}
 	});
 
-	// fetch user
 	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({ ...search });
 
-	// api delete user
 	const [deleteWarehouseApi] = useDeleteWarehouseMutation();
 
-	useEffect(() => {
-		const query = location.search;
-		const parsed = queryString.parse(query);
-		const page = parsed.page ? Number(parsed.page) : 1;
-		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
-		const name = parsed.name ? parsed.name.toString() : "";
-		const address = parsed.address ? parsed.address.toString() : "";
+	// useEffect(() => {
+	// 	const query = location.search;
+	// 	const parsed = queryString.parse(query);
+	// 	const page = parsed.page ? Number(parsed.page) : 1;
+	// 	const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+	// 	const name = parsed.name ? parsed.name.toString() : "";
+	// 	// const address = parsed.address ? parsed.address : "";
 
-		setSearch({
-			...search,
-			page,
-			pageSize,
-			name,
-		});
+	// 	setSearch({
+	// 		...search,
+	// 		page,
+	// 		pageSize,
+	// 		name,
+	// 	});
 
-		if (name) {
-			setKeywordWarehouseName(name);
-		}
-	}, []);
+	// 	if (name) {
+	// 		setKeywordWarehouseName(name);
+	// 	}
+	// }, []);
 
 	// xử lý việc url thay đổi khi có filter
 	useEffect(() => {
 		const query = queryString.stringifyUrl(
 			{
-				url: "/employees",
+				url: "/warehouses",
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
@@ -215,7 +213,7 @@ const WarehouseList = () => {
 					<div className="wrap-filter">
 						<div className="list-input">
 							<Row>
-								<Col xs={1}>
+								<Col xs={3}>
 									<div className="col-left">
 										<div className="input-search">
 											<Form.Group className="form-search-user form-search-tracking">
@@ -268,7 +266,7 @@ const WarehouseList = () => {
 									return {
 										id: item._id,
 										name: item.name,
-										address: JSON.stringify(item.address)
+										address: item.address
 									};
 							  })
 							: null

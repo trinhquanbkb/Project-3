@@ -63,7 +63,7 @@ const CreateEmployee = ({
 			} else {
 				let dataRequest = values;
 				delete dataRequest["passwordConfirm"];
-				const res: any = await createUser(dataRequest);
+				const res: any = await createWarehouse(dataRequest);
 				if (res?.data) {
 					toast.success("Tạo mới nhân sự thành công");
 					handleClose();
@@ -189,30 +189,6 @@ const CreateEmployee = ({
 												</Form.Group>
 											</Col>
 
-											<Col
-												xs={12}
-												md={6}
-												className="mb-3"
-											>
-												<SelectRole
-													id={null}
-													handleChange={(id: any) => {
-														formik.setValues({
-															...formik.values,
-															role_id: id,
-														});
-													}}
-												/>
-												{formik.errors.role_id &&
-													formik.touched.role_id && (
-														<p className="error mb-0">
-															{
-																formik.errors
-																	.role_id as string
-															}
-														</p>
-													)}
-											</Col>
 
 											<Col
 												xs={12}

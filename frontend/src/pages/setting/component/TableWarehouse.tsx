@@ -2,7 +2,7 @@ import React from "react";
 import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
-import { ITableUser } from "../../../models/user.model";
+import { ITableWarehouse } from "../../../models/warehouse.model";
 
 const columns = [
 	{
@@ -17,12 +17,22 @@ const columns = [
 	},
 	{
 		Header: "Địa chỉ",
-		accessor: "email",
-		sort: true,
+		accessor: "address.address",
+		sort: false,
 	},
 	{
-		Header: "Số điện thoại",
-		accessor: "phone",
+		Header: "Phường/Xã",
+		accessor: "address.wards",
+		sort: false,
+	},
+	{
+		Header: "Quận/Huyện",
+		accessor: "address.district",
+		sort: false,
+	},
+	{
+		Header: "Thành phố",
+		accessor: "address.city",
 		sort: false,
 	},
 	{
@@ -32,7 +42,7 @@ const columns = [
 	},
 ];
 
-const TableEmployee = (props: ITableUser) => {
+const TableWarehouse = (props: ITableWarehouse) => {
 	return (
 		<>
 			<Row>
@@ -62,7 +72,7 @@ const TableEmployee = (props: ITableUser) => {
 					</Card>
 				</Col>
 			</Row>
-
+									
 			{props.data == null || undefined
 				? null
 				: props.data.forEach(
@@ -73,36 +83,36 @@ const TableEmployee = (props: ITableUser) => {
 										type="button"
 										className="btn btn-create-order"
 										onClick={() => {
-											props.handleViewUser(item.id);
+											props.handleViewWarehouse(item.id);
 										}}
 									>
 										<i className="uil uil-eye"></i>
 										<span className="title">
-											Xem nhân sự
+											Xem nhà kho
 										</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-edit-tracking"
 										onClick={() => {
-											props.handleEditUser(item.id);
+											props.handleEditWarehouse(item.id);
 										}}
 									>
 										<i className="uil uil-edit-alt"></i>
 										<span className="title">
-											Sửa nhân sự
+											Sửa nhà kho
 										</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-delete-tracking"
 										onClick={() => {
-											props.handleDeleteUser(item.id);
+											props.handleDeleteWarehouse(item.id);
 										}}
 									>
 										<i className="uil uil-times"></i>
 										<span className="title">
-											Xóa nhân sự
+											Xóa nhà kho
 										</span>
 									</button>
 								</div>
@@ -116,4 +126,4 @@ const TableEmployee = (props: ITableUser) => {
 	);
 };
 
-export default TableEmployee;
+export default TableWarehouse;
