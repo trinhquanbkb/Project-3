@@ -66,13 +66,58 @@ const ViewWarehouse = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Địa chỉ nhà kho
+														Đường
 													</Form.Label>
 													<Form.Control
 														type="text"
 														name="address"
 														value={
 															warehouseDetail?.address?.address
+														}
+														disabled
+													/>
+												</Form.Group>
+											</Col>
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>
+														Phường/Xã
+													</Form.Label>
+													<Form.Control
+														type="text"
+														name="wards"
+														value={
+															warehouseDetail?.address?.wards
+														}
+														disabled
+													/>
+												</Form.Group>
+											</Col>
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>
+														Quận/Huyện
+													</Form.Label>
+													<Form.Control
+														type="text"
+														name="district"
+														value={
+															warehouseDetail?.address?.district
+														}
+														disabled
+													/>
+												</Form.Group>
+											</Col>
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>
+														Thành phố
+													</Form.Label>
+													<Form.Control
+														type="text"
+														name="district"
+														value={
+															warehouseDetail?.address?.city
 														}
 														disabled
 													/>
