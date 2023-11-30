@@ -19,23 +19,23 @@ const warehouse_dto_1 = require("../dto/warehouse.dto");
 const swagger_1 = require("@nestjs/swagger");
 const jwt_guard_1 = require("../../auth/guards/jwt.guard");
 let WarehousesController = class WarehousesController {
-    constructor(rolesService) {
-        this.rolesService = rolesService;
+    constructor(warehouseService) {
+        this.warehouseService = warehouseService;
     }
-    createRole(roleDto) {
-        return this.rolesService.createRole(roleDto);
+    createWarehouse(warehouseDto) {
+        return this.warehouseService.createWarehouse(warehouseDto);
     }
     async findAll(pagination, filter) {
-        return this.rolesService.findAllRoles(pagination, filter);
+        return this.warehouseService.findAllWarehouse(pagination, filter);
     }
-    findRoleById(id) {
-        return this.rolesService.findRoleById(id);
+    findWarehouseById(id) {
+        return this.warehouseService.findWarehouseById(id);
     }
-    updateRole(id, roleDto) {
-        return this.rolesService.updateRole(id, roleDto);
+    updateWarehouse(id, warehouseDto) {
+        return this.warehouseService.updateWarehouse(id, warehouseDto);
     }
-    deleteRole(id) {
-        return this.rolesService.deleteRole(id);
+    deleteWarehouse(id) {
+        return this.warehouseService.deleteWarehouse(id);
     }
 };
 __decorate([
@@ -44,12 +44,27 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [warehouse_dto_1.WarehouseDTO]),
     __metadata("design:returntype", void 0)
-], WarehousesController.prototype, "createRole", null);
+], WarehousesController.prototype, "createWarehouse", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
-    (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),
-    (0, swagger_1.ApiQuery)({ name: 'filter', type: 'object', required: false, description: 'Filter' }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'pageSize',
+        type: Number,
+        required: false,
+        description: 'Page size',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'filter',
+        type: 'object',
+        required: false,
+        description: 'Filter',
+    }),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Query)('filter')),
     __metadata("design:type", Function),
@@ -62,7 +77,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], WarehousesController.prototype, "findRoleById", null);
+], WarehousesController.prototype, "findWarehouseById", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -70,14 +85,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, warehouse_dto_1.WarehouseDTO]),
     __metadata("design:returntype", void 0)
-], WarehousesController.prototype, "updateRole", null);
+], WarehousesController.prototype, "updateWarehouse", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], WarehousesController.prototype, "deleteRole", null);
+], WarehousesController.prototype, "deleteWarehouse", null);
 WarehousesController = __decorate([
     (0, common_1.Controller)('warehouses'),
     (0, swagger_1.ApiTags)('Warehouses'),
