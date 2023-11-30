@@ -1,3 +1,5 @@
+import { IPagination } from "./pagination.model";
+
 export interface IWarehouse {
 	_id: string;
 	name: string;
@@ -12,4 +14,37 @@ export interface IAddress {
 	wards: string;
 	city: string;
 	address: string;
+}
+
+
+
+export interface IUpdateWarehouse {
+	name: string;
+	address: IAddress;
+}
+
+export interface ICreateWarehouse {
+	name: string;
+	address: IAddress;
+}
+
+export interface IWarehouseQuery {
+	page: number;
+	pageSize: number;
+	name: string;
+	address: IAddress;
+}
+
+export interface ITableWarehouse {
+	handleFilter: any;
+	paginations: IPagination;
+	handleViewWarehouse: any;
+	handleEditWarehouse: any;
+	handleDeleteWarehouse: any;
+	data:
+	| {
+		name: string;
+		address: IAddress;
+	}[]
+	| null;
 }
