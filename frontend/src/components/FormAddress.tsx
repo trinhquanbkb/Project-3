@@ -56,9 +56,7 @@ export default function FormAddress({
 
 	const getWardsOptions = () => {
 		const selectedCity = listAddress.find((city: any) => city.name === dataSelect.city);
-		const selectedDistrict = selectedCity?.districts?.find((district: any) => district.name === dataSelect.district);
-		console.log(selectedDistrict);
-		
+		const selectedDistrict = selectedCity?.districts?.find((district: any) => district.name === dataSelect.district);		
 		if (selectedDistrict) {
 			return selectedDistrict.wards.map((ward: any) => ({
 				label: ward.name,
