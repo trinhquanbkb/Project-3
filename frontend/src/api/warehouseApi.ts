@@ -42,8 +42,8 @@ const warehouseApi = api.injectEndpoints({
 		>({
 			query: ({ id, ...data }) => ({
 				url: `warehouses/${id}`,
-				method: "PATCH",
-				data,
+				method: "PUT",
+				...data,
 			}),
 			// invalidatesTags sẽ định nghĩa cho việc loading lại các api có tag là gì... (ở đây load lại api list và detail)
 			invalidatesTags: [

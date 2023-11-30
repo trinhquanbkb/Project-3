@@ -26,14 +26,14 @@ __decorate([
     __metadata("design:type", String)
 ], AddressDTO.prototype, "city", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: '123 Đường ABC', description: 'Địa chỉ đường phố' }),
+    (0, swagger_1.ApiProperty)({ example: '123 Đường', description: 'Địa chỉ đường phố' }),
     __metadata("design:type", String)
 ], AddressDTO.prototype, "address", void 0);
 exports.AddressDTO = AddressDTO;
 class WarehouseDTO {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Kho 1', description: 'Tên của kho hàng' }),
+    (0, swagger_1.ApiProperty)({ example: 'Kho 12', description: 'Tên của kho hàng' }),
     __metadata("design:type", String)
 ], WarehouseDTO.prototype, "name", void 0);
 __decorate([
