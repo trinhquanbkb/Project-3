@@ -1,7 +1,12 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
-import { IWarehouse } from "../models/warehouse.model";
+import { 
+	IWarehouse, 
+	IWarehouseQuery,
+	IUpdateWarehouse,
+	ICreateWarehouse 
+} from "../models/warehouse.model";
 
 export const successToastAction = createAction<string>("toast/success");
 export const failedToastAction = createAction<string>("toast/failed");
@@ -12,7 +17,7 @@ const warehouseApi = api.injectEndpoints({
 				data: IWarehouse[];
 				paginations: IPagination;
 			},
-			any
+			IWarehouseQuery
 		>({
 			query: (params) => ({
 				url: "warehouses",
@@ -21,7 +26,53 @@ const warehouseApi = api.injectEndpoints({
 			}),
 			providesTags: [{ type: "Warehouse", id: "List" }],
 		}),
+		getWarehouseDetail: build.query<IWarehouse, string>({
+			query: (id) => ({
+				url: `warehouses/${id}`,
+				method: "GET",
+			}),
+			providesTags: [{ type: "Warehouse", id: "Detail" }],
+		}),
+		updateWarehouse: build.mutation<
+			any,
+			{
+				id: string;
+				data: IUpdateWarehouse;
+			}
+		>({
+			query: ({ id, ...data }) => ({
+				url: `warehouses/${id}`,
+				method: "PATCH",
+				data,
+			}),
+			// invalidatesTags sẽ định nghĩa cho việc loading lại các api có tag là gì... (ở đây load lại api list và detail)
+			invalidatesTags: [
+				{ type: "Warehouse", id: "List" },
+				{ type: "Warehouse", id: "Detail" },
+			],
+		}),
+		deleteWarehouse: build.mutation<any, string>({
+			query: (id) => ({
+				url: `warehouses/${id}`,
+				method: "DELETE",
+			}),
+			invalidatesTags: [{ type: "Warehouse", id: "List" }],
+		}),
+		createWarehouse: build.mutation<any, ICreateWarehouse>({
+			query: (data) => ({
+				url: "warehouses",
+				method: "POST",
+				data,
+			}),
+			invalidatesTags: [{ type: "Warehouse", id: "List" }],
+		})
 	}),
 });
 
-export const { useGetWarehouseListQuery } = warehouseApi;
+export const {
+	useGetWarehouseListQuery,
+	useGetWarehouseDetailQuery,
+	useUpdateWarehouseMutation,
+	useDeleteWarehouseMutation,
+	useCreateWarehouseMutation,
+} = warehouseApi;
