@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -8,6 +8,7 @@ import {
 	useGetWarehouseDetailQuery,
 	useUpdateWarehouseMutation,
 } from "../../../api/warehouseApi";
+import FormAddress from "../../../components/FormAddress";
 
 const EditWarehouse = ({
 	id,
@@ -143,7 +144,7 @@ const EditWarehouse = ({
 													</Form.Group>
 												</Col>
 
-												<Col xs={12} md={6}>
+												{/* <Col xs={12} md={6}>
 													<Form.Group className="mb-3">
 														<Form.Label>
 															Đường
@@ -195,10 +196,17 @@ const EditWarehouse = ({
 															}
 														/>
 													</Form.Group>
-												</Col>
-
-
-
+												</Col> */}
+												<Form onSubmit={formik.handleSubmit}>
+													<FormAddress
+														city={formik.values.city}
+														district={formik.values.district}
+														wards={formik.values.wards}
+														onCityChange={(value: any) => formik.setFieldValue("city", value)}
+														onDistrictChange={(value: any) => formik.setFieldValue("district", value)}
+														onWardsChange={(value: any) => formik.setFieldValue("wards", value)}
+													/>
+												</Form>
 
 												<Col
 													xs={12}
