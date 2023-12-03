@@ -32,11 +32,6 @@ const listBreadCrumb = [
 
 const WarehouseList = () => {
 
-	const initialSearchState: IWarehouseQuery = {
-		page: 1,
-		pageSize: 10,
-		name: "",
-	};
 
 	const location = useLocation();
 	const [idWarehouse, setIdWarehouse] = useState("");
@@ -45,32 +40,28 @@ const WarehouseList = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
-	const [search, setSearch] = useState<IWarehouseQuery>(initialSearchState);
-
+	const [search, setSearch] = useState<IWarehouseQuery>({
+		page: 1,
+		pageSize: 10,
+		name: "",
+	});
 	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({ ...search });
 
 	const [deleteWarehouseApi] = useDeleteWarehouseMutation();
 
 
-	const parseQueryParameters = () => {
+	useEffect(() => {
 		const query = location.search;
 		const parsed = queryString.parse(query);
-
-		return {
-			page: parsed.page ? Number(parsed.page) : 1,
-			pageSize: parsed.pageSize ? Number(parsed.pageSize) : 10,
-			name: parsed.name ? parsed.name.toString() : ""
-		};
-	};
-
-	useEffect(() => {
-		const { page, pageSize, name } = parseQueryParameters();
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const name = parsed.name ? parsed.name.toString() : "";
 
 		setSearch({
-			...initialSearchState,
+			...search,
 			page,
 			pageSize,
-			name
+			name,
 		});
 
 		if (name) {

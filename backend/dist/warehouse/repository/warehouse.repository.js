@@ -12,49 +12,30 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersRepository = void 0;
+exports.WarehousesRepository = void 0;
 const mongoose_1 = require("mongoose");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("@nestjs/mongoose");
-const user_schema_1 = require("../schema/user.schema");
-let UsersRepository = class UsersRepository {
-    constructor(userModel) {
-        this.userModel = userModel;
-    }
-    async findOne(filter) {
-        return this.userModel.findOne(filter);
-    }
-    async create(createDto) {
-        const created = new this.userModel(createDto);
-        return await created.save();
-    }
-    async update(id, updateDto) {
-        return await this.userModel.findByIdAndUpdate(id, updateDto);
+const warehouse_schema_1 = require("../schema/warehouse.schema");
+let WarehousesRepository = class WarehousesRepository {
+    constructor(warehouseModel) {
+        this.warehouseModel = warehouseModel;
     }
     async findAll(filter, skip, limit) {
         const query = {};
-        if (filter.username) {
-            query.username = { $regex: '.*' + filter.username + '.*' };
+        if (filter.name) {
+            query.name = { $regex: '.*' + filter.name + '.*' };
         }
-        if (filter.email) {
-            query.email = { $regex: '.*' + filter.email + '.*' };
-        }
-        if (filter.role_id) {
-            query.role_id = filter.role_id;
-        }
-        return this.userModel.find(query).skip(skip).limit(limit).exec();
-    }
-    async delete(_id) {
-        return await this.userModel.findByIdAndDelete(_id);
+        return this.warehouseModel.find(query).skip(skip).limit(limit).exec();
     }
     async countAll(filter) {
-        return this.userModel.countDocuments(filter).exec();
+        return this.warehouseModel.countDocuments(filter).exec();
     }
 };
-UsersRepository = __decorate([
+WarehousesRepository = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_2.InjectModel)(user_schema_1.User.name)),
+    __param(0, (0, mongoose_2.InjectModel)(warehouse_schema_1.Warehouse.name)),
     __metadata("design:paramtypes", [mongoose_1.Model])
-], UsersRepository);
-exports.UsersRepository = UsersRepository;
-//# sourceMappingURL=user.repository.js.map
+], WarehousesRepository);
+exports.WarehousesRepository = WarehousesRepository;
+//# sourceMappingURL=warehouse.repository.js.map

@@ -20,12 +20,13 @@ export class WarehousesService {
   async findAllWarehouse(pagination: any, filter: FilterQuery<any>) {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
+    console.log(filter)
     const data = await this.warehouseModel
-      .find(filter)
+      .find(pagination)
       .skip(skip)
       .limit(parseInt(pageSize, 10))
       .exec();
-    const total = await this.warehouseModel.countDocuments(filter).exec();
+    const total = await this.warehouseModel.countDocuments(pagination).exec();
     const paginations = {
       page: page,
       pageSize: pageSize,
