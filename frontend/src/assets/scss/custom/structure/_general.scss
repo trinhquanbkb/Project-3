@@ -1,12 +1,24 @@
-// 
+//
 // general.scss
 //
 
 html {
-  position: relative;
-  min-height: 100%;
+	position: relative;
+	min-height: 100%;
 }
 
 body {
-  overflow-x: hidden;
+	overflow-x: hidden;
+}
+
+.input-search {
+	width: 100%;
+
+	.select__control.css-1s2u09g-control {
+		height: 44px;
+	}
+	.select__control.select__control--menu-is-open,
+	.select__control.css-1pahdxg-control {
+		height: 44px;
+	}
 }

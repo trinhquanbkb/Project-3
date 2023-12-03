@@ -6,10 +6,9 @@ import { configs } from 'src/config/configuration';
 export type UserDocument = User & Document;
 
 @Schema({
-  timestamps: true
+  timestamps: true,
 })
 export class User {
-
   @Prop({
     required: true,
     type: String,
@@ -24,9 +23,9 @@ export class User {
 
   @Prop({
     required: true,
-    type: Number,
+    type: String,
   })
-  phone: number;
+  phone: string;
 
   @Prop({
     required: false,
@@ -40,7 +39,7 @@ export class User {
     default: hashSync('123456', configs.saltOrRound),
   })
   password: string;
-  
+
   @Prop({
     required: false,
     type: Array,

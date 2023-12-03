@@ -19,7 +19,10 @@ const AnalyticsDashboard = React.lazy(
 );
 
 // setting
-const SettingList = React.lazy(() => import("../pages/setting/index"));
+const SettingWarehouse = React.lazy(() => import("../pages/setting/Warehouse"));
+const SettingProduct = React.lazy(() => import("../pages/setting/Product"));
+const SettingRole = React.lazy(() => import("../pages/setting/Role"));
+const SettingSupplier = React.lazy(() => import("../pages/setting/Supplier"));
 
 // receipt
 const ReceiptList = React.lazy(() => import("../pages/receipt/index"));
@@ -185,19 +188,25 @@ const projectAppRoutes: RoutesProps[] = [
 			{
 				path: "/setting/role",
 				name: "Setting Role",
-				component: SettingList,
+				component: SettingRole,
 				route: PrivateRoute,
 			},
 			{
 				path: "/setting/product",
 				name: "Setting Product",
-				component: SettingList,
+				component: SettingProduct,
 				route: PrivateRoute,
 			},
 			{
 				path: "/setting/supplier",
 				name: "Setting Supplier",
-				component: SettingList,
+				component: SettingSupplier,
+				route: PrivateRoute,
+			},
+			{
+				path: "/setting/warehouse",
+				name: "Setting Warehouse",
+				component: SettingWarehouse,
 				route: PrivateRoute,
 			},
 		],

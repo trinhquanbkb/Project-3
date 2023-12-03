@@ -3,86 +3,235 @@
 //
 
 .form-control {
-    &::placeholder {
-        color: shade-color($gray-500, 7%);
-    }
+	&::placeholder {
+		color: shade-color($gray-500, 7%);
+	}
 }
 
 // Form-control light
 .form-control-light {
-    background-color: $input-light-bg !important;
-    border-color: $input-light-bg !important;
+	background-color: $input-light-bg !important;
+	border-color: $input-light-bg !important;
 }
-
 
 // Form elements (Color and Range)
 input.form-control[type="color"],
 input.form-control[type="range"] {
-    min-height: 39px;
+	min-height: 39px;
 }
 
-
 // Custom select
-.custom-select.is-invalid, .form-control.is-invalid,.custom-select:invalid, .form-control:invalid,
-.custom-select.is-valid, .form-control.is-valid, .custom-select:valid,.form-control:valid {
-    &:focus {
-        box-shadow: none !important;
-    }
+.custom-select.is-invalid,
+.form-control.is-invalid,
+.custom-select:invalid,
+.form-control:invalid,
+.custom-select.is-valid,
+.form-control.is-valid,
+.custom-select:valid,
+.form-control:valid {
+	&:focus {
+		box-shadow: none !important;
+	}
 }
 
 // Comment box
 .comment-area-box {
-    .form-control {
-        border-color: $gray-300;
-        border-radius: $input-border-radius $input-border-radius 0 0;
-    }
-    .comment-area-btn {
-        background-color: $gray-100;
-        padding: 10px;
-        border: 1px solid $gray-300;
-        border-top: none;
-        border-radius: 0 0 $input-border-radius $input-border-radius;
-    }
+	.form-control {
+		border-color: $gray-300;
+		border-radius: $input-border-radius $input-border-radius 0 0;
+	}
+	.comment-area-btn {
+		background-color: $gray-100;
+		padding: 10px;
+		border: 1px solid $gray-300;
+		border-top: none;
+		border-radius: 0 0 $input-border-radius $input-border-radius;
+	}
 }
 
-// Search box 
+// Search box
 .search-bar {
+	.form-control {
+		padding-left: 40px;
+		padding-right: 20px;
+		border-radius: 30px;
+	}
 
-    .form-control {
-        padding-left: 40px;
-        padding-right: 20px;
-        border-radius: 30px;
-    }
-
-    span {
-        position: absolute;
-        z-index: 10;
-        font-size: 16px;
-        line-height: $input-height;
-        left: 13px;
-        top: -2px;
-        color: $text-muted;
-    }
+	span {
+		position: absolute;
+		z-index: 10;
+		font-size: 16px;
+		line-height: $input-height;
+		left: 13px;
+		top: -2px;
+		color: $text-muted;
+	}
 }
 
 // Show Password
 .password-eye {
-    &:before {
-        font-family: feather!important;
-        content: "\e86a";
-        font-style: normal;
-        font-weight: 400;
-        font-variant: normal;
-        vertical-align: middle;
-        line-height: 1.2;
-        font-size: 16px;
-    }
+	&:before {
+		font-family: feather !important;
+		content: "\e86a";
+		font-style: normal;
+		font-weight: 400;
+		font-variant: normal;
+		vertical-align: middle;
+		line-height: 1.2;
+		font-size: 16px;
+	}
 }
 
 .show-password {
-    .password-eye {
-        &:before {
-            content: "\e86e";
-        }
-    }  
+	.password-eye {
+		&:before {
+			content: "\e86e";
+		}
+	}
+}
+
+.form-search-filter {
+	padding: 10px 0px 10px 0px !important;
+
+	.select__control {
+		border: none !important;
+		box-shadow: none !important;
+		.select__value-container {
+			width: 180px;
+		}
+	}
+
+	.rbt-input-main {
+		border: none;
+	}
+}
+
+.main-create-order {
+	.list-time-select.form-select {
+		padding: 0.67rem 2.7rem 0.67rem 0.9rem !important;
+	}
+	.rbt-input-main.form-control.rbt-input {
+		border: 1px solid hsl(0, 0%, 80%) !important;
+	}
+	.select__value-container.select__value-container--has-value {
+		height: 44px !important;
+	}
+}
+
+.page-title-box-custom {
+	margin-bottom: -20px !important;
+}
+
+.checkbox-sync {
+	width: 1rem;
+	height: 1rem;
+	margin-top: 0.25rem;
+	vertical-align: top;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: 1px solid rgb(186, 161, 161);
+	border-radius: 4px;
+	margin-right: 6px;
+}
+
+.select-bank-account {
+	.select__input-container {
+		height: 34px !important;
+	}
+
+	.select__single-value.css-1dimb5e-singleValue {
+		margin-top: 8px;
+	}
+}
+
+.input-disabled {
+	.select__control.css-13cymwt-control,
+	.form-control {
+		background-color: rgb(226 226 226);
+		pointer-events: none;
+	}
+}
+
+.rbt-input-multi.form-control {
+	height: 37px;
+}
+
+.rbt-input-multi {
+	cursor: text;
+	overflow: hidden;
+	position: relative;
+
+	.rbt-input-wrapper {
+		align-items: flex-start;
+		display: flex;
+		flex-wrap: wrap;
+		margin-bottom: -4px;
+		margin-top: -1px;
+		overflow: hidden;
+	}
+}
+
+.rbt-token-removeable {
+	cursor: pointer;
+	padding-right: 28px !important;
+
+	.close {
+		background-image: none !important;
+	}
+}
+
+.rbt-token {
+	border: 0;
+	border-radius: 0.25rem;
+	display: inline-block;
+	line-height: 1em;
+	margin: 1px 3px 2px 0;
+	padding: 4px 7px;
+	position: relative;
+	background-color: rgba(83, 105, 248, 0.2) !important;
+	color: #5369f8 !important;
+
+	.rbt-token .rbt-token-remove-button {
+		bottom: 0;
+		color: inherit;
+		font-size: inherit;
+		font-weight: normal;
+		opacity: 1;
+		outline: none;
+		padding: 3px 7px;
+		position: absolute;
+		right: 0;
+		text-shadow: none;
+		top: -2px;
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+
+		span {
+			bottom: 0;
+			color: inherit;
+			font-size: inherit;
+			font-weight: normal;
+			opacity: 1;
+			outline: none;
+			padding: 3px 7px;
+			position: absolute;
+			right: 0;
+			text-shadow: none;
+		}
+
+		.visually-hidden {
+			position: absolute !important;
+			width: 1px !important;
+			height: 1px !important;
+			padding: 0 !important;
+			margin: -1px !important;
+			overflow: hidden !important;
+			clip: rect(0, 0, 0, 0) !important;
+			white-space: nowrap !important;
+			border: 0 !important;
+		}
+	}
 }

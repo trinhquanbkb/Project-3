@@ -1,7 +1,8 @@
 .form-search-user {
 	display: flex;
 	align-items: center;
-	max-width: 784px;
+	justify-content: space-between;
+	max-width: 850px;
 	border-radius: 6px;
 	border: 1px solid #d1d5db;
 	background: #fff;
@@ -16,6 +17,7 @@
 		position: relative;
 		display: flex;
 		align-items: center;
+		flex: 1;
 		&:before {
 			content: "";
 			position: absolute;
@@ -26,18 +28,15 @@
 			height: 18px;
 			background-color: #bdbdbd;
 		}
-		.form-select {
-			color: #3c4257;
-			width: auto;
-			padding: 4px 20px 4px 8px;
-			background-position: right 4px center;
-			background-image: url("../../../images/icons/icon-down.svg");
-			& + .form-select {
-				margin-left: 10px;
-			}
-		}
 	}
-
+	.form-select {
+		color: #3c4257;
+		width: auto;
+		padding: 4px 20px 4px 8px;
+		background-position: right 4px center;
+		background-image: url("../../../images/icons/icon-down.svg");
+		margin-left: 10px;
+	}
 	.btn-search {
 		position: absolute;
 		right: 12px;
@@ -55,14 +54,34 @@
 		height: 20px;
 	}
 	& ~ .form-search-btn {
-		margin-left: 32px;
+		margin-right: 32px;
+		margin-bottom: 16px;
 	}
 }
 .form-search-btn {
-	button {
-		min-height: 44px;
+	button.btn-action {
+		height: 44px;
+		width: 44px;
+		font-size: 20px;
+		padding: 10px;
+		position: relative;
 		& + button {
 			margin-left: 10px;
+		}
+		i {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			line-height: 1;
+			&::before {
+				font-size: 100%;
+			}
+			&.uil-redo {
+				&::before {
+					transform: rotateY(180deg);
+				}
+			}
 		}
 	}
 }
@@ -114,6 +133,9 @@
 					}
 				}
 			}
+			&:not(.sortable) {
+				padding-right: 0.85rem;
+			}
 		}
 	}
 	tbody tr {
@@ -134,7 +156,7 @@
 }
 
 .table-user-bottom {
-	padding: 16px;
+	padding: 10px;
 	.form-select {
 		padding: 4px 36px 4px 8px;
 		background-position: right 10px center;
@@ -150,7 +172,7 @@
 			}
 		}
 		.page-link {
-			width: 32px;
+			min-width: 32px;
 			height: 32px;
 			display: flex;
 			align-items: center;
@@ -158,6 +180,7 @@
 			background-color: transparent;
 			color: #23262f;
 			border-radius: 4px !important;
+			cursor: pointer;
 		}
 	}
 }
@@ -194,6 +217,39 @@
 		-o-transform: translate(0, 0px);
 		transform: translate(0, 0px);
 	}
+	.close {
+		width: 28px;
+		height: 28px;
+		background-image: url("../../../images/icons/close-popup.svg");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		display: inline-block;
+		position: absolute;
+		right: 0px;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+	}
+	.code-popup {
+		font-size: 24px;
+		font-weight: 700;
+		line-height: 32px;
+		margin-bottom: 50px;
+		color: #262626;
+		position: relative;
+		padding-right: 40px;
+		&::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: -25px;
+			border-bottom: 1px solid #828282;
+			width: 100%;
+		}
+	}
+	.popup-info-inner {
+	}
 	.title-popup {
 		color: #111827;
 		font-size: 30px;
@@ -203,18 +259,7 @@
 		padding: 23px 48px;
 		position: relative;
 		.close {
-			width: 28px;
-			height: 28px;
-			background-image: url("../../../images/icons/close-popup.svg");
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: contain;
-			display: inline-block;
-			position: absolute;
 			right: 60px;
-			top: 50%;
-			transform: translateY(-50%);
-			cursor: pointer;
 		}
 	}
 	.popup-info-inner {
@@ -224,6 +269,7 @@
 		position: relative;
 		height: 100%;
 		z-index: 999;
+		overflow-y: scroll;
 		.popup-inner {
 			padding: 32px 48px;
 			.id-customer {
@@ -234,9 +280,18 @@
 				margin-bottom: 32px;
 				span.id {
 					color: #2f80ed;
-					margin-left: 32px;
+					margin-left: 12px;
 				}
 			}
+			.btn-bottom {
+				text-align: center;
+				margin-top: 20px;
+				width: 100%;
+			}
+		}
+		.infor-general {
+			padding: 16px;
+			border-bottom: 1px solid #e6e8ec;
 		}
 	}
 	.popup-overlay {
@@ -255,46 +310,93 @@
 			filter: alpha(opacity=35);
 		}
 	}
-
 	label.form-label {
 		color: #111827;
 		margin-bottom: 8px;
 	}
-	p {
-		color: #6b7280;
+	&.popup-info-custom {
+		.popup-info-inner {
+			padding: 16px;
+			.title-popup {
+				padding: 14px 16px;
+			}
+		}
+	}
+	.info-product {
+		border: 1px solid #e6e8ec;
+		border-radius: 8px;
+		.title {
+			background-color: #e6e8ec;
+			padding: 14px 16px;
+			font-size: 24px;
+			font-weight: 700;
+			color: #262626;
+		}
+		form {
+			padding: 16px;
+		}
 	}
 }
 
-.table-user-mb {
-	.item-table {
-		&:not(:last-child) {
-			margin-bottom: 8px;
-		}
-		padding: 12px 16px;
-		border: 1px solid #d1d5db;
-		background: #fff;
-		box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-		border-radius: 6px;
-		.item {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			color: #6b7280;
-			font-size: 14px;
-			&:not(:last-child) {
-				border-bottom: 1px solid #d1d5db;
-				padding: 8px 0px;
-			}
-		}
-		.btn-wrap i {
-			position: relative;
-			top: -2px;
-			font-size: 12px;
+@media all and (max-width: 1024px) {
+	.form-search-user {
+		& ~ .form-search-btn {
+			margin-right: 16px;
 		}
 	}
-	.btn-wrap {
-		margin-top: 8px;
-		text-align: right;
+	.popup-info {
+		.close {
+			width: 20px;
+			height: 20px;
+		}
+		.code-popup {
+			font-size: 20px;
+			margin-bottom: 40px;
+			&::before {
+				bottom: -20px;
+			}
+		}
+
+		@include media-breakpoint-up(sm) {
+			.title-popup {
+				padding: 16px 24px;
+				font-size: 24px;
+				.close {
+					right: 24px;
+				}
+			}
+		}
+
+		@include media-breakpoint-down(sm) {
+			.title-popup {
+				padding: 8px 14px;
+				font-size: 16px;
+				.close {
+					right: 24px;
+				}
+				.id-customer {
+					font-size: 14px !important;
+					color: #111827;
+					font-weight: 700;
+					line-height: 20px;
+				}
+			}
+		}
+		.popup-info-inner {
+			max-width: 100%;
+			.popup-inner {
+				padding: 16px 24px;
+				.btn-bottom {
+					order: 2;
+				}
+				.list-account {
+					order: 3;
+				}
+			}
+			.infor-general {
+				padding: 16px 0px;
+			}
+		}
 	}
 }
 
@@ -306,6 +408,13 @@
 		}
 		.info-user-inner {
 			padding: 32px 24px 16px;
+		}
+	}
+	.form-search-btn {
+		button.btn-action {
+			height: 38px;
+			width: 38px;
+			font-size: 16px;
 		}
 	}
 }

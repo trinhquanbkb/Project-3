@@ -24,7 +24,6 @@ axios.interceptors.response.use(
 	(err) => {
 		return new Promise((resolve, reject) => {
 			const originalReq = err.config;
-			console.log(originalReq);
 			if (
 				err.response.status === 401 &&
 				err.config &&

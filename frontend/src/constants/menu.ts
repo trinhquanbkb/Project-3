@@ -80,6 +80,12 @@ const MENU_ITEMS: MenuItemTypes[] = [
 				url: "/setting/supplier",
 				parentKey: "setting",
 			},
+			{
+				key: "setting-warehouse",
+				label: "Kho hàng",
+				url: "/setting/warehouse",
+				parentKey: "setting",
+			},
 		],
 	},
 ];
