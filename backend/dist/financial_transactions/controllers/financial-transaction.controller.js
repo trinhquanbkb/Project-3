@@ -26,8 +26,8 @@ let FinancialTransactionController = class FinancialTransactionController {
     create(createFinancialTransactionDto) {
         return this.financialTransactionService.create(createFinancialTransactionDto);
     }
-    findAll() {
-        return this.financialTransactionService.findAll();
+    findAll(filter) {
+        return this.financialTransactionService.findAll(filter);
     }
     findOne(id) {
         return this.financialTransactionService.findOne({ _id: id });
@@ -48,8 +48,9 @@ __decorate([
 ], FinancialTransactionController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], FinancialTransactionController.prototype, "findAll", null);
 __decorate([
@@ -75,7 +76,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], FinancialTransactionController.prototype, "remove", null);
 FinancialTransactionController = __decorate([
-    (0, common_1.Controller)('FinancialTransaction'),
+    (0, common_1.Controller)('financial-transaction'),
     (0, swagger_1.ApiTags)('FinancialTransaction'),
     (0, common_1.UseGuards)(jwt_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiBearerAuth)('authorization'),

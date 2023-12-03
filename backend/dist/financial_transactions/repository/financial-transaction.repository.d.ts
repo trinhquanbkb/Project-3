@@ -10,4 +10,5 @@ export declare class FinancialTransactionRepository {
     update(id: string, updateDto: Partial<UpdateFinancialTransactionDto>): Promise<FinancialTransactionsDocument>;
     findAll(filter?: any): Promise<FinancialTransactionsDocument[]>;
     delete(_id: string): Promise<FinancialTransactionsDocument | null>;
+    countAll(filter: FilterQuery<any>): Promise<number>;
 }

@@ -29,13 +29,21 @@ let FinancialTransactionRepository = class FinancialTransactionRepository {
         return await created.save();
     }
     async update(id, updateDto) {
-        return this.FinancialTransactionModel.findByIdAndUpdate(id, updateDto, { new: true });
+        return this.FinancialTransactionModel.findByIdAndUpdate(id, updateDto, {
+            new: true,
+        });
     }
-    async findAll(filter) {
-        return this.FinancialTransactionModel.find(filter);
+    async findAll(filter, skip, limit) {
+        return this.FinancialTransactionModel.find(filter)
+            .skip(skip)
+            .limit(limit)
+            .exec();
     }
     async delete(_id) {
         return await this.FinancialTransactionModel.findByIdAndDelete(_id);
+    }
+    async countAll(filter) {
+        return this.FinancialTransactionModel.countDocuments(filter).exec();
     }
 };
 FinancialTransactionRepository = __decorate([

@@ -9,21 +9,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FinancialTransactionService = void 0;
+exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
-const financial_transaction_repository_1 = require("../repository/financial-transaction.repository");
-let FinancialTransactionService = class FinancialTransactionService {
-    constructor(financialTransactionRepository) {
-        this.financialTransactionRepository = financialTransactionRepository;
+const user_repository_1 = require("../repository/user.repository");
+const configuration_1 = require("../../config/configuration");
+const bcrypt_1 = require("bcrypt");
+let UsersService = class UsersService {
+    constructor(usersRepository) {
+        this.usersRepository = usersRepository;
     }
-    async create(createFinancialTransactionDto) {
-        return await this.financialTransactionRepository.create(createFinancialTransactionDto);
+    async create(createUserDto) {
+        createUserDto.password = (0, bcrypt_1.hashSync)(createUserDto.password, configuration_1.configs.saltOrRound);
+        return await this.usersRepository.create(createUserDto);
     }
     async findAll(filter) {
         const { page, pageSize } = filter;
         const skip = (page - 1) * pageSize;
-        const data = await this.financialTransactionRepository.findAll(filter, skip, parseInt(pageSize, 10));
-        const total = await this.financialTransactionRepository.countAll(filter);
+        const data = await this.usersRepository.findAll(filter, skip, parseInt(pageSize, 10));
+        const total = await this.usersRepository.countAll(filter);
         const paginations = {
             page: page,
             pageSize: pageSize,
@@ -33,18 +36,26 @@ let FinancialTransactionService = class FinancialTransactionService {
         return { data, paginations, messenger: 'success' };
     }
     async findOne(filter) {
-        return await this.financialTransactionRepository.findOne(filter);
+        return await this.usersRepository.findOne(filter);
     }
-    async update(id, updateFinancialTransactionDto) {
-        return await this.financialTransactionRepository.update(id, updateFinancialTransactionDto);
+    async update(id, updateUserDto) {
+        return await this.usersRepository.update(id, updateUserDto);
     }
-    remove(id) {
-        return `This action removes a #${id} supplier`;
+    async remove(id) {
+        const removeUser = await this.usersRepository.delete(id);
+        if (removeUser) {
+            return removeUser;
+        }
+        else {
+            return {
+                error: 'error delete user',
+            };
+        }
     }
 };
-FinancialTransactionService = __decorate([
+UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [financial_transaction_repository_1.FinancialTransactionRepository])
-], FinancialTransactionService);
-exports.FinancialTransactionService = FinancialTransactionService;
-//# sourceMappingURL=financial-transaction.service.js.map
+    __metadata("design:paramtypes", [user_repository_1.UsersRepository])
+], UsersService);
+exports.UsersService = UsersService;
+//# sourceMappingURL=users.service.js.map

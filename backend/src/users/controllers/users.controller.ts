@@ -14,6 +14,7 @@ import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { FilterQuery } from 'mongoose';
 
 @Controller('users')
 @ApiTags('Users')
@@ -28,7 +29,6 @@ export class UsersController {
   @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   async findAll(@Query() pagination: any, @Query('filter') filter: string) {
     return this.usersService.findAll(pagination, JSON.parse(filter));
-     
   }
 
   @Get(':id')

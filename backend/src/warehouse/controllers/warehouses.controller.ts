@@ -13,6 +13,7 @@ import { WarehousesService } from '../services/warehouses.service';
 import { WarehouseDTO } from '../dto/warehouse.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { FilterQuery } from 'mongoose';
 
 @Controller('warehouses')
 @ApiTags('Warehouses')

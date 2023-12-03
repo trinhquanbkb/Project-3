@@ -7,10 +7,6 @@ import { ImagesModule } from './images/images.module';
 import { RolesModule } from './roles/roles.module';
 import { PermisstionsModule } from './permissions/permisstions.module';
 import { WarehousesModule } from './warehouse/warehouses.module';
-import { OrdersModule } from './orders/orders.module';
-import { ProductsModule } from './products/products.module';
-import { ProductItemsModule } from './product_items/products.module';
-import { SuppliersModule } from './suppliers/suppliers.module';
 import { FinancialTransactionModule } from './financial_transactions/financial-transaction.module';
 
 @Module({
@@ -23,11 +19,7 @@ import { FinancialTransactionModule } from './financial_transactions/financial-t
     RolesModule,
     PermisstionsModule,
     WarehousesModule,
-    OrdersModule,
-    ProductsModule,
-    ProductItemsModule,
-    SuppliersModule,
     FinancialTransactionModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}
