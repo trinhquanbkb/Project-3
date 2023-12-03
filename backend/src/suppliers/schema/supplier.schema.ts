@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { configs } from 'src/config/configuration';
 
 export type SupplierDocument = Supplier & Document;
 
@@ -13,13 +12,13 @@ export class Supplier {
     required: true,
     type: String,
   })
-  supplier_name: string;
+  name: string;
 
   @Prop({
     required: false,
-    type: String,
+    type: Object,
   })
-  address: string;
+  address: Object;
 
   @Prop({
     required: false,

@@ -1,6 +1,8 @@
 import React from "react";
 import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
+import { Card, Col, Row } from "react-bootstrap";
+import { ITableUser } from "../../../models/user.model";
 
 const columns = [
 	{
@@ -10,7 +12,7 @@ const columns = [
 	},
 	{
 		Header: "Họ tên",
-		accessor: "name",
+		accessor: "username",
 		sort: true,
 	},
 	{
@@ -30,28 +32,36 @@ const columns = [
 	},
 ];
 
-const TableEmployee = (props: any) => {
+const TableEmployee = (props: ITableUser) => {
 	return (
 		<>
-			<Table
-				tableClass={"table-custom"}
-				columns={columns}
-				data={props.data == null || undefined ? [] : props.data}
-				pageSize={
-					props.paginations == null || undefined
-						? 10
-						: props.paginations.pageSize
-				}
-				sizePerPageList={sizePerPageList}
-				handleFilter={props.handleFilter}
-				isSortable={true}
-				pagination={
-					props.paginations == null || undefined
-						? []
-						: props.paginations
-				}
-				isExpandable={true}
-			/>
+			<Row>
+				<Col>
+					<Card className="card-custom">
+						<Card.Body>
+							<Table
+								tableClass={"table-custom table-customer"}
+								columns={columns}
+								data={!props.data ? [] : props.data}
+								pageSize={
+									props.paginations == null || undefined
+										? 10
+										: props.paginations.pageSize
+								}
+								sizePerPageList={sizePerPageList}
+								handleFilter={props.handleFilter}
+								isSortable={true}
+								pagination={
+									props.paginations == null || undefined
+										? []
+										: props.paginations
+								}
+								isExpandable={true}
+							/>
+						</Card.Body>
+					</Card>
+				</Col>
+			</Row>
 
 			{props.data == null || undefined
 				? null
@@ -62,28 +72,37 @@ const TableEmployee = (props: any) => {
 									<button
 										type="button"
 										className="btn btn-create-order"
+										onClick={() => {
+											props.handleViewUser(item.id);
+										}}
 									>
 										<i className="uil uil-eye"></i>
 										<span className="title">
-											Xem nhân viên
+											Xem nhân sự
 										</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-edit-tracking"
+										onClick={() => {
+											props.handleEditUser(item.id);
+										}}
 									>
 										<i className="uil uil-edit-alt"></i>
 										<span className="title">
-											Sửa nhân viên
+											Sửa nhân sự
 										</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-delete-tracking"
+										onClick={() => {
+											props.handleDeleteUser(item.id);
+										}}
 									>
 										<i className="uil uil-times"></i>
 										<span className="title">
-											Xóa nhân viên
+											Xóa nhân sự
 										</span>
 									</button>
 								</div>

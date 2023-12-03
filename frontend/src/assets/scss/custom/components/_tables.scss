@@ -1,44 +1,56 @@
-// 
+//
 // tables.scss
 //
 
 th {
-    font-weight: $font-weight-bold;
+	font-weight: $font-weight-bold;
 }
 
 //Table centered (Custom)
 .table-centered {
-    td,th {
-        vertical-align: middle !important;
-    }
+	td,
+	th {
+		vertical-align: middle !important;
+	}
 }
 
-
-// Table 
+// Table
 
 .table-nowrap {
-    th,td {
-        white-space: nowrap;
-    }
+	th,
+	td {
+		white-space: nowrap;
+	}
 }
 
 // Custom table components (Custom)
 .table {
-    .table-user {
-        img {
-            height: 30px;
-            width: 30px;
-        }
-    }
+	.table-user {
+		img {
+			height: 30px;
+			width: 30px;
+		}
+	}
 }
 
 .action-icon {
-    color: $gray-600;
-    font-size: 1.2rem;
-    display: inline-block;
-    padding: 0 3px;
+	color: $gray-600;
+	font-size: 1.2rem;
+	display: inline-block;
+	padding: 0 3px;
 
-    &:hover {
-        color: $gray-700;
-    }
+	&:hover {
+		color: $gray-700;
+	}
+}
+
+.card-custom.card .card-body {
+	.disabled {
+		color: #e7cfcf;
+		pointer-events: none;
+	}
+}
+
+.delete-row-table {
+	text-decoration-line: line-through !important;
 }

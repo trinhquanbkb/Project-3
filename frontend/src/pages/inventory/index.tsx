@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
-import ViewUser from "./Components/ViewUser";
-import AddUser from "./Components/AddUser";
-import EditUser from "./Components/EditUser";
-import TableUser from "./Components/TableUser";
-import TableUserMobile from "./Components/TableUserMobile";
-import DeleteUser from "./Components/DeleteUser";
+import { useGetProductListQuery } from "../../api/productApi";
+import ViewEmployee from "./Components/ViewEmplyee";
 
 
 const listBreadCrumb = [
@@ -22,70 +18,24 @@ const listBreadCrumb = [
   }
 ];
 
-const listSelectFilter = [
-  {
-    label: "Tất cả",
-    value: 0,
-  },
-  {
-    label: "Đang vận chuyển về vn",
-    value: 1,
-  },
-  {
-    label: "Đã vận chuyển về vn",
-    value: 2,
-  },
-];
-
 
 const UserList = () => {
-  const [viewUser, setViewUser] = useState(false);
-  const [addUser, setAddUser] = useState(false);
-  const [editUser, setEditUser] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [modalShow, setModalShow] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+  const [search, setSearch] = useState<any>({
+    page: 1,
+    pageSize: 10,
+  });
+  const [id, setId] = useState('')
+  const { data: listProduct, isFetching } = useGetProductListQuery({ ...search });
 
-  const handleResize = () => {
-    setScreenWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const handleViewUser = () => {
-    setViewUser(!viewUser);
+  if (isFetching) {
+    return <>empty</>
   }
-
-  const handleAddUser = () => {
-    setAddUser(!addUser);
-  }
-
-  const handleEditUser = () => {
-    setEditUser(!editUser);
-  }
-
-  const handleDeleteUser = () => {
-    setModalShow(!modalShow);
-  }
-
   const handleClosePopup = () => {
-    if (viewUser) {
-      setViewUser(!viewUser);
+    if (viewModal) {
+      setViewModal(!viewModal);
     }
-    if (addUser) {
-      setAddUser(!addUser);
-    }
-    if (editUser) {
-      setEditUser(!editUser);
-    }
-  }
-
-
+  };
   return (
     <>
       <Row>
@@ -105,13 +55,6 @@ const UserList = () => {
                   );
                 })}
               </Breadcrumb>
-              <div className="page-title-right">
-                <div className="mt-2 mt-md-0">
-                  <Button variant="primary" className="mb-2 mb-sm-0" onClick={handleAddUser}>
-                    <i className="uil uil-plus-square"></i> Thêm nhân viên
-                  </Button>
-                </div>
-              </div>
             </div>
           </div>
         </Col>
@@ -148,29 +91,35 @@ const UserList = () => {
           </div>
         </Col>
       </Row>
-
-      {
-        screenWidth > 768
-          ? <TableUser handleView={handleViewUser} handleEdit={handleEditUser} handleDelete={handleDeleteUser} />
-          : <TableUserMobile handleView={handleViewUser} handleEdit={handleEditUser} handleDelete={handleDeleteUser} />
-      }
-
-      <DeleteUser
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
-
-      {
-        (editUser && <EditUser isClass={'active'} handleClose={handleClosePopup} title="Sửa nhân viên" />)
-      }
-
-      {
-        (viewUser && <ViewUser isClass={'active'} handleClose={handleClosePopup} title="Thông tin nhân viên" />)
-      }
-
-      {
-        (addUser && <AddUser isClass={'active'} handleClose={handleClosePopup} title="Thêm nhân viên" />)
-      }
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '10px',
+        padding: '20px',
+      }}>        {
+          listProduct?.data.map(dt => dt.quantity > 0 && <div style={{
+            padding: '20px',
+            border: '1px solid #ddd',
+            textAlign: 'center',
+          }}>
+            <img src={dt.url} style={{ width: '100%', objectFit: 'cover', aspectRatio: '1/1' }} />
+            <div style={{ fontSize: 16, fontWeight: 700 }}>Tên: {dt.product_name}</div>
+            <div style={{ fontSize: 16, fontWeight: 600 }}>Số lượng:{dt.quantity}</div>
+            <button onClick={() => {
+              setId(dt._id)
+              setViewModal(true)
+            }
+            }>Xem chi tiết</button>
+          </div>)
+        }
+      </div>
+      {viewModal && (
+        <ViewEmployee
+          isClass={"active"}
+          id={id.toString()}
+          handleClose={handleClosePopup}
+        />
+      )}
 
     </>
   );

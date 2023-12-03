@@ -7,7 +7,6 @@ Contact: support@a2ztech.vn
 File: Main Css File
 */
 
-
 //Fonts
 @import "custom/fonts/fonts";
 
@@ -16,7 +15,6 @@ File: Main Css File
 @import "../../../node_modules/bootstrap/scss/variables";
 @import "config/variables";
 @import "../../../node_modules/bootstrap/scss/mixins.scss";
-
 
 // Structure
 @import "custom/structure/general";
@@ -38,6 +36,7 @@ File: Main Css File
 @import "custom/components/widgets";
 @import "custom/components/print";
 @import "custom/components/preloader";
+@import "custom/components/toastify";
 
 //Pages
 @import "custom/pages/authentication";
@@ -56,6 +55,8 @@ File: Main Css File
 @import "custom/pages/user";
 @import "custom/pages/customer";
 @import "custom/pages/common";
+@import "custom/pages/order";
+@import "custom/pages/setting";
 
 // Plugins
 @import "custom/plugins/apexcharts";
@@ -72,8 +73,8 @@ File: Main Css File
 @import "custom/plugins/parsley";
 @import "custom/plugins/quilljs-editor";
 @import "custom/plugins/react-select"; // react-select style
-@import 'custom/plugins/react-table'; // react table style
-@import "custom/plugins/flatpickr"; 
+@import "custom/plugins/react-table"; // react table style
+@import "custom/plugins/flatpickr";
 @import "custom/plugins/dropzone";
 @import "custom/plugins/google-maps";
 @import "custom/plugins/vector-maps";

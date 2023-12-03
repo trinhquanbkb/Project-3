@@ -1,29 +1,43 @@
+// roles.service.ts
+
 import { Injectable } from '@nestjs/common';
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { SupplierDocument } from '../schema/supplier.schema';
 import { CreateSupplierDto } from '../dto/create-supplier.dto';
-import { UpdateSupplierDto } from '../dto/update-supplier.dto';
-import { SuppliersRepository } from '../repository/supplier.repository';
 
 @Injectable()
 export class SuppliersService {
-  constructor(private readonly suppliersRepository: SuppliersRepository) {}
-  async create(createSupplierDto: CreateSupplierDto) {
-    return await this.suppliersRepository.create(createSupplierDto);
+  constructor(@InjectModel('Supplier') private roleModel: Model<SupplierDocument>) {}
+
+  async createRole(roleDto: CreateSupplierDto): Promise<SupplierDocument> {
+    const createdRole = new this.roleModel(roleDto);
+    return createdRole.save();
   }
 
-  async findAll() {
-    return await this.suppliersRepository.findAll();
+  async findAllRoles(pagination: any, filter: any){
+    const {  page, pageSize } = pagination;
+    const skip = (page - 1) * pageSize;
+    const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10)).exec();;
+    const total = await this.roleModel.countDocuments(filter).exec();
+    const paginations = {
+      "page": page,
+      "pageSize": pageSize,
+      "total": total,
+      "totalPage": Math.ceil(total / pageSize)
+    }
+    return { data, paginations, messenger: "succes" };
   }
 
-  async findOne(filter: FilterQuery<any>) {
-    return await this.suppliersRepository.findOne(filter);
+  async findRoleById(id: string): Promise<SupplierDocument | null> {
+    return this.roleModel.findById(id).exec();
   }
 
-  async update(id: string, updateSupplierDto: UpdateSupplierDto) {
-    return await this.suppliersRepository.update(id, updateSupplierDto);
+  async updateRole(id: string, roleDto: CreateSupplierDto): Promise<SupplierDocument | null> {
+    return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} supplier`;
+  async deleteRole(id: string): Promise<SupplierDocument | null> {
+    return this.roleModel.findByIdAndDelete(id).exec();
   }
 }

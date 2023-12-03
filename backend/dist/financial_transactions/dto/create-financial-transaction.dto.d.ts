@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export declare class CreateFinancialTransactionDto {
     transaction_name: string;
     product_id: string;
@@ -9,3 +10,14 @@ export declare class CreateFinancialTransactionDto {
     type: String;
     status: String;
 }
+=======
+import { ProductType } from '../schema/financial-transaction.schema';
+export declare class CreateFinancialTransactionDto {
+    weight: number;
+    supplierId: string;
+    note: string;
+    status: string;
+    warehouseId: string;
+    products: ProductType[];
+}
+>>>>>>> master

@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Request,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../services/auth.service';
 import { SignUpDto } from '../dto/sign-up.dto';
@@ -10,16 +17,12 @@ import { JwtAuthGuard } from '../guards/jwt.guard';
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-  ) { }
+  constructor(private readonly authService: AuthService) {}
   @Post('sign-up')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('authorization')
-
   async signUp(@Body(SignUpValidation) body: SignUpDto, @Request() req) {
-    console.log(req.user)
-    body.parent_id = req.user.userId
+    body.parent_id = req.user.userId;
     const data = await this.authService.signUp(body);
     return data;
   }
@@ -28,5 +31,4 @@ export class AuthController {
   async signIn(@Body(SignInValidation) body: SignInDto) {
     return await this.authService.signIn(body);
   }
-
 }

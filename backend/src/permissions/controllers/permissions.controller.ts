@@ -22,9 +22,9 @@ export class PermisstionsController {
   @Get()
   @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
   @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: 'object', required: false, description: 'Filter' })
-  async findAll(@Query() pagination: any, @Query('filter') filter: FilterQuery<any>) {
-    return this.permisstionsService.findAllRoles(pagination, filter);
+  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
+  async findAll(@Query() pagination: any, @Query('filter') filter: string) {
+    return this.permisstionsService.findAllRoles(pagination, JSON.parse(filter?filter:"{}"));
   }
 
   @Get(':id')

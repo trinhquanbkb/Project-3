@@ -28,12 +28,12 @@ let UsersService = class UsersService {
         const data = await this.usersRepository.findAll(filter, skip, parseInt(pageSize, 10));
         const total = await this.usersRepository.countAll(filter);
         const paginations = {
-            "page": page,
-            "pageSize": pageSize,
-            "total": total,
-            "totalPage": Math.ceil(total / pageSize)
+            page: page,
+            pageSize: pageSize,
+            total: total,
+            totalPage: Math.ceil(total / pageSize) || 0,
         };
-        return { data, paginations, messenger: "succes" };
+        return { data, paginations, messenger: 'success' };
     }
     async findOne(filter) {
         return await this.usersRepository.findOne(filter);
@@ -41,8 +41,16 @@ let UsersService = class UsersService {
     async update(id, updateUserDto) {
         return await this.usersRepository.update(id, updateUserDto);
     }
-    remove(id) {
-        return `This action removes a #${id} user`;
+    async remove(id) {
+        const removeUser = await this.usersRepository.delete(id);
+        if (removeUser) {
+            return removeUser;
+        }
+        else {
+            return {
+                error: 'error delete user',
+            };
+        }
     }
 };
 UsersService = __decorate([

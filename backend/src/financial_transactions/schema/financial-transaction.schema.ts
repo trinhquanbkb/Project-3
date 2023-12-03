@@ -4,52 +4,63 @@ import { configs } from 'src/config/configuration';
 
 export type FinancialTransactionsDocument = FinancialTransaction & Document;
 
+
+export type ProductType = {
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+  productItemId: string|undefined;
+  weight: number;
+  category: string;
+}
+
 @Schema({
   timestamps: true
 })
 export class FinancialTransaction {
 
   @Prop({
-    required: true,
+    require: true,
     type: String,
   })
-  transaction_name: string;
+  id: string;
 
   @Prop({
-    required: true,
-    type: String,
-  })
-  product_id: string;
-
-  @Prop({
-    required: true,
+    require: true,
     type: Number,
   })
-  quantity: Number;
+  weight: number;
 
   @Prop({
-    required: true,
-    type: Number,
+    require: true,
+    type: String
   })
-  unit_price: Number;
+  supplierId: string
 
   @Prop({
-    required: true,
-    type: Number,
+    require: true,
+    type: String
   })
-  total_amount: Number;
+  warehouseId: string
 
   @Prop({
-    required: true,
-    type: String,
+    require: true,
+    type: String
   })
-  type: String;
-  
+  note: string
+
   @Prop({
-    required: true,
-    type: String,
+    require: true,
+    type: String
   })
-  status: String;
+  status: string
+
+  @Prop({
+    require: true,
+    type: Array<ProductType>
+  })
+  products: Array<ProductType>
 
 }
 
