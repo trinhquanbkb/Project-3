@@ -32,7 +32,7 @@ export class WarehousesController {
   @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
   @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   async findAll(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.warehouseService.findAllRoles(pagination, JSON.parse(filter));
+    return this.warehouseService.findAllRoles(pagination, JSON.parse(filter?filter:"{}"));
   }
 
   @Get(':id')

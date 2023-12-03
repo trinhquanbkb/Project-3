@@ -22,7 +22,7 @@ export class SuppliersController {
   @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   @Get()
   findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
-    const parsedFilter = JSON.parse(filter);
+    const parsedFilter = JSON.parse(filter?filter:"{}");
     return this.rolesService.findAllRoles(pagination, parsedFilter);
   }
 
