@@ -33,7 +33,7 @@ let UsersService = class UsersService {
             total: total,
             totalPage: Math.ceil(total / pageSize),
         };
-        return { data, paginations, messenger: 'succes' };
+        return { data, paginations, messenger: 'success' };
     }
     async findOne(filter) {
         return await this.usersRepository.findOne(filter);

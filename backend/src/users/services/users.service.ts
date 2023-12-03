@@ -32,7 +32,7 @@ export class UsersService {
       total: total,
       totalPage: Math.ceil(total / pageSize),
     };
-    return { data, paginations, messenger: 'succes' };
+    return { data, paginations, messenger: 'success' };
   }
 
   async findOne(filter: FilterQuery<any>) {

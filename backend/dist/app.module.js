@@ -16,6 +16,7 @@ const images_module_1 = require("./images/images.module");
 const roles_module_1 = require("./roles/roles.module");
 const permisstions_module_1 = require("./permissions/permisstions.module");
 const warehouses_module_1 = require("./warehouse/warehouses.module");
+const financial_transaction_module_1 = require("./financial_transactions/financial-transaction.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -32,7 +33,8 @@ AppModule = __decorate([
             images_module_1.ImagesModule,
             roles_module_1.RolesModule,
             permisstions_module_1.PermisstionsModule,
-            warehouses_module_1.WarehousesModule
+            warehouses_module_1.WarehousesModule,
+            financial_transaction_module_1.FinancialTransactionModule,
         ],
     })
 ], AppModule);

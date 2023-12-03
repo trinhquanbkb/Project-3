@@ -1,142 +1,275 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
+import queryString from "query-string";
 
-import Advanced from "../../components/TableAdvanced";
-import FeatherIcon from "feather-icons-react";
+//dummy data
+import { useLocation } from "react-router-dom";
+import TableEmployee from "./component/TableEmployee";
+import Loading from "../../components/Loading";
+import ViewEmployee from "./component/ViewEmployee";
+import NotFoundTable from "../../components/NotFoundTable";
+import EditEmployee from "./component/EditEmployee";
+import ModalConfirm from "../../components/ModalConfirm";
+import { toast } from "react-toastify";
+import CreateEmployee from "./component/CreateEmployee";
+import { IReceiptQuery } from "../../models/receipt.model";
 
 const listBreadCrumb = [
-  {
-    path: "/",
-    label: "Vận hành",
-    active: false,
-  },
-  {
-    path: "/",
-    label: "Quản lý mã AWB",
-    active: true,
-  },
+	{
+		path: "/",
+		label: "Home",
+		active: false,
+		icon: "uil-home-alt",
+	},
+	{
+		path: "/",
+		label: "Phiếu nhập kho",
+		active: true,
+	},
 ];
 
-const listRadioFilter = [
-  {
-    label: "Tất cả",
-    group: "radio-1",
-  },
-  {
-    label: "Đang vận chuyển về vn",
-    group: "radio-1",
-  },
-  {
-    label: "Đã vận chuyển về vn",
-    group: "radio-1",
-  },
-  {
-    label: "Đang khai thác",
-    group: "radio-1",
-  },
-  {
-    label: "Đã khai thác",
-    group: "radio-1",
-  },
-];
+const ReceiptList = () => {
+	const location = useLocation();
+	const [idUser, setIdUser] = useState("");
+	const [viewModal, setViewModal] = useState(false);
+	const [createModal, setCreateModal] = useState(false);
+	const [editModal, setEditModal] = useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [search, setSearch] = useState<IReceiptQuery>({
+		page: 1,
+		pageSize: 10,
+	});
 
-const AwbList = () => {
-  return (
-    <>
-      <Row>
-        <Col xs={12}>
-          <div className="page-title-box">
-            <Breadcrumb listProps={{ className: "m-0" }}>
-              {(listBreadCrumb || []).map((item, index) => {
-                return item.active ? (
-                  <Breadcrumb.Item active key={index}>
-                    {item.label}
-                  </Breadcrumb.Item>
-                ) : (
-                  <Breadcrumb.Item key={index} href={item.path}>
-                    {item.label}
-                  </Breadcrumb.Item>
-                );
-              })}
-            </Breadcrumb>
-            <div className="page-title-right">
-              <div className="mt-2 mt-md-0">
-                <Button variant="primary" className="mb-2 mb-sm-0">
-                  <i className="uil-plus me-1"></i> Nhập AWB từ excel
-                </Button>
-              </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
+	useEffect(() => {
+		const query = location.search;
+		const parsed = queryString.parse(query);
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
 
-      <Row>
-        <Col xs={12}>
-          <p className="fw-bold mb-1">Trạng thái</p>
-          <div className="page-title-box pt-0">
-            <Form>
-              <div key={`inline-radio}`}>
-                {listRadioFilter.map((item, index) => {
-                  return (
-                    <Form.Check
-                      key={index}
-                      inline
-                      label={item.label}
-                      name={item.group}
-                      type="radio"
-                      className="me-4"
-                      id={`inline-radio-${index}`}
-                    />
-                  );
-                })}
-              </div>
-            </Form>
-          </div>
-        </Col>
-      </Row>
+		setSearch({
+			...search,
+			page,
+			pageSize,
+		});
+	}, []);
 
-      <Row>
-        <Col xs={8} className="mb-3">
-          <p className="fw-bold mb-1">Mã AWB</p>
-          <div className="task-search d-inline-block mb-3 mb-sm-0 me-sm-1">
-            <form>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control search-input"
-                  placeholder="Tìm kiếm..."
-                />
-                <span className="input-group-text search-page-list">
-                  <FeatherIcon
-                    icon="search"
-                    color="white"
-                    width="16"
-                    height="16"
-                  />
-                </span>
-              </div>
-            </form>
-          </div>
-        </Col>
-        <Col xs={2} className="mb-3">
-          <div className="d-flex flex-column">
-            <p className="fw-bold mb-1 text-center">Tổng TLKT/TLTT</p>
-            <p className="fw-bold text-primary text-center">0.00 / 0.00 (kg)</p>
-          </div>
-        </Col>
-        <Col xs={2} className="mb-3">
-          <div className="d-flex flex-column">
-            <p className="fw-bold mb-1 text-center">Tổng tiền</p>
-            <p className="fw-bold text-primary text-center">1.000.000 (vnđ)</p>
-          </div>
-        </Col>
-      </Row>
+	// xử lý việc url thay đổi khi có filter
+	useEffect(() => {
+		const query = queryString.stringifyUrl(
+			{
+				url: "/receipt",
+				query: {
+					page: search.page,
+					pageSize: search.pageSize,
+				},
+			},
+			{
+				skipEmptyString: true,
+			}
+		);
+		window.history.pushState(null, "", query);
+	}, [search]);
 
-      <Row>
-        <Advanced />
-      </Row>
-    </>
-  );
+	// handle filter page with page and pageSize
+	const handleFilterPage = (filter: any) => {
+		setSearch({
+			...search,
+			page: filter.page,
+			pageSize: filter.pageSize,
+		});
+	};
+
+	const handleViewReceipt = (id: string) => {
+		setViewModal(!viewModal);
+		setIdUser(id);
+	};
+
+	const handleEditReceipt = (id: string) => {
+		setEditModal(!editModal);
+		setIdUser(id);
+	};
+
+	const handleDeleteReceipt = (id: string) => {
+		setDeleteModal(!deleteModal);
+		setIdUser(id);
+	};
+
+	const handleSearchOnEnter = (event: any) => {
+		event.preventDefault();
+		if (event.key === "Enter") {
+			setSearch({
+				...search,
+			});
+		}
+	};
+
+	const handleClosePopup = () => {
+		if (viewModal) {
+			setViewModal(!viewModal);
+		}
+		if (editModal) {
+			setEditModal(!editModal);
+		}
+		if (deleteModal) {
+			setDeleteModal(!deleteModal);
+		}
+		if (createModal) {
+			setCreateModal(!createModal);
+		}
+	};
+
+	const apiDeleteUser = async () => {
+		// const res: any = await deleteUserApi(idUser);
+		// if (res?.data) {
+		// 	setDeleteModal(!deleteModal);
+		// 	toast.success("Xóa nhân sự thành công!");
+		// } else {
+		// 	toast.error("Xóa nhân sự thất bại");
+		// }
+	};
+
+	return (
+		<>
+			<Row>
+				<Col xs={12}>
+					<div className="page-title-box">
+						<Breadcrumb listProps={{ className: "m-0" }}>
+							{(listBreadCrumb || []).map((item, index) => {
+								return item.active ? (
+									<Breadcrumb.Item active key={index}>
+										{item.icon !== "" ? (
+											<i
+												className={`uil ${item.icon}`}
+											></i>
+										) : (
+											""
+										)}{" "}
+										{item.label}
+									</Breadcrumb.Item>
+								) : (
+									<Breadcrumb.Item
+										key={index}
+										href={item.path}
+									>
+										{item.icon !== "" ? (
+											<i
+												className={`uil ${item.icon}`}
+											></i>
+										) : (
+											""
+										)}{" "}
+										{item.label}
+									</Breadcrumb.Item>
+								);
+							})}
+						</Breadcrumb>
+						<div className="page-title-right">
+							<div className="mt-2 mt-md-0">
+								<Button
+									variant="primary"
+									className="mb-2 mb-sm-0"
+									onClick={() => {
+										setCreateModal(!createModal);
+									}}
+								>
+									<i className="uil-plus me-1"></i> Nhập phiếu
+									nhập kho
+								</Button>
+							</div>
+						</div>
+					</div>
+				</Col>
+			</Row>
+
+			<hr className="mt-0" />
+
+			<Row>
+				<Col xs={12}>
+					<div className="wrap-filter">
+						<div className="list-input">
+							<Row>
+								<Col xs={3}>
+									<div className="col-left">
+										<div className="input-search">
+											<Form.Group className="form-search-user form-search-tracking">
+												<Form.Control
+													type="search"
+													placeholder="Tìm kiếm mã phiếu nhập kho"
+												/>
+												<Button
+													type="submit"
+													className="btn-search"
+												></Button>
+											</Form.Group>
+										</div>
+									</div>
+								</Col>
+							</Row>
+						</div>
+					</div>
+				</Col>
+			</Row>
+
+			{isFetching ? (
+				<Loading />
+			) : listUser ? (
+				<TableEmployee
+					handleFilter={handleFilterPage}
+					paginations={listUser.paginations}
+					handleViewReceipt={handleViewReceipt}
+					handleEditReceipt={handleEditReceipt}
+					handleDeleteReceipt={handleDeleteReceipt}
+					data={
+						listUser
+							? listUser.data.map((item) => {
+									return {
+										id: item._id,
+										code: item._id,
+										username: item.username,
+										email: item.email,
+										phone: item.phone,
+									};
+							  })
+							: null
+					}
+				/>
+			) : (
+				<NotFoundTable />
+			)}
+
+			{viewModal && (
+				<ViewEmployee
+					isClass={"active"}
+					id={idUser}
+					handleClose={handleClosePopup}
+				/>
+			)}
+
+			{editModal && (
+				<EditEmployee
+					isClass={"active"}
+					id={idUser}
+					handleClose={handleClosePopup}
+				/>
+			)}
+
+			{deleteModal && (
+				<ModalConfirm
+					show={deleteModal}
+					content={`Xác nhận xóa nhân viên?`}
+					handleAction={apiDeleteUser}
+					onHide={() => setDeleteModal(false)}
+				/>
+			)}
+
+			{createModal && (
+				<CreateEmployee
+					isClass={"active"}
+					handleClose={handleClosePopup}
+				/>
+			)}
+		</>
+	);
 };
 
-export default AwbList;
+export default ReceiptList;

@@ -7,9 +7,9 @@ import { ImagesModule } from './images/images.module';
 import { RolesModule } from './roles/roles.module';
 import { PermisstionsModule } from './permissions/permisstions.module';
 import { WarehousesModule } from './warehouse/warehouses.module';
+import { FinancialTransactionModule } from './financial_transactions/financial-transaction.module';
 
-
-@Module({ 
+@Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_DB, {
@@ -22,7 +22,8 @@ import { WarehousesModule } from './warehouse/warehouses.module';
     ImagesModule,
     RolesModule,
     PermisstionsModule,
-    WarehousesModule
+    WarehousesModule,
+    FinancialTransactionModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

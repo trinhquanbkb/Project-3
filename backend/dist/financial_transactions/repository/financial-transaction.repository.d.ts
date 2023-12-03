@@ -8,6 +8,7 @@ export declare class FinancialTransactionRepository {
     findOne(filter: FilterQuery<any>): Promise<FinancialTransactionsDocument | null>;
     create(createDto: CreateFinancialTransactionDto): Promise<FinancialTransactionsDocument>;
     update(id: string, updateDto: Partial<UpdateFinancialTransactionDto>): Promise<FinancialTransactionsDocument>;
-    findAll(filter?: FilterQuery<any>): Promise<FinancialTransactionsDocument[]>;
+    findAll(filter: FilterQuery<any>, skip: number, limit: number): Promise<FinancialTransactionsDocument[]>;
     delete(_id: string): Promise<FinancialTransactionsDocument | null>;
+    countAll(filter: FilterQuery<any>): Promise<number>;
 }

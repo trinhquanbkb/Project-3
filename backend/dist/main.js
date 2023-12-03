@@ -12,13 +12,13 @@ async function bootstrap() {
     const adminUser = await userService.findOne({ email: 'admin@gmail.com' });
     if (!adminUser) {
         let admin = {
-            "username": "admin",
-            "password": "123456",
-            "email": "admin@gmail.com",
-            "phone": 0,
-            "role_id": null,
-            "parent_id": null,
-            "warehouse_id": null
+            username: 'admin',
+            password: '123456',
+            email: 'admin@gmail.com',
+            phone: 0,
+            role_id: null,
+            parent_id: null,
+            warehouse_id: null,
         };
         await userService.create(admin);
         console.log('Admin user created successfully.');
@@ -32,7 +32,7 @@ async function bootstrap() {
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('api', app, document);
     app.use((0, body_parser_1.json)({ limit: '50mb' }));
-    await app.listen(3303);
+    await app.listen(3304);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
