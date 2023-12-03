@@ -8,33 +8,50 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SuppliersService = void 0;
 const common_1 = require("@nestjs/common");
-const supplier_repository_1 = require("../repository/supplier.repository");
+const mongoose_1 = require("mongoose");
+const mongoose_2 = require("@nestjs/mongoose");
 let SuppliersService = class SuppliersService {
-    constructor(suppliersRepository) {
-        this.suppliersRepository = suppliersRepository;
+    constructor(roleModel) {
+        this.roleModel = roleModel;
     }
-    async create(createSupplierDto) {
-        return await this.suppliersRepository.create(createSupplierDto);
+    async createRole(roleDto) {
+        const createdRole = new this.roleModel(roleDto);
+        return createdRole.save();
     }
-    async findAll() {
-        return await this.suppliersRepository.findAll();
+    async findAllRoles(pagination, filter) {
+        const { page, pageSize } = pagination;
+        const skip = (page - 1) * pageSize;
+        const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10)).exec();
+        ;
+        const total = await this.roleModel.countDocuments(filter).exec();
+        const paginations = {
+            "page": page,
+            "pageSize": pageSize,
+            "total": total,
+            "totalPage": Math.ceil(total / pageSize)
+        };
+        return { data, paginations, messenger: "succes" };
     }
-    async findOne(filter) {
-        return await this.suppliersRepository.findOne(filter);
+    async findRoleById(id) {
+        return this.roleModel.findById(id).exec();
     }
-    async update(id, updateSupplierDto) {
-        return await this.suppliersRepository.update(id, updateSupplierDto);
+    async updateRole(id, roleDto) {
+        return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
     }
-    remove(id) {
-        return `This action removes a #${id} supplier`;
+    async deleteRole(id) {
+        return this.roleModel.findByIdAndRemove(id).exec();
     }
 };
 SuppliersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [supplier_repository_1.SuppliersRepository])
+    __param(0, (0, mongoose_2.InjectModel)('Supplier')),
+    __metadata("design:paramtypes", [mongoose_1.Model])
 ], SuppliersService);
 exports.SuppliersService = SuppliersService;
 //# sourceMappingURL=suppliers.service.js.map

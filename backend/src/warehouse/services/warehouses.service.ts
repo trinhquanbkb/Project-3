@@ -17,13 +17,8 @@ export class WarehousesService {
     return createdWarehouse.save();
   }
 
-<<<<<<< HEAD
-  async findAllWarehouse(pagination: any, filter: FilterQuery<any>) {
-    const { page, pageSize } = pagination;
-=======
   async findAllRoles(pagination: any, filter: any){
     const {  page, pageSize } = pagination;
->>>>>>> QuanDo
     const skip = (page - 1) * pageSize;
     const data = await this.warehouseModel
       .find(filter)
