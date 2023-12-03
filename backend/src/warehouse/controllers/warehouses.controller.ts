@@ -28,6 +28,7 @@ export class WarehousesController {
   }
 
   @Get()
+<<<<<<< HEAD
   @ApiQuery({
     name: 'page',
     type: Number,
@@ -51,6 +52,13 @@ export class WarehousesController {
     @Query('filter') filter: FilterQuery<any>,
   ) {
     return this.warehouseService.findAllWarehouse(pagination, filter);
+=======
+  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
+  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
+  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
+  async findAll(@Query() pagination: any, @Query('filter') filter: string) {
+    return this.rolesService.findAllRoles(pagination, JSON.parse(filter));
+>>>>>>> QuanDo
   }
 
   @Get(':id')

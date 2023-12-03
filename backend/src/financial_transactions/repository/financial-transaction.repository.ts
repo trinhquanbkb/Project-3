@@ -9,7 +9,7 @@ import { FinancialTransaction, FinancialTransactionsDocument } from '../schema/f
 export class FinancialTransactionRepository {
   constructor(@InjectModel(FinancialTransaction.name) private FinancialTransactionModel: Model<FinancialTransactionsDocument>) { }
 
-  async findOne(filter: FilterQuery<any>): Promise<FinancialTransactionsDocument | null> {
+  async findOne(filter: any): Promise<FinancialTransactionsDocument | null> {
     return this.FinancialTransactionModel.findOne(filter);
   }
 
@@ -25,7 +25,7 @@ export class FinancialTransactionRepository {
     return this.FinancialTransactionModel.findByIdAndUpdate(id, updateDto, { new: true });
   }
 
-  async findAll(filter?: FilterQuery<any>): Promise<FinancialTransactionsDocument[]> {
+  async findAll(filter?: any): Promise<FinancialTransactionsDocument[]> {
     return this.FinancialTransactionModel.find(filter);
   }
 

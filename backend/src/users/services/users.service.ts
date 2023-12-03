@@ -17,8 +17,13 @@ export class UsersService {
     return await this.usersRepository.create(createUserDto);
   }
 
+<<<<<<< HEAD
   async findAll(filter: FilterQuery<any>) {
     const { page, pageSize } = filter;
+=======
+  async findAll(pagination: any, filter: any){
+    const {  page, pageSize } = pagination;
+>>>>>>> QuanDo
     const skip = (page - 1) * pageSize;
     const data = await this.usersRepository.findAll(
       filter,
