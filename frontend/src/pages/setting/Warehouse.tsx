@@ -5,7 +5,7 @@ import queryString from "query-string";
 
 import TableWarehouse from "./component/TableWarehouse";
 import { useDeleteWarehouseMutation, useGetWarehouseListQuery } from "../../api/warehouseApi";
-import { IWarehouseQuery, IAddress } from "../../models/warehouse.model";
+import { IWarehouseQuery } from "../../models/warehouse.model";
 import Loading from "../../components/Loading";
 import ViewWarehouse from "./component/ViewWarehouse";
 import NotFoundTable from "../../components/NotFoundTable";
@@ -13,7 +13,6 @@ import EditWarehouse from "./component/EditWarehouse";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import CreateWarehouse from "./component/CreateWarehouse";
-import SelectRole from "../../components/Input/SelectRole";
 
 
 const listBreadCrumb = [
@@ -32,59 +31,62 @@ const listBreadCrumb = [
 
 
 const WarehouseList = () => {
-	// const location = useLocation();
+
+	const initialSearchState: IWarehouseQuery = {
+		page: 1,
+		pageSize: 10,
+		name: "",
+	};
+
+	const location = useLocation();
 	const [idWarehouse, setIdWarehouse] = useState("");
 	const [keywordWarehouseName, setKeywordWarehouseName] = useState("");
 	const [viewModal, setViewModal] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
-	const [search, setSearch] = useState<IWarehouseQuery>({
-		page: 1,
-		pageSize: 10,
-		name: "",
-		address: {
-			district: "",
-			wards: "",
-			city: "",
-			address: "",
-		}
-	});
+	const [search, setSearch] = useState<IWarehouseQuery>(initialSearchState);
 
 	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({ ...search });
 
 	const [deleteWarehouseApi] = useDeleteWarehouseMutation();
 
-	// useEffect(() => {
-	// 	const query = location.search;
-	// 	const parsed = queryString.parse(query);
-	// 	const page = parsed.page ? Number(parsed.page) : 1;
-	// 	const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
-	// 	const name = parsed.name ? parsed.name.toString() : "";
-	// 	// const address = parsed.address ? parsed.address : "";
 
-	// 	setSearch({
-	// 		...search,
-	// 		page,
-	// 		pageSize,
-	// 		name,
-	// 	});
+	const parseQueryParameters = () => {
+		const query = location.search;
+		const parsed = queryString.parse(query);
 
-	// 	if (name) {
-	// 		setKeywordWarehouseName(name);
-	// 	}
-	// }, []);
+		return {
+			page: parsed.page ? Number(parsed.page) : 1,
+			pageSize: parsed.pageSize ? Number(parsed.pageSize) : 10,
+			name: parsed.name ? parsed.name.toString() : ""
+		};
+	};
 
-	// xử lý việc url thay đổi khi có filter
 	useEffect(() => {
+		const { page, pageSize, name } = parseQueryParameters();
+
+		setSearch({
+			...initialSearchState,
+			page,
+			pageSize,
+			name
+		});
+
+		if (name) {
+			setKeywordWarehouseName(name);
+		}
+	}, []);
+
+	useEffect(() => {
+
 		const query = queryString.stringifyUrl(
 			{
-				url: "/warehouses",
+				url: "/setting/warehouse",
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
-					name: search.name,
-
+					name: search.name
 				},
 			},
 			{
@@ -124,7 +126,6 @@ const WarehouseList = () => {
 			setSearch({
 				...search,
 				name: keywordWarehouseName.trim(),
-
 			});
 		}
 	};
@@ -263,12 +264,12 @@ const WarehouseList = () => {
 					data={
 						listWarehouse
 							? listWarehouse.data.map((item) => {
-									return {
-										id: item._id,
-										name: item.name,
-										address: item.address
-									};
-							  })
+								return {
+									id: item._id,
+									name: item.name,
+									address: item.address
+								};
+							})
 							: null
 					}
 				/>

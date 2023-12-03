@@ -14,12 +14,12 @@ export default function SelectWarehouse(props: IProps) {
 		page: 1,
 		pageSize: 100,
 		name: "",
-		address: {
-			district: "",
-			wards: "",
-			city: "",
-			address: "",
-		}
+		// address: {
+		// 	district: "",
+		// 	wards: "",
+		// 	city: "",
+		// 	address: "",
+		// }
 	});
 
 	let optionWarehouse: OptionTypes[] = [];

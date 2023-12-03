@@ -32,7 +32,6 @@ export interface IWarehouseQuery {
 	page: number;
 	pageSize: number;
 	name: string;
-	address: IAddress;
 }
 
 export interface ITableWarehouse {
