@@ -5,7 +5,6 @@ import { OrdersService } from '../services/orders.service';
 import { OrdersDTO } from '../dto/orders.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { FilterQuery } from 'mongoose';
 
 @Controller('orders')
 @ApiTags('Orders')
