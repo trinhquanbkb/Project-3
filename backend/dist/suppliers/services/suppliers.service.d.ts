@@ -6,7 +6,9 @@ export declare class SuppliersService {
     constructor(roleModel: Model<SupplierDocument>);
     createRole(roleDto: CreateSupplierDto): Promise<SupplierDocument>;
     findAllRoles(pagination: any, filter: any): Promise<{
-        data: SupplierDocument[];
+        data: (import("mongoose").Document<unknown, {}, SupplierDocument> & import("../schema/supplier.schema").Supplier & import("mongoose").Document<any, any, any> & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
         paginations: {
             page: any;
             pageSize: any;
