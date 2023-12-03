@@ -23,11 +23,7 @@ AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
-            mongoose_1.MongooseModule.forRoot(process.env.MONGO_DB, {
-                useNewUrlParser: true,
-                useFindAndModify: false,
-                useCreateIndex: true,
-            }),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGO_DB),
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             images_module_1.ImagesModule,

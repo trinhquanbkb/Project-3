@@ -2,27 +2,32 @@ import React from "react";
 import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
-import { ITableUser } from "../../../models/user.model";
+import { ITableReceipt } from "../../../models/receipt.model";
 
 const columns = [
 	{
-		Header: "Mã nhân viên",
+		Header: "Mã PNK",
 		accessor: "code",
 		sort: true,
 	},
 	{
-		Header: "Họ tên",
-		accessor: "username",
+		Header: "Số lượng",
+		accessor: "quantity",
 		sort: true,
 	},
 	{
-		Header: "Email",
-		accessor: "email",
+		Header: "Tổng cân nặng",
+		accessor: "weight",
+		sort: false,
+	},
+	{
+		Header: "Đối tác",
+		accessor: "supplier",
 		sort: true,
 	},
 	{
-		Header: "Số điện thoại",
-		accessor: "phone",
+		Header: "Ghi chú",
+		accessor: "note",
 		sort: false,
 	},
 	{
@@ -32,7 +37,7 @@ const columns = [
 	},
 ];
 
-const TableEmployee = (props: ITableUser) => {
+const TableReceipt = (props: ITableReceipt) => {
 	return (
 		<>
 			<Row>
@@ -63,7 +68,7 @@ const TableEmployee = (props: ITableUser) => {
 				</Col>
 			</Row>
 
-			{props.data == null || undefined
+			{/* {props.data == null || undefined
 				? null
 				: props.data.forEach(
 						(item: any) => (
@@ -111,9 +116,9 @@ const TableEmployee = (props: ITableUser) => {
 								<p className="fw-bold">{item.code}</p>
 							))
 						)
-				  )}
+				  )} */}
 		</>
 	);
 };
 
-export default TableEmployee;
+export default TableReceipt;

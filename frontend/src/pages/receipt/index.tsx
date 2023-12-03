@@ -4,7 +4,6 @@ import queryString from "query-string";
 
 //dummy data
 import { useLocation } from "react-router-dom";
-import TableEmployee from "./component/TableEmployee";
 import Loading from "../../components/Loading";
 import ViewEmployee from "./component/ViewEmployee";
 import NotFoundTable from "../../components/NotFoundTable";
@@ -13,6 +12,8 @@ import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import CreateEmployee from "./component/CreateEmployee";
 import { IReceiptQuery } from "../../models/receipt.model";
+import { useGetReceiptListQuery } from "../../api/receiptApi";
+import TableReceipt from "./component/TableReceipt";
 
 const listBreadCrumb = [
 	{
@@ -38,6 +39,9 @@ const ReceiptList = () => {
 	const [search, setSearch] = useState<IReceiptQuery>({
 		page: 1,
 		pageSize: 10,
+	});
+	const { data: listReceipt, isFetching } = useGetReceiptListQuery({
+		...search,
 	});
 
 	useEffect(() => {
@@ -212,22 +216,22 @@ const ReceiptList = () => {
 
 			{isFetching ? (
 				<Loading />
-			) : listUser ? (
-				<TableEmployee
+			) : listReceipt ? (
+				<TableReceipt
 					handleFilter={handleFilterPage}
-					paginations={listUser.paginations}
+					paginations={listReceipt.paginations}
 					handleViewReceipt={handleViewReceipt}
 					handleEditReceipt={handleEditReceipt}
 					handleDeleteReceipt={handleDeleteReceipt}
 					data={
-						listUser
-							? listUser.data.map((item) => {
+						listReceipt
+							? listReceipt.data.map((item) => {
 									return {
-										id: item._id,
-										code: item._id,
-										username: item.username,
-										email: item.email,
-										phone: item.phone,
+										code: "",
+										supplier: "",
+										quantity: 0,
+										weight: 0,
+										note: "",
 									};
 							  })
 							: null

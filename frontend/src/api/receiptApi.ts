@@ -7,7 +7,7 @@ export const successToastAction = createAction<string>("toast/success");
 export const failedToastAction = createAction<string>("toast/failed");
 const receiptApi = api.injectEndpoints({
 	endpoints: (build) => ({
-		getRoleList: build.query<
+		getReceiptList: build.query<
 			{
 				data: IReceipt[];
 				paginations: IPagination;
@@ -24,4 +24,4 @@ const receiptApi = api.injectEndpoints({
 	}),
 });
 
-export const { useGetRoleListQuery } = receiptApi;
+export const { useGetReceiptListQuery } = receiptApi;

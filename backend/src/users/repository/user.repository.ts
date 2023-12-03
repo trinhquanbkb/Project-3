@@ -25,7 +25,6 @@ export class UsersRepository {
     return await this.userModel.findByIdAndUpdate(id, updateDto);
   }
 
-<<<<<<< HEAD
   async findAll(
     filter: FilterQuery<any>,
     skip: number,
@@ -43,10 +42,6 @@ export class UsersRepository {
     }
 
     return this.userModel.find(query).skip(skip).limit(limit).exec();
-=======
-  async findAll(filter: any, skip: number, limit: number): Promise<UserDocument[]> {
-    return this.userModel.find(filter).skip(skip).limit(limit).exec();
->>>>>>> QuanDo
   }
   async delete(_id: string): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(_id);

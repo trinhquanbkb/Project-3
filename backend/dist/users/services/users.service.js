@@ -31,7 +31,7 @@ let UsersService = class UsersService {
             page: page,
             pageSize: pageSize,
             total: total,
-            totalPage: Math.ceil(total / pageSize),
+            totalPage: Math.ceil(total / pageSize) || 0,
         };
         return { data, paginations, messenger: 'success' };
     }

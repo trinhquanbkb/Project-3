@@ -13,6 +13,7 @@ import { WarehousesService } from '../services/warehouses.service';
 import { WarehouseDTO } from '../dto/warehouse.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { FilterQuery } from 'mongoose';
 
 @Controller('warehouses')
 @ApiTags('Warehouses')
@@ -27,7 +28,6 @@ export class WarehousesController {
   }
 
   @Get()
-<<<<<<< HEAD
   @ApiQuery({
     name: 'page',
     type: Number,
@@ -51,13 +51,6 @@ export class WarehousesController {
     @Query('filter') filter: FilterQuery<any>,
   ) {
     return this.warehouseService.findAllWarehouse(pagination, filter);
-=======
-  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
-  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
-  async findAll(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.rolesService.findAllRoles(pagination, JSON.parse(filter));
->>>>>>> QuanDo
   }
 
   @Get(':id')
