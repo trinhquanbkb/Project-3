@@ -31,8 +31,7 @@ export interface ICreateWarehouse {
 export interface IWarehouseQuery {
 	page: number;
 	pageSize: number;
-	name: string;
-	address: IAddress;
+	filter: {};
 }
 
 export interface ITableWarehouse {

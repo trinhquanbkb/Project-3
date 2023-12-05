@@ -26,7 +26,7 @@ let SuppliersController = class SuppliersController {
         return this.rolesService.createRole(roleDto);
     }
     findAllRoles(pagination, filter) {
-        const parsedFilter = JSON.parse(filter);
+        const parsedFilter = JSON.parse(filter ? filter : "{}");
         return this.rolesService.findAllRoles(pagination, parsedFilter);
     }
     findRoleById(id) {
