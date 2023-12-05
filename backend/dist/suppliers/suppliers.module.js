@@ -12,7 +12,6 @@ const mongoose_1 = require("@nestjs/mongoose");
 const supplier_schema_1 = require("./schema/supplier.schema");
 const suppliers_controller_1 = require("./controllers/suppliers.controller");
 const suppliers_service_1 = require("./services/suppliers.service");
-const supplier_repository_1 = require("./repository/supplier.repository");
 let SuppliersModule = class SuppliersModule {
 };
 SuppliersModule = __decorate([
@@ -20,7 +19,7 @@ SuppliersModule = __decorate([
         imports: [mongoose_1.MongooseModule.forFeature([{ name: supplier_schema_1.Supplier.name, schema: supplier_schema_1.SupplierSchema }]),
         ],
         controllers: [suppliers_controller_1.SuppliersController],
-        providers: [suppliers_service_1.SuppliersService, supplier_repository_1.SuppliersRepository],
+        providers: [suppliers_service_1.SuppliersService],
     })
 ], SuppliersModule);
 exports.SuppliersModule = SuppliersModule;
