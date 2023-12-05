@@ -13,13 +13,7 @@ export default function SelectWarehouse(props: IProps) {
 	const { data, isFetching } = useGetWarehouseListQuery({
 		page: 1,
 		pageSize: 100,
-		name: "",
-		address: {
-			district: "",
-			wards: "",
-			city: "",
-			address: "",
-		}
+		filter: ""
 	});
 
 	let optionWarehouse: OptionTypes[] = [];
