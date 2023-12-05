@@ -31,13 +31,9 @@ const listBreadCrumb = [
 
 
 const WarehouseList = () => {
-
-
 	const location = useLocation();
 	const [idWarehouse, setIdWarehouse] = useState("");
-	const [keywordWarehouseFilter, setKeywordWarehouseFilter] = useState({
-		name: "",
-	});
+	const [keywordWarehouseName, setKeywordWarehouseName] = useState("");
 	const [viewModal, setViewModal] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
@@ -45,45 +41,38 @@ const WarehouseList = () => {
 	const [search, setSearch] = useState<IWarehouseQuery>({
 		page: 1,
 		pageSize: 10,
-		filter: {
-
-		}
+		filter: {}
 	});
 	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({ ...search });
 
 	const [deleteWarehouseApi] = useDeleteWarehouseMutation();
 
-
 	useEffect(() => {
+
 		const query = location.search;
 		const parsed = queryString.parse(query);
+		
 		const page = parsed.page ? Number(parsed.page) : 1;
 		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
-		const name = parsed.name ? parsed.name.toString() : "";
+		const filter = parsed.filter ? parsed.filter : {};
 
 		setSearch({
 			...search,
 			page,
 			pageSize,
-			filter: {
-				name: name
-			}
+			filter: filter,
 		});
-
-		if (name) {
-			setKeywordWarehouseFilter({name});
-		}
 	}, []);
 
-	useEffect(() => {
-
+	// xử lý việc url thay đổi khi có filter
+	useEffect(() => {		
 		const query = queryString.stringifyUrl(
 			{
-				url: "/setting/warehouse",
+				url: "warehouse",
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
-					filter: search.filter.toString()
+					filter: JSON.stringify(search.filter),
 				},
 			},
 			{
@@ -120,12 +109,21 @@ const WarehouseList = () => {
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
-			setSearch({
-				...search,
-				filter: {
-					name: keywordWarehouseFilter.name.trim(),
-				}
-			});
+			if (keywordWarehouseName.trim() === ""){
+				setSearch({
+					...search,
+					filter: {
+						
+					}
+				});
+			}else {
+				setSearch({
+					...search,
+					filter: {
+						name: keywordWarehouseName.trim(),
+					}
+				});
+			}
 		}
 	};
 
@@ -221,11 +219,11 @@ const WarehouseList = () => {
 													type="search"
 													placeholder="Tìm kiếm theo tên"
 													onChange={(e) => {
-														setKeywordWarehouseFilter(
-															{name: e.target.value}
+														setKeywordWarehouseName(
+															e.target.value
 														);
 													}}
-													value={keywordWarehouseFilter.name}
+													value={keywordWarehouseName}
 													onKeyUp={
 														handleSearchOnEnter
 													}
@@ -234,12 +232,21 @@ const WarehouseList = () => {
 													type="submit"
 													className="btn-search"
 													onClick={() => {
-														setSearch({
-															...search,
-															filter: {
-																name: keywordWarehouseFilter.name.trim(),
-															}
-														});
+														if (keywordWarehouseName.trim() === ""){
+															setSearch({
+																...search,
+																filter: {
+																	
+																}
+															});
+														}else {
+															setSearch({
+																...search,
+																filter: {
+																	name: keywordWarehouseName.trim(),
+																}
+															});
+														}
 													}}
 												></Button>
 											</Form.Group>
