@@ -35,7 +35,9 @@ const WarehouseList = () => {
 
 	const location = useLocation();
 	const [idWarehouse, setIdWarehouse] = useState("");
-	const [keywordWarehouseName, setKeywordWarehouseName] = useState("");
+	const [keywordWarehouseFilter, setKeywordWarehouseFilter] = useState({
+		name: "",
+	});
 	const [viewModal, setViewModal] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
@@ -43,7 +45,9 @@ const WarehouseList = () => {
 	const [search, setSearch] = useState<IWarehouseQuery>({
 		page: 1,
 		pageSize: 10,
-		name: "",
+		filter: {
+
+		}
 	});
 	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({ ...search });
 
@@ -61,11 +65,13 @@ const WarehouseList = () => {
 			...search,
 			page,
 			pageSize,
-			name,
+			filter: {
+				name: name
+			}
 		});
 
 		if (name) {
-			setKeywordWarehouseName(name);
+			setKeywordWarehouseFilter({name});
 		}
 	}, []);
 
@@ -77,7 +83,7 @@ const WarehouseList = () => {
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
-					name: search.name
+					filter: search.filter.toString()
 				},
 			},
 			{
@@ -116,7 +122,9 @@ const WarehouseList = () => {
 		if (event.key === "Enter") {
 			setSearch({
 				...search,
-				name: keywordWarehouseName.trim(),
+				filter: {
+					name: keywordWarehouseFilter.name.trim(),
+				}
 			});
 		}
 	};
@@ -213,11 +221,11 @@ const WarehouseList = () => {
 													type="search"
 													placeholder="Tìm kiếm theo tên"
 													onChange={(e) => {
-														setKeywordWarehouseName(
-															e.target.value
+														setKeywordWarehouseFilter(
+															{name: e.target.value}
 														);
 													}}
-													value={keywordWarehouseName}
+													value={keywordWarehouseFilter.name}
 													onKeyUp={
 														handleSearchOnEnter
 													}
@@ -228,8 +236,9 @@ const WarehouseList = () => {
 													onClick={() => {
 														setSearch({
 															...search,
-															name:
-																keywordWarehouseName.trim(),
+															filter: {
+																name: keywordWarehouseFilter.name.trim(),
+															}
 														});
 													}}
 												></Button>

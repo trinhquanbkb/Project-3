@@ -13,7 +13,9 @@ export default function SelectWarehouse(props: IProps) {
 	const { data, isFetching } = useGetWarehouseListQuery({
 		page: 1,
 		pageSize: 100,
-		name: "",
+		filter: {
+			name: ""
+		},
 		// address: {
 		// 	district: "",
 		// 	wards: "",
