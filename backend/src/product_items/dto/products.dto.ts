@@ -11,14 +11,13 @@ export class ProductItemDTO {
   quantity: number;
 
   @ApiProperty({ example: 23000, description: 'Giá tiền' })
-  @IsArray()
-  price: Number;
+  price: number;
 
   @ApiProperty({ example: '', description: 'id của kho' })
-  @IsNumber()
+  @IsString()
   warehouse_id: string;
 
   @ApiProperty({ example: '', description: 'id đối tác' })
-  @IsNumber()
+  @IsString()
   supplier_id: string;
 }

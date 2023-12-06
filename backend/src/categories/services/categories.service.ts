@@ -3,14 +3,15 @@
 import { Injectable } from '@nestjs/common';
 import { FilterQuery, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { ProductDocument } from '../schema/product.schema';
-import { ProductsDTO } from '../dto/products.dto';
+import { CategoryDocument } from '../schema/category.schema';
+import { CategoryDTO } from '../dto/category.dto';
+import { CategoriesModule } from '../categories.module';
 
 @Injectable()
-export class OrdersService {
-  constructor(@InjectModel('Product') private roleModel: Model<ProductDocument>) {}
+export class CategoriesService {
+  constructor(@InjectModel('Category') private roleModel: Model<CategoryDocument>) {}
 
-  async createRole(roleDto: ProductsDTO): Promise<ProductDocument> {
+  async createRole(roleDto: CategoryDTO): Promise<CategoryDocument> {
     const createdRole = new this.roleModel(roleDto);
     return createdRole.save();
   }
@@ -29,21 +30,15 @@ export class OrdersService {
     return { data, paginations, messenger: "succes" };
   }
 
-  async findRoleById(id: string): Promise<ProductDocument | null> {
+  async findRoleById(id: string): Promise<CategoryDocument | null> {
     return this.roleModel.findById(id).exec();
   }
 
-  async findOne(filter:any) {
-    let data =this.roleModel.find(filter)
-    console.log(data)
-    return data
-  }
-
-  async updateRole(id: string, roleDto: ProductsDTO): Promise<ProductDocument | null> {
+  async updateRole(id: string, roleDto: CategoryDTO): Promise<CategoryDocument | null> {
     return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }
 
-  async deleteRole(id: string): Promise<ProductDocument | null> {
+  async deleteRole(id: string): Promise<CategoriesModule | null> {
     return this.roleModel.findByIdAndRemove(id).exec();
   }
 }

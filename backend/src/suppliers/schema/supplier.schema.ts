@@ -12,13 +12,13 @@ export class Supplier {
     required: true,
     type: String,
   })
-  supplier_name: string;
+  name: string;
 
   @Prop({
     required: false,
-    type: String,
+    type: Object,
   })
-  address: string;
+  address: Object;
 
   @Prop({
     required: false,

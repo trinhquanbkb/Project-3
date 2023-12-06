@@ -1,21 +1,21 @@
 // roles.controller.ts
 
 import { Controller, Post, Get, Put, Delete, Param, Body, UseGuards, Query } from '@nestjs/common';
-import { OrdersService } from '../services/products.service';
-import { ProductsDTO } from '../dto/products.dto';
+import { CategoriesService } from '../services/categories.service';
+import { CategoryDTO } from '../dto/category.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { FilterQuery } from 'mongoose';
 
-@Controller('products')
-@ApiTags('Products')
+@Controller('categories')
+@ApiTags('Categories')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('authorization')
-export class OrdersController {
-  constructor(private readonly rolesService: OrdersService) {}
+export class CategoriesController {
+  constructor(private readonly rolesService: CategoriesService) {}
 
   @Post()
-  createRole(@Body() roleDto: ProductsDTO) {
+  createRole(@Body() roleDto: CategoryDTO) {
     return this.rolesService.createRole(roleDto);
   }
 
@@ -24,7 +24,8 @@ export class OrdersController {
   @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   @Get()
   findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.rolesService.findAllRoles(pagination, JSON.parse(filter?filter:"{}"));
+    const parsedFilter = JSON.parse(filter?filter:"{}");
+    return this.rolesService.findAllRoles(pagination, parsedFilter);
   }
 
   @Get(':id')
@@ -32,13 +33,8 @@ export class OrdersController {
     return this.rolesService.findRoleById(id);
   }
 
-  @Post('test')
-  findOne(@Body() filter: any) {
-    return this.rolesService.findOne({});
-  }
-
   @Put(':id')
-  updateRole(@Param('id') id: string, @Body() roleDto: ProductsDTO) {
+  updateRole(@Param('id') id: string, @Body() roleDto: CategoryDTO) {
     return this.rolesService.updateRole(id, roleDto);
   }
 

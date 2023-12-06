@@ -23,19 +23,16 @@ export class ProductItem {
   quantity: Number;
 
   @Prop({
-    required: true,
     type: Number,
   })
   price: Number;
 
   @Prop({
-    required: true,
     type: String,
   })
   warehouse_id: string;
 
   @Prop({
-    required: true,
     type: String,
   })
   supplier_id: string;

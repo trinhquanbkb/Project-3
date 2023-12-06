@@ -24,9 +24,9 @@ export class Product {
 
   @Prop({
     required: true,
-    type: Array,
+    type: Array<any>,
   })
-  category: String[];
+  category: Array<string>;
 
   @Prop({
     required: true,
@@ -38,7 +38,7 @@ export class Product {
     required: false,
     type: Array,
   })
-  products_items_item: String[];
+  products_items_item: Array<string>;
 
 }
 
