@@ -227,11 +227,12 @@ const ReceiptList = () => {
 						listReceipt
 							? listReceipt.data.map((item) => {
 									return {
-										code: "",
-										supplier: "",
-										quantity: 0,
-										weight: 0,
-										note: "",
+										id: item._id,
+										supplierId: item.supplierId,
+										quantity: item.products.length,
+										weight: item.weight,
+										note: item.note,
+										warehouseId: item?.warehouseId,
 									};
 							  })
 							: null

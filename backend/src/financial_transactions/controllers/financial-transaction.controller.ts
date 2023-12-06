@@ -1,4 +1,4 @@
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Get,
@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { FinancialTransactionService } from '../services/financial-transaction.service';
 import { CreateFinancialTransactionDto } from '../dto/create-financial-transaction.dto';
-import { UpdateFinancialTransactionDto } from '../dto/update-financial-transaction.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('financial-transaction')
@@ -22,29 +21,33 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 export class FinancialTransactionController {
   constructor(
     private readonly financialTransactionService: FinancialTransactionService,
-  ) {}
+  ) { }
 
   @Post()
-  create(@Body() createFinancialTransactionDto: CreateFinancialTransactionDto) {
+  async create(@Body() createFinancialTransactionDto: CreateFinancialTransactionDto) {    
     return this.financialTransactionService.create(
       createFinancialTransactionDto,
     );
   }
 
+  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
+  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
+  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   @Get()
-  findAll(@Query() filter: any) {
-    return this.financialTransactionService.findAll(filter);
+  findAll(@Query() pagination: any, @Query('filter') filter: string) {
+    const parsedFilter = JSON.parse(filter ? filter : "{}");
+    return this.financialTransactionService.findAll(pagination, parsedFilter);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.financialTransactionService.findOne({ _id: id });
+    return this.financialTransactionService.findOne(id);
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateFinancialTransactionDto: UpdateFinancialTransactionDto,
+    @Body() updateFinancialTransactionDto: CreateFinancialTransactionDto,
   ) {
     return this.financialTransactionService.update(
       id,
@@ -54,6 +57,6 @@ export class FinancialTransactionController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.financialTransactionService.remove(+id);
+    return this.financialTransactionService.remove(id);
   }
 }

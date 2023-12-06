@@ -2,38 +2,18 @@ import React from "react";
 import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
-import { ITableReceipt } from "../../../models/receipt.model";
+import { ITableCategory } from "../../../models/category.model";
 
 const columns = [
 	{
-		Header: "Mã PNK",
+		Header: "Mã Nhà kho",
 		accessor: "id",
 		sort: true,
 	},
 	{
-		Header: "Số lượng",
-		accessor: "quantity",
+		Header: "Tên nhà kho",
+		accessor: "name",
 		sort: true,
-	},
-	{
-		Header: "Tổng cân nặng",
-		accessor: "weight",
-		sort: false,
-	},
-	{
-		Header: "Mã đối tác",
-		accessor: "supplierId",
-		sort: true,
-	},
-	{
-		Header: "Mã nhà kho",
-		accessor: "warehouseId",
-		sort: true,
-	},
-	{
-		Header: "Ghi chú",
-		accessor: "note",
-		sort: false,
 	},
 	{
 		Header: "Hành động",
@@ -42,7 +22,7 @@ const columns = [
 	},
 ];
 
-const TableReceipt = (props: ITableReceipt) => {
+const TableCategory = (props: ITableCategory) => {
 	return (
 		<>
 			<Row>
@@ -72,8 +52,8 @@ const TableReceipt = (props: ITableReceipt) => {
 					</Card>
 				</Col>
 			</Row>
-
-			{/* {props.data == null || undefined
+									
+			{props.data == null || undefined
 				? null
 				: props.data.forEach(
 						(item: any) => (
@@ -83,36 +63,36 @@ const TableReceipt = (props: ITableReceipt) => {
 										type="button"
 										className="btn btn-create-order"
 										onClick={() => {
-											props.handleViewUser(item.id);
+											props.handleViewCategory(item.id);
 										}}
 									>
 										<i className="uil uil-eye"></i>
 										<span className="title">
-											Xem nhân sự
+											Xem
 										</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-edit-tracking"
 										onClick={() => {
-											props.handleEditUser(item.id);
+											props.handleEditCategory(item.id);
 										}}
 									>
 										<i className="uil uil-edit-alt"></i>
 										<span className="title">
-											Sửa nhân sự
+											Sửa
 										</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-delete-tracking"
 										onClick={() => {
-											props.handleDeleteUser(item.id);
+											props.handleDeleteCategory(item.id);
 										}}
 									>
 										<i className="uil uil-times"></i>
 										<span className="title">
-											Xóa nhân sự
+											Xóa
 										</span>
 									</button>
 								</div>
@@ -121,9 +101,9 @@ const TableReceipt = (props: ITableReceipt) => {
 								<p className="fw-bold">{item.code}</p>
 							))
 						)
-				  )} */}
+				  )}
 		</>
 	);
 };
 
-export default TableReceipt;
+export default TableCategory;

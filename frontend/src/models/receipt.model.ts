@@ -1,10 +1,35 @@
 import { IPagination } from "./pagination.model";
 
-export interface IReceipt {}
+export interface IReceipt {
+	_id: string;
+	supplierId: string;
+	weight: number;
+	note: string;
+	products: Array<any>
+	warehouseId: string;
+}
 
 export interface IReceiptQuery {
 	page: number;
 	pageSize: number;
+}
+
+export interface IUpdateReceipt {
+	supplierId: string;
+	weight: number;
+	note: string;
+	products: Array<any>;
+	status: string
+	warehouseId: string;
+}
+
+export interface ICreateReceipt {
+	supplierId: string;
+	weight: number;
+	note: string;
+	products: Array<any>;
+	status: string;
+	warehouseId: string;
 }
 
 export interface ITableReceipt {
@@ -14,12 +39,13 @@ export interface ITableReceipt {
 	handleEditReceipt: any;
 	handleDeleteReceipt: any;
 	data:
-		| {
-				code: string;
-				supplier: string;
-				quantity: number;
-				weight: number;
-				note: string;
-		  }[]
-		| null;
+	| {
+		id: string;
+		supplierId: string;
+		quantity: number;
+		weight: number;
+		note: string;
+		warehouseId: string;
+	}[]
+	| null;
 }
