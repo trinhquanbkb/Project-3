@@ -17,26 +17,26 @@ const swagger_1 = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const financial_transaction_service_1 = require("../services/financial-transaction.service");
 const create_financial_transaction_dto_1 = require("../dto/create-financial-transaction.dto");
-const update_financial_transaction_dto_1 = require("../dto/update-financial-transaction.dto");
 const jwt_guard_1 = require("../../auth/guards/jwt.guard");
 let FinancialTransactionController = class FinancialTransactionController {
     constructor(financialTransactionService) {
         this.financialTransactionService = financialTransactionService;
     }
-    create(createFinancialTransactionDto) {
+    async create(createFinancialTransactionDto) {
         return this.financialTransactionService.create(createFinancialTransactionDto);
     }
-    findAll(filter) {
-        return this.financialTransactionService.findAll(filter);
+    findAll(pagination, filter) {
+        const parsedFilter = JSON.parse(filter ? filter : "{}");
+        return this.financialTransactionService.findAll(pagination, parsedFilter);
     }
     findOne(id) {
-        return this.financialTransactionService.findOne({ _id: id });
+        return this.financialTransactionService.findOne(id);
     }
     update(id, updateFinancialTransactionDto) {
         return this.financialTransactionService.update(id, updateFinancialTransactionDto);
     }
     remove(id) {
-        return this.financialTransactionService.remove(+id);
+        return this.financialTransactionService.remove(id);
     }
 };
 __decorate([
@@ -44,13 +44,17 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_financial_transaction_dto_1.CreateFinancialTransactionDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FinancialTransactionController.prototype, "create", null);
 __decorate([
+    (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
+    (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),
+    (0, swagger_1.ApiQuery)({ name: 'filter', type: String, required: false, description: 'Filter' }),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Query)('filter')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], FinancialTransactionController.prototype, "findAll", null);
 __decorate([
@@ -65,7 +69,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_financial_transaction_dto_1.UpdateFinancialTransactionDto]),
+    __metadata("design:paramtypes", [String, create_financial_transaction_dto_1.CreateFinancialTransactionDto]),
     __metadata("design:returntype", void 0)
 ], FinancialTransactionController.prototype, "update", null);
 __decorate([

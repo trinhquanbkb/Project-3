@@ -16,53 +16,53 @@ let FinancialTransaction = class FinancialTransaction {
 };
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
+        require: true,
         type: String,
     }),
     __metadata("design:type", String)
-], FinancialTransaction.prototype, "transaction_name", void 0);
+], FinancialTransaction.prototype, "id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
-        type: String,
+        require: true,
+        type: Number,
+    }),
+    __metadata("design:type", Number)
+], FinancialTransaction.prototype, "weight", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        require: true,
+        type: String
     }),
     __metadata("design:type", String)
-], FinancialTransaction.prototype, "product_id", void 0);
+], FinancialTransaction.prototype, "supplierId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
-        type: Number,
-    }),
-    __metadata("design:type", Number)
-], FinancialTransaction.prototype, "quantity", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-        type: Number,
-    }),
-    __metadata("design:type", Number)
-], FinancialTransaction.prototype, "unit_price", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-        type: Number,
-    }),
-    __metadata("design:type", Number)
-], FinancialTransaction.prototype, "total_amount", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-        type: String,
+        require: true,
+        type: String
     }),
     __metadata("design:type", String)
-], FinancialTransaction.prototype, "type", void 0);
+], FinancialTransaction.prototype, "warehouseId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
-        type: String,
+        require: true,
+        type: String
+    }),
+    __metadata("design:type", String)
+], FinancialTransaction.prototype, "note", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        require: true,
+        type: String
     }),
     __metadata("design:type", String)
 ], FinancialTransaction.prototype, "status", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        require: true,
+        type: (Array)
+    }),
+    __metadata("design:type", Array)
+], FinancialTransaction.prototype, "products", void 0);
 FinancialTransaction = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true

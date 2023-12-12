@@ -6,19 +6,16 @@ import { ITableCategory } from "../../../models/category.model";
 
 const columns = [
 	{
-		Header: "Mã Nhà kho",
+		Header: "Mã danh mục",
 		accessor: "id",
-		sort: true,
 	},
 	{
-		Header: "Tên nhà kho",
+		Header: "Tên danh mục",
 		accessor: "name",
-		sort: true,
 	},
 	{
 		Header: "Hành động",
 		accessor: "action",
-		sort: false,
 	},
 ];
 
@@ -52,7 +49,6 @@ const TableCategory = (props: ITableCategory) => {
 					</Card>
 				</Col>
 			</Row>
-									
 			{props.data == null || undefined
 				? null
 				: props.data.forEach(
@@ -67,9 +63,7 @@ const TableCategory = (props: ITableCategory) => {
 										}}
 									>
 										<i className="uil uil-eye"></i>
-										<span className="title">
-											Xem
-										</span>
+										<span className="title">Xem</span>
 									</button>
 									<button
 										type="button"
@@ -79,9 +73,7 @@ const TableCategory = (props: ITableCategory) => {
 										}}
 									>
 										<i className="uil uil-edit-alt"></i>
-										<span className="title">
-											Sửa
-										</span>
+										<span className="title">Sửa</span>
 									</button>
 									<button
 										type="button"
@@ -91,9 +83,7 @@ const TableCategory = (props: ITableCategory) => {
 										}}
 									>
 										<i className="uil uil-times"></i>
-										<span className="title">
-											Xóa
-										</span>
+										<span className="title">Xóa</span>
 									</button>
 								</div>
 							)),

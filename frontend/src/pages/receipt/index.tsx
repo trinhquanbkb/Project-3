@@ -5,15 +5,15 @@ import queryString from "query-string";
 //dummy data
 import { useLocation } from "react-router-dom";
 import Loading from "../../components/Loading";
-import ViewEmployee from "./component/ViewEmployee";
 import NotFoundTable from "../../components/NotFoundTable";
-import EditEmployee from "./component/EditEmployee";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
-import CreateEmployee from "./component/CreateEmployee";
 import { IReceiptQuery } from "../../models/receipt.model";
 import { useGetReceiptListQuery } from "../../api/receiptApi";
 import TableReceipt from "./component/TableReceipt";
+import EditReceipt from "./component/EditReceipt";
+import CreateReceipt from "./component/CreateReceipt";
+import ViewReceipt from "./component/ViewReceipt";
 
 const listBreadCrumb = [
 	{
@@ -243,7 +243,7 @@ const ReceiptList = () => {
 			)}
 
 			{viewModal && (
-				<ViewEmployee
+				<ViewReceipt
 					isClass={"active"}
 					id={idUser}
 					handleClose={handleClosePopup}
@@ -251,7 +251,7 @@ const ReceiptList = () => {
 			)}
 
 			{editModal && (
-				<EditEmployee
+				<EditReceipt
 					isClass={"active"}
 					id={idUser}
 					handleClose={handleClosePopup}
@@ -268,7 +268,7 @@ const ReceiptList = () => {
 			)}
 
 			{createModal && (
-				<CreateEmployee
+				<CreateReceipt
 					isClass={"active"}
 					handleClose={handleClosePopup}
 				/>

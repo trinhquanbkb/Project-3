@@ -10,26 +10,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateSupplierDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateSupplierDto {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: "Trung quoc 1" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateSupplierDto.prototype, "supplier_name", void 0);
+], CreateSupplierDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
+    (0, swagger_1.ApiProperty)({
+        example: {
+            "district": "Huyện Mèo Vạc",
+            "wards": "Xã Pải Lủng",
+            "city": "Tỉnh Hà Giang",
+            "address": "123 Đường"
+        }
+    }),
+    __metadata("design:type", Object)
 ], CreateSupplierDto.prototype, "address", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
+    (0, swagger_1.ApiProperty)({ example: 4465465465 }),
+    __metadata("design:type", Number)
 ], CreateSupplierDto.prototype, "phone", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: "Test@gmail.com" }),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateSupplierDto.prototype, "email", void 0);
 exports.CreateSupplierDto = CreateSupplierDto;

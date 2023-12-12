@@ -11,43 +11,48 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateFinancialTransactionDto = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class CreateFinancialTransactionDto {
 }
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 20 }),
     (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateFinancialTransactionDto.prototype, "transaction_name", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateFinancialTransactionDto.prototype, "product_id", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateFinancialTransactionDto.prototype, "phone", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateFinancialTransactionDto.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateFinancialTransactionDto.prototype, "quantity", void 0);
+], CreateFinancialTransactionDto.prototype, "weight", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], CreateFinancialTransactionDto.prototype, "unit_price", void 0);
-__decorate([
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], CreateFinancialTransactionDto.prototype, "total_amount", void 0);
-__decorate([
+    (0, swagger_1.ApiProperty)({ example: "jsfh" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateFinancialTransactionDto.prototype, "type", void 0);
+], CreateFinancialTransactionDto.prototype, "supplierId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: "jsfh" }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateFinancialTransactionDto.prototype, "note", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: "Thành công" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateFinancialTransactionDto.prototype, "status", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: "jsfh" }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateFinancialTransactionDto.prototype, "warehouseId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: [{
+                name: "Áo phông",
+                quantity: 20,
+                price: 10,
+                total: 200,
+                productItemId: "",
+                weight: 30,
+                category: ""
+            }]
+    }),
+    (0, class_validator_1.IsArray)(),
+    __metadata("design:type", Array)
+], CreateFinancialTransactionDto.prototype, "products", void 0);
 exports.CreateFinancialTransactionDto = CreateFinancialTransactionDto;
 //# sourceMappingURL=create-financial-transaction.dto.js.map

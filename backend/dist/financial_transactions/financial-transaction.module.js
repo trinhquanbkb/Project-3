@@ -12,15 +12,17 @@ const mongoose_1 = require("@nestjs/mongoose");
 const financial_transaction_schema_1 = require("./schema/financial-transaction.schema");
 const financial_transaction_controller_1 = require("./controllers/financial-transaction.controller");
 const financial_transaction_service_1 = require("./services/financial-transaction.service");
-const financial_transaction_repository_1 = require("./repository/financial-transaction.repository");
+const product_schema_1 = require("../products/schema/product.schema");
+const product_schema_2 = require("../product_items/schema/product.schema");
 let FinancialTransactionModule = class FinancialTransactionModule {
 };
 FinancialTransactionModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: financial_transaction_schema_1.FinancialTransaction.name, schema: financial_transaction_schema_1.FinancialTransactionSchema }]),
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: financial_transaction_schema_1.FinancialTransaction.name, schema: financial_transaction_schema_1.FinancialTransactionSchema }, { name: product_schema_1.Product.name, schema: product_schema_1.ProductSchema },
+                { name: product_schema_2.ProductItem.name, schema: product_schema_2.ProductItemSchema },]),
         ],
         controllers: [financial_transaction_controller_1.FinancialTransactionController],
-        providers: [financial_transaction_service_1.FinancialTransactionService, financial_transaction_repository_1.FinancialTransactionRepository],
+        providers: [financial_transaction_service_1.FinancialTransactionService],
     })
 ], FinancialTransactionModule);
 exports.FinancialTransactionModule = FinancialTransactionModule;

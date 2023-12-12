@@ -23,7 +23,7 @@ const ViewCategory = ({
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Thông tin nhà kho</h2>
+						<h2>Thông tin danh mục sản phẩm</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 
@@ -43,7 +43,9 @@ const ViewCategory = ({
 													<Form.Control
 														type="text"
 														name="code"
-														value={CategoryDetail?._id}
+														value={
+															CategoryDetail?._id
+														}
 														disabled
 													/>
 												</Form.Group>

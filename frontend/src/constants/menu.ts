@@ -69,9 +69,9 @@ const MENU_ITEMS: MenuItemTypes[] = [
 				parentKey: "setting",
 			},
 			{
-				key: "setting-product",
+				key: "setting-category",
 				label: "Danh mục sản phẩm",
-				url: "/setting/product",
+				url: "/setting/category",
 				parentKey: "setting",
 			},
 			{

@@ -2,7 +2,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Loading from "../../../components/Loading";
 import { useGetUserDetailQuery } from "../../../api/userApi";
 
-const ViewEmployee = ({
+const ViewReceipt = ({
 	id,
 	handleClose,
 	isClass,
@@ -118,4 +118,4 @@ const ViewEmployee = ({
 	);
 };
 
-export default ViewEmployee;
+export default ViewReceipt;

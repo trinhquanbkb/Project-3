@@ -8,12 +8,10 @@ const columns = [
 	{
 		Header: "Mã PNK",
 		accessor: "id",
-		sort: true,
 	},
 	{
 		Header: "Số lượng",
 		accessor: "quantity",
-		sort: true,
 	},
 	{
 		Header: "Tổng cân nặng",
@@ -23,12 +21,10 @@ const columns = [
 	{
 		Header: "Mã đối tác",
 		accessor: "supplierId",
-		sort: true,
 	},
 	{
 		Header: "Mã nhà kho",
 		accessor: "warehouseId",
-		sort: true,
 	},
 	{
 		Header: "Ghi chú",
