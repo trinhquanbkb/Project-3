@@ -9,7 +9,7 @@ import {
 	useUpdateUserMutation,
 } from "../../../api/userApi";
 
-const EditEmployee = ({
+const EditReceipt = ({
 	id,
 	handleClose,
 	isClass,
@@ -225,4 +225,4 @@ const EditEmployee = ({
 	);
 };
 
-export default EditEmployee;
+export default EditReceipt;

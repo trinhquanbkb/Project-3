@@ -2,54 +2,24 @@ import React from "react";
 import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
-import { ITableReceipt } from "../../../models/receipt.model";
+import { ITableCategory } from "../../../models/category.model";
 
 const columns = [
 	{
-		Header: "Mã PNK",
-<<<<<<< Updated upstream
-		accessor: "code",
-		sort: true,
-=======
+		Header: "Mã danh mục",
 		accessor: "id",
->>>>>>> Stashed changes
 	},
 	{
-		Header: "Số lượng",
-		accessor: "quantity",
-	},
-	{
-		Header: "Tổng cân nặng",
-		accessor: "weight",
-		sort: false,
-	},
-	{
-<<<<<<< Updated upstream
-		Header: "Đối tác",
-		accessor: "supplier",
-		sort: true,
-=======
-		Header: "Mã đối tác",
-		accessor: "supplierId",
-	},
-	{
-		Header: "Mã nhà kho",
-		accessor: "warehouseId",
->>>>>>> Stashed changes
-	},
-	{
-		Header: "Ghi chú",
-		accessor: "note",
-		sort: false,
+		Header: "Tên danh mục",
+		accessor: "name",
 	},
 	{
 		Header: "Hành động",
 		accessor: "action",
-		sort: false,
 	},
 ];
 
-const TableReceipt = (props: ITableReceipt) => {
+const TableCategory = (props: ITableCategory) => {
 	return (
 		<>
 			<Row>
@@ -80,7 +50,7 @@ const TableReceipt = (props: ITableReceipt) => {
 				</Col>
 			</Row>
 
-			{/* {props.data == null || undefined
+			{props.data == null || undefined
 				? null
 				: props.data.forEach(
 						(item: any) => (
@@ -90,37 +60,31 @@ const TableReceipt = (props: ITableReceipt) => {
 										type="button"
 										className="btn btn-create-order"
 										onClick={() => {
-											props.handleViewUser(item.id);
+											props.handleViewCategory(item.id);
 										}}
 									>
 										<i className="uil uil-eye"></i>
-										<span className="title">
-											Xem nhân sự
-										</span>
+										<span className="title">Xem</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-edit-tracking"
 										onClick={() => {
-											props.handleEditUser(item.id);
+											props.handleEditCategory(item.id);
 										}}
 									>
 										<i className="uil uil-edit-alt"></i>
-										<span className="title">
-											Sửa nhân sự
-										</span>
+										<span className="title">Sửa</span>
 									</button>
 									<button
 										type="button"
 										className="btn btn-delete-tracking"
 										onClick={() => {
-											props.handleDeleteUser(item.id);
+											props.handleDeleteCategory(item.id);
 										}}
 									>
 										<i className="uil uil-times"></i>
-										<span className="title">
-											Xóa nhân sự
-										</span>
+										<span className="title">Xóa</span>
 									</button>
 								</div>
 							)),
@@ -128,9 +92,9 @@ const TableReceipt = (props: ITableReceipt) => {
 								<p className="fw-bold">{item.code}</p>
 							))
 						)
-				  )} */}
+				  )}
 		</>
 	);
 };
 
-export default TableReceipt;
+export default TableCategory;

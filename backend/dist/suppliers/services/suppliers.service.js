@@ -45,7 +45,7 @@ let SuppliersService = class SuppliersService {
         return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
     }
     async deleteRole(id) {
-        return this.roleModel.findByIdAndRemove(id).exec();
+        return this.roleModel.findByIdAndDelete(id).exec();
     }
 };
 SuppliersService = __decorate([
