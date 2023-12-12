@@ -19,13 +19,8 @@ const AnalyticsDashboard = React.lazy(
 );
 
 // setting
-<<<<<<< Updated upstream
 const SettingWarehouse = React.lazy(() => import("../pages/setting/Warehouse"));
-const SettingProduct = React.lazy(() => import("../pages/setting/Product"));
-=======
-const WarehouseList = React.lazy(() => import("../pages/setting/Warehouse"));
 const SettingCategory = React.lazy(() => import("../pages/setting/Category"));
->>>>>>> Stashed changes
 const SettingRole = React.lazy(() => import("../pages/setting/Role"));
 const SettingSupplier = React.lazy(() => import("../pages/setting/Supplier"));
 

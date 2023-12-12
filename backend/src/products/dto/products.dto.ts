@@ -20,5 +20,5 @@ export class ProductsDTO {
 
   @ApiProperty({ example: [], description: 'Mảng id sản phẩm string' })
   @IsArray()
-  products_items_item: [];
+  products_items_item: String[];
 }

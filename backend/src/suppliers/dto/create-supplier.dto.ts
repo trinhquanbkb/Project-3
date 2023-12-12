@@ -1,18 +1,25 @@
-import { IsString, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 export class CreateSupplierDto {
+  @ApiProperty({ example: "Trung quoc 1" })
   @IsString()
-  supplier_name: string;
+  name: string;
 
-  @IsString()
-  @IsOptional()
-  address?: string;
+  @ApiProperty({
+    example: {
+      "district": "Huyện Mèo Vạc",
+      "wards": "Xã Pải Lủng",
+      "city": "Tỉnh Hà Giang",
+      "address": "123 Đường"
+    }
+  })
+  address?: Object;
 
-  @IsString()
-  @IsOptional()
-  phone?: string;
+  @ApiProperty({ example: 4465465465 })
+  phone?: number;
 
+  @ApiProperty({ example: "Test@gmail.com" })
   @IsString()
-  @IsOptional()
   email?: string;
 }

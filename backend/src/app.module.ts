@@ -8,6 +8,11 @@ import { RolesModule } from './roles/roles.module';
 import { PermisstionsModule } from './permissions/permisstions.module';
 import { WarehousesModule } from './warehouse/warehouses.module';
 import { FinancialTransactionModule } from './financial_transactions/financial-transaction.module';
+import { ProductsModule } from './products/products.module';
+import { ProductItemsModule } from './product_items/products.module';
+import { CategoriesModule } from './categories/categories.module';
+import { OrdersModule } from './orders/orders.module';
+import { SuppliersModule } from './suppliers/suppliers.module';
 
 @Module({
   imports: [
@@ -20,6 +25,12 @@ import { FinancialTransactionModule } from './financial_transactions/financial-t
     PermisstionsModule,
     WarehousesModule,
     FinancialTransactionModule,
+    ProductsModule,
+    ProductItemsModule,
+    CategoriesModule,
+    OrdersModule,
+    PermisstionsModule,
+    SuppliersModule
   ],
 })
 export class AppModule {}

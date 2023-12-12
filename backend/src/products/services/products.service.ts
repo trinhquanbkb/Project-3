@@ -33,6 +33,12 @@ export class OrdersService {
     return this.roleModel.findById(id).exec();
   }
 
+  async findOne(filter:any) {
+    let data =this.roleModel.find(filter)
+    console.log(data)
+    return data
+  }
+
   async updateRole(id: string, roleDto: ProductsDTO): Promise<ProductDocument | null> {
     return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }

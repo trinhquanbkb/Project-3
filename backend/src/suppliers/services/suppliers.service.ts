@@ -38,6 +38,6 @@ export class SuppliersService {
   }
 
   async deleteRole(id: string): Promise<SupplierDocument | null> {
-    return this.roleModel.findByIdAndRemove(id).exec();
+    return this.roleModel.findByIdAndDelete(id).exec();
   }
 }

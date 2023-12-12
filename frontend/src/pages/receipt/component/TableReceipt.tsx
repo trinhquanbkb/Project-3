@@ -7,12 +7,7 @@ import { ITableReceipt } from "../../../models/receipt.model";
 const columns = [
 	{
 		Header: "Mã PNK",
-<<<<<<< Updated upstream
-		accessor: "code",
-		sort: true,
-=======
 		accessor: "id",
->>>>>>> Stashed changes
 	},
 	{
 		Header: "Số lượng",
@@ -24,18 +19,12 @@ const columns = [
 		sort: false,
 	},
 	{
-<<<<<<< Updated upstream
-		Header: "Đối tác",
-		accessor: "supplier",
-		sort: true,
-=======
 		Header: "Mã đối tác",
 		accessor: "supplierId",
 	},
 	{
 		Header: "Mã nhà kho",
 		accessor: "warehouseId",
->>>>>>> Stashed changes
 	},
 	{
 		Header: "Ghi chú",

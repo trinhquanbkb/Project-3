@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream:frontend/src/pages/setting/Product.tsx
-import React from "react";
-=======
 import { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import queryString from "query-string";
@@ -33,7 +30,7 @@ const listBreadCrumb = [
 	},
 ];
 
-const CategoryList = () => {
+const Category = () => {
 	const [idCategory, setIdCategory] = useState("");
 	const [keywordCategoryName, setKeywordCategoryName] = useState("");
 	const [viewModal, setViewModal] = useState(false);
@@ -127,15 +124,8 @@ const CategoryList = () => {
 			toast.error("Xóa danh mục thất bại");
 		}
 	};
->>>>>>> Stashed changes:frontend/src/pages/setting/Category.tsx
 
-export default function Product() {
 	return (
-<<<<<<< Updated upstream:frontend/src/pages/setting/Product.tsx
-		<div>
-
-		</div>
-=======
 		<>
 			<Row>
 				<Col xs={12}>
@@ -288,6 +278,7 @@ export default function Product() {
 				/>
 			)}
 		</>
->>>>>>> Stashed changes:frontend/src/pages/setting/Category.tsx
 	);
-}
+};
+
+export default Category;

@@ -24,12 +24,17 @@ export class OrdersController {
   @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   @Get()
   findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.rolesService.findAllRoles(pagination, JSON.parse(filter));
+    return this.rolesService.findAllRoles(pagination, JSON.parse(filter?filter:"{}"));
   }
 
   @Get(':id')
   findRoleById(@Param('id') id: string) {
     return this.rolesService.findRoleById(id);
+  }
+
+  @Post('test')
+  findOne(@Body() filter: any) {
+    return this.rolesService.findOne({});
   }
 
   @Put(':id')

@@ -5,7 +5,7 @@ import queryString from "query-string";
 
 import TableWarehouse from "./component/TableWarehouse";
 import { useDeleteWarehouseMutation, useGetWarehouseListQuery } from "../../api/warehouseApi";
-import { IWarehouseQuery, IAddress } from "../../models/warehouse.model";
+import { IWarehouseQuery } from "../../models/warehouse.model";
 import Loading from "../../components/Loading";
 import ViewWarehouse from "./component/ViewWarehouse";
 import NotFoundTable from "../../components/NotFoundTable";
@@ -13,7 +13,6 @@ import EditWarehouse from "./component/EditWarehouse";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import CreateWarehouse from "./component/CreateWarehouse";
-import SelectRole from "../../components/Input/SelectRole";
 
 
 const listBreadCrumb = [
@@ -32,7 +31,7 @@ const listBreadCrumb = [
 
 
 const WarehouseList = () => {
-	// const location = useLocation();
+	const location = useLocation();
 	const [idWarehouse, setIdWarehouse] = useState("");
 	const [keywordWarehouseName, setKeywordWarehouseName] = useState("");
 	const [viewModal, setViewModal] = useState(false);
@@ -42,49 +41,38 @@ const WarehouseList = () => {
 	const [search, setSearch] = useState<IWarehouseQuery>({
 		page: 1,
 		pageSize: 10,
-		name: "",
-		address: {
-			district: "",
-			wards: "",
-			city: "",
-			address: "",
-		}
+		filter: {}
 	});
-
 	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({ ...search });
 
 	const [deleteWarehouseApi] = useDeleteWarehouseMutation();
 
-	// useEffect(() => {
-	// 	const query = location.search;
-	// 	const parsed = queryString.parse(query);
-	// 	const page = parsed.page ? Number(parsed.page) : 1;
-	// 	const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
-	// 	const name = parsed.name ? parsed.name.toString() : "";
-	// 	// const address = parsed.address ? parsed.address : "";
+	useEffect(() => {
 
-	// 	setSearch({
-	// 		...search,
-	// 		page,
-	// 		pageSize,
-	// 		name,
-	// 	});
+		const query = location.search;
+		const parsed = queryString.parse(query);
+		
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const filter = parsed.filter ? parsed.filter : {};
 
-	// 	if (name) {
-	// 		setKeywordWarehouseName(name);
-	// 	}
-	// }, []);
+		setSearch({
+			...search,
+			page,
+			pageSize,
+			filter: filter,
+		});
+	}, []);
 
 	// xử lý việc url thay đổi khi có filter
-	useEffect(() => {
+	useEffect(() => {		
 		const query = queryString.stringifyUrl(
 			{
-				url: "/warehouses",
+				url: "warehouse",
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
-					name: search.name,
-
+					filter: JSON.stringify(search.filter),
 				},
 			},
 			{
@@ -121,11 +109,21 @@ const WarehouseList = () => {
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
-			setSearch({
-				...search,
-				name: keywordWarehouseName.trim(),
-
-			});
+			if (keywordWarehouseName.trim() === ""){
+				setSearch({
+					...search,
+					filter: {
+						
+					}
+				});
+			}else {
+				setSearch({
+					...search,
+					filter: {
+						name: keywordWarehouseName.trim(),
+					}
+				});
+			}
 		}
 	};
 
@@ -234,11 +232,21 @@ const WarehouseList = () => {
 													type="submit"
 													className="btn-search"
 													onClick={() => {
-														setSearch({
-															...search,
-															name:
-																keywordWarehouseName.trim(),
-														});
+														if (keywordWarehouseName.trim() === ""){
+															setSearch({
+																...search,
+																filter: {
+																	
+																}
+															});
+														}else {
+															setSearch({
+																...search,
+																filter: {
+																	name: keywordWarehouseName.trim(),
+																}
+															});
+														}
 													}}
 												></Button>
 											</Form.Group>
@@ -263,12 +271,12 @@ const WarehouseList = () => {
 					data={
 						listWarehouse
 							? listWarehouse.data.map((item) => {
-									return {
-										id: item._id,
-										name: item.name,
-										address: item.address
-									};
-							  })
+								return {
+									id: item._id,
+									name: item.name,
+									address: item.address
+								};
+							})
 							: null
 					}
 				/>

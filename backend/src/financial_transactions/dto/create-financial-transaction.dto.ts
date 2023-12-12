@@ -1,31 +1,40 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsArray } from 'class-validator';
+import { ProductType } from '../schema/financial-transaction.schema';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateFinancialTransactionDto {
+  @ApiProperty({ example: 20 })
   @IsString()
-  transaction_name: string;
+  weight: number;
 
+  @ApiProperty({ example: "jsfh" })
   @IsString()
-  product_id: string;
+  supplierId: string;
 
+  @ApiProperty({ example: "jsfh" })
   @IsString()
-  phone: string;
+  note: string;
 
+  @ApiProperty({ example: "Thành công" })
   @IsString()
-  email: string;
+  status: string;
 
-  @IsNumber()
-  quantity: Number;
-
-  @IsNumber()
-  unit_price: Number;
-
-  @IsNumber()
-  total_amount: Number;
-
+  @ApiProperty({ example: "jsfh" })
   @IsString()
-  type: String;
+  warehouseId: string;
 
-  @IsString()
-  status: String;
+  @ApiProperty({
+    example: [{
+      name: "Áo phông",
+      quantity: 20,
+      price: 10,
+      total: 200,
+      productItemId: "",
+      weight: 30,
+      category: ""
+    }]
+  })
+  @IsArray()
+  products: ProductType[];
 
 }

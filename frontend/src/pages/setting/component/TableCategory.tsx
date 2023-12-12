@@ -49,7 +49,6 @@ const TableCategory = (props: ITableCategory) => {
 					</Card>
 				</Col>
 			</Row>
-
 			{props.data == null || undefined
 				? null
 				: props.data.forEach(
