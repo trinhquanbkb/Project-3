@@ -9,14 +9,19 @@ import * as path from 'path';
 export class ImagesController {
     @Get(':filename')
     async getImage(@Param('filename') filename: string, @Res() res: Response) {
+      // Kiểm tra xem tên file có chứa ../ hay không
+      if (filename.includes('..')) {
+        throw new Error('Tên file không hợp lệ');
+      }
+
       const filePath = path.join(__dirname, '..', 'uploads', filename);
-  
+      
       try {
         const exists = await fs.pathExists(filePath);
         if (!exists) {
           throw new Error('Không tìm thấy ảnh');
-        }
-  
+        }        
+
         res.sendFile(filePath);
       } catch (error) {
         // Xử lý lỗi
