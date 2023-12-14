@@ -1,18 +1,27 @@
-<<<<<<< HEAD
-import { FilterQuery } from 'mongoose';
-import { CreateFinancialTransactionDto } from '../dto/create-financial-transaction.dto';
-import { UpdateFinancialTransactionDto } from '../dto/update-financial-transaction.dto';
-import { FinancialTransactionRepository } from '../repository/financial-transaction.repository';
-export declare class FinancialTransactionService {
-    private readonly financialTransactionRepository;
-    constructor(financialTransactionRepository: FinancialTransactionRepository);
-    create(createFinancialTransactionDto: CreateFinancialTransactionDto): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    findAll(): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument[]>;
-    findOne(filter: FilterQuery<any>): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    update(id: string, updateFinancialTransactionDto: UpdateFinancialTransactionDto): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    remove(id: number): string;
-}
-=======
+/// <reference types="mongoose/types/aggregate" />
+/// <reference types="mongoose/types/callback" />
+/// <reference types="mongoose/types/collection" />
+/// <reference types="mongoose/types/connection" />
+/// <reference types="mongoose/types/cursor" />
+/// <reference types="mongoose/types/document" />
+/// <reference types="mongoose/types/error" />
+/// <reference types="mongoose/types/expressions" />
+/// <reference types="mongoose/types/helpers" />
+/// <reference types="mongoose/types/middlewares" />
+/// <reference types="mongoose/types/indexes" />
+/// <reference types="mongoose/types/models" />
+/// <reference types="mongoose/types/mongooseoptions" />
+/// <reference types="mongoose/types/pipelinestage" />
+/// <reference types="mongoose/types/populate" />
+/// <reference types="mongoose/types/query" />
+/// <reference types="mongoose/types/schemaoptions" />
+/// <reference types="mongoose/types/schematypes" />
+/// <reference types="mongoose/types/session" />
+/// <reference types="mongoose/types/types" />
+/// <reference types="mongoose/types/utility" />
+/// <reference types="mongoose/types/validation" />
+/// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
 import { FinancialTransactionsDocument } from '../schema/financial-transaction.schema';
 import { CreateFinancialTransactionDto } from '../dto/create-financial-transaction.dto';
@@ -40,4 +49,3 @@ export declare class FinancialTransactionService {
     update(id: string, roleDto: CreateFinancialTransactionDto): Promise<FinancialTransactionsDocument | null>;
     remove(id: string): Promise<FinancialTransactionsDocument | null>;
 }
->>>>>>> master

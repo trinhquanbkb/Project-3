@@ -1,6 +1,34 @@
+/// <reference types="mongoose/types/aggregate" />
+/// <reference types="mongoose/types/callback" />
+/// <reference types="mongoose/types/collection" />
+/// <reference types="mongoose/types/connection" />
+/// <reference types="mongoose/types/cursor" />
+/// <reference types="mongoose/types/document" />
+/// <reference types="mongoose/types/error" />
+/// <reference types="mongoose/types/expressions" />
+/// <reference types="mongoose/types/helpers" />
+/// <reference types="mongoose/types/middlewares" />
+/// <reference types="mongoose/types/indexes" />
+/// <reference types="mongoose/types/models" />
+/// <reference types="mongoose/types/mongooseoptions" />
+/// <reference types="mongoose/types/pipelinestage" />
+/// <reference types="mongoose/types/populate" />
+/// <reference types="mongoose/types/query" />
+/// <reference types="mongoose/types/schemaoptions" />
+/// <reference types="mongoose/types/schematypes" />
+/// <reference types="mongoose/types/session" />
+/// <reference types="mongoose/types/types" />
+/// <reference types="mongoose/types/utility" />
+/// <reference types="mongoose/types/validation" />
+/// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose/types/inferschematype" />
 import { Document } from 'mongoose';
 export type categoryDocument = category & Document;
 export declare class category {
     category_name: string;
 }
-export declare const categorySchema: import("mongoose").Schema<Document<category, any, any>, import("mongoose").Model<any, any, any>, undefined, any>;
+export declare const categorySchema: import("mongoose").Schema<category, import("mongoose").Model<category, any, any, any, Document<unknown, any, category> & category & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, category, Document<unknown, {}, import("mongoose").FlatRecord<category>> & import("mongoose").FlatRecord<category> & {
+    _id: import("mongoose").Types.ObjectId;
+}>;

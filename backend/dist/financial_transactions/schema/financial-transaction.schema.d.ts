@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import { Document } from 'mongoose';
-export type FinancialTransactionsDocument = FinancialTransaction & Document;
-export declare class FinancialTransaction {
-    transaction_name: string;
-    product_id: string;
-    quantity: Number;
-    unit_price: Number;
-    total_amount: Number;
-    type: String;
-    status: String;
-}
-export declare const FinancialTransactionSchema: import("mongoose").Schema<Document<FinancialTransaction, any, any>, import("mongoose").Model<any, any, any>, undefined, any>;
-=======
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />
@@ -61,4 +47,3 @@ export declare const FinancialTransactionSchema: import("mongoose").Schema<Finan
 }, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, FinancialTransaction, Document<unknown, {}, import("mongoose").FlatRecord<FinancialTransaction>> & import("mongoose").FlatRecord<FinancialTransaction> & {
     _id: import("mongoose").Types.ObjectId;
 }>;
->>>>>>> master

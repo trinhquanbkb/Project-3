@@ -1,17 +1,28 @@
-<<<<<<< HEAD
-import { SuppliersService } from '../services/suppliers.service';
-import { CreateSupplierDto } from '../dto/create-supplier.dto';
-import { UpdateSupplierDto } from '../dto/update-supplier.dto';
-export declare class SuppliersController {
-    private readonly suppliersService;
-    constructor(suppliersService: SuppliersService);
-    create(createSupplierDto: CreateSupplierDto): Promise<import("../schema/supplier.schema").SupplierDocument>;
-    findAll(): Promise<import("../schema/supplier.schema").SupplierDocument[]>;
-    findOne(id: string): Promise<import("../schema/supplier.schema").SupplierDocument>;
-    update(id: string, updateSupplierDto: UpdateSupplierDto): Promise<import("../schema/supplier.schema").SupplierDocument>;
-    remove(id: string): string;
-}
-=======
+/// <reference types="mongoose/types/aggregate" />
+/// <reference types="mongoose/types/callback" />
+/// <reference types="mongoose/types/collection" />
+/// <reference types="mongoose/types/connection" />
+/// <reference types="mongoose/types/cursor" />
+/// <reference types="mongoose/types/document" />
+/// <reference types="mongoose/types/error" />
+/// <reference types="mongoose/types/expressions" />
+/// <reference types="mongoose/types/helpers" />
+/// <reference types="mongoose/types/middlewares" />
+/// <reference types="mongoose/types/indexes" />
+/// <reference types="mongoose/types/models" />
+/// <reference types="mongoose/types/mongooseoptions" />
+/// <reference types="mongoose/types/pipelinestage" />
+/// <reference types="mongoose/types/populate" />
+/// <reference types="mongoose/types/query" />
+/// <reference types="mongoose/types/schemaoptions" />
+/// <reference types="mongoose/types/schematypes" />
+/// <reference types="mongoose/types/session" />
+/// <reference types="mongoose/types/types" />
+/// <reference types="mongoose/types/utility" />
+/// <reference types="mongoose/types/validation" />
+/// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose" />
+/// <reference types="mongoose/types/inferschematype" />
 import { SuppliersService } from '../services/suppliers.service';
 import { CreateSupplierDto } from '../dto/create-supplier.dto';
 export declare class SuppliersController {
@@ -34,4 +45,3 @@ export declare class SuppliersController {
     updateRole(id: string, roleDto: CreateSupplierDto): Promise<import("../schema/supplier.schema").SupplierDocument>;
     deleteRole(id: string): Promise<import("../schema/supplier.schema").SupplierDocument>;
 }
->>>>>>> master

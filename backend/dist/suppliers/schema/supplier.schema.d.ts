@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import { Document } from 'mongoose';
-export type SupplierDocument = Supplier & Document;
-export declare class Supplier {
-    supplier_name: string;
-    address: string;
-    phone: string;
-    email: string;
-}
-export declare const SupplierSchema: import("mongoose").Schema<Document<Supplier, any, any>, import("mongoose").Model<any, any, any>, undefined, any>;
-=======
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />
@@ -46,4 +35,3 @@ export declare const SupplierSchema: import("mongoose").Schema<Supplier, import(
 }, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Supplier, Document<unknown, {}, import("mongoose").FlatRecord<Supplier>> & import("mongoose").FlatRecord<Supplier> & {
     _id: import("mongoose").Types.ObjectId;
 }>;
->>>>>>> master
