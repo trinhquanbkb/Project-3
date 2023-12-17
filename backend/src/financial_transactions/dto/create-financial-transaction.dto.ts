@@ -25,16 +25,14 @@ export class CreateFinancialTransactionDto {
 
   @ApiProperty({
     example: [{
-      name: "Áo phông",
+      productId: "",
       quantity: 20,
       price: 10,
       total: 200,
-      productItemId: "",
       weight: 30,
-      category: ""
     }]
   })
   @IsArray()
-  products: ProductType[];
+  products: String[];
 
 }
