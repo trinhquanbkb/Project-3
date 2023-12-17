@@ -23,6 +23,12 @@ export class ProductItem {
   quantity: Number;
 
   @Prop({
+    required: true,
+    type: Number,
+  })
+  weight: Number;
+
+  @Prop({
     type: Number,
   })
   price: Number;

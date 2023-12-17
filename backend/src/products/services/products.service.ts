@@ -8,23 +8,44 @@ import { ProductsDTO } from '../dto/products.dto';
 
 @Injectable()
 export class OrdersService {
-  constructor(@InjectModel('Product') private roleModel: Model<ProductDocument>) {}
+  constructor(@InjectModel('Product') private productModel: Model<ProductDocument>) {}
 
   async createRole(roleDto: ProductsDTO): Promise<ProductDocument> {
-    const createdRole = new this.roleModel(roleDto);
+    const createdRole = new this.productModel(roleDto);
     return createdRole.save();
   }
 
   async findAllRoles(pagination: any, filter: any){
     const {  page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
-    const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10))
-    .populate({
-      path: 'products_items_item',
-      model: 'ProductItem'
-    })
-    .exec();;
-    const total = await this.roleModel.countDocuments(filter).exec();
+    const data = await this.productModel.aggregate([
+      {
+        $match: filter, // Điều kiện lọc nếu cần
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: parseInt(pageSize, 10),
+      },
+      {
+        $lookup: {
+          from: 'productitems', // Tên của collection ProductItem
+          let: { productId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$product_id', { $toString: '$$productId' }],
+                },
+              },
+            },
+          ],
+          as: 'product_items',
+        },
+      },
+    ]).exec();
+    const total = await this.productModel.countDocuments(filter).exec();
     const paginations = {
       "page": page,
       "pageSize": pageSize,
@@ -35,20 +56,20 @@ export class OrdersService {
   }
 
   async findRoleById(id: string): Promise<ProductDocument | null> {
-    return this.roleModel.findById(id).exec();
+    return this.productModel.findById(id).exec();
   }
 
   async findOne(filter:any) {
-    let data =this.roleModel.find(filter)
+    let data =this.productModel.find(filter)
     console.log(data)
     return data
   }
 
   async updateRole(id: string, roleDto: ProductsDTO): Promise<ProductDocument | null> {
-    return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
+    return this.productModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }
 
   async deleteRole(id: string): Promise<ProductDocument | null> {
-    return this.roleModel.findByIdAndRemove(id).exec();
+    return this.productModel.findByIdAndRemove(id).exec();
   }
 }

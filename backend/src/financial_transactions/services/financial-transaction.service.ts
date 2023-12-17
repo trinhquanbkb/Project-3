@@ -19,7 +19,19 @@ export class FinancialTransactionService {
   ) { }
 
   async create(roleDto: CreateFinancialTransactionDto): Promise<FinancialTransactionsDocument> {
-    const createdRole = new this.roleModel(roleDto);
+    const productItems = await this.productItemModel.insertMany(roleDto.products.map(product => ({
+      expriry_data: product.expriry_data,
+      quantity: product.quantity,
+      price: product.price,
+      warehouse_id: roleDto.warehouseId,
+      supplier_id: roleDto.supplierId,
+      product_id: product.product_id,
+      weight: product.weight
+    })))
+    const createdRole = new this.roleModel({
+      ...roleDto,
+      products: productItems.map(productItem => productItem._id.toString())
+    });
     return createdRole.save();
   }
 
@@ -27,17 +39,21 @@ export class FinancialTransactionService {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
     const data = await this.roleModel.find(filter).sort({ createdAt: -1 }).skip(skip).limit(parseInt(pageSize, 10))
-    .populate([
-      {
-        path: 'warehouseId', // Tên trường trong schema FinancialTransaction
-        model: 'Warehouse', // Tên collection
-      },
-      {
-        path: 'supplierId', // Tên trường trong schema FinancialTransaction
-        model: 'Supplier', // Tên collection
-      },
-    ])
-    .exec()
+      .populate([
+        {
+          path: 'warehouseId', // Tên trường trong schema FinancialTransaction
+          model: 'Warehouse', // Tên collection
+        },
+        {
+          path: 'supplierId', // Tên trường trong schema FinancialTransaction
+          model: 'Supplier', // Tên collection
+        },
+        {
+          path: 'products',
+          model: 'ProductItem'
+        }
+      ])
+      .exec()
     const total = await this.roleModel.countDocuments(filter).exec();
     const paginations = {
       "page": page,
