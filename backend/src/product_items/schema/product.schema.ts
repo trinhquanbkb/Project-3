@@ -47,6 +47,14 @@ export class ProductItem {
     type: String,
   })
   product_id: string;
+  @Prop({
+    type: Number,
+  })
+  quantity_sold: Number;
+  @Prop({
+    type: Boolean,
+  })
+  hide: Boolean;
 
 }
 
