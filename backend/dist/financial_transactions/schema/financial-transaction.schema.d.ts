@@ -24,16 +24,6 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Document } from 'mongoose';
 export type FinancialTransactionsDocument = FinancialTransaction & Document;
-export type ProductType = {
-    name: string;
-    quantity: number;
-    price: number;
-    total: number;
-    productItemId: string | undefined;
-    weight: number;
-    category: string;
-    expriry_data: string;
-};
 export declare class FinancialTransaction {
     id: string;
     weight: number;

@@ -31,7 +31,6 @@ export interface ITableCategory {
 	paginations: IPagination;
 	handleViewCategory: any;
 	handleEditCategory: any;
-	handleDeleteCategory: any;
 	data:
 		| {
 				name: string;
