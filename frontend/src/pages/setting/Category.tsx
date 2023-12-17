@@ -2,17 +2,12 @@ import { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import queryString from "query-string";
 
-import {
-	useDeleteCategoryMutation,
-	useGetCategoryListQuery,
-} from "../../api/categoryApi";
+import { useDeleteCategoryMutation } from "../../api/categoryApi";
 import NotFoundTable from "../../components/NotFoundTable";
 import Loading from "../../components/Loading";
 import EditCategory from "./component/EditCategory";
 import ViewCategory from "./component/ViewCategory";
 import CreateCategory from "./component/CreateCategory";
-import ModalConfirm from "../../components/ModalConfirm";
-import { toast } from "react-toastify";
 import TableCategory from "./component/TableCategory";
 import { useGetProductListQuery } from "../../api/productApi";
 
@@ -36,7 +31,6 @@ const Category = () => {
 	const [viewModal, setViewModal] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
-	const [deleteModal, setDeleteModal] = useState(false);
 	const [search, setSearch] = useState<any>({
 		page: 1,
 		pageSize: 10,
@@ -47,8 +41,6 @@ const Category = () => {
 		...search,
 		product_name: search.name,
 	});
-
-	const [deleteCategoryApi] = useDeleteCategoryMutation();
 
 	useEffect(() => {
 		const query = queryString.stringifyUrl(
@@ -86,11 +78,6 @@ const Category = () => {
 		setIdCategory(id);
 	};
 
-	const handleDeleteCategory = (id: string) => {
-		setDeleteModal(!deleteModal);
-		setIdCategory(id);
-	};
-
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
@@ -108,21 +95,8 @@ const Category = () => {
 		if (editModal) {
 			setEditModal(!editModal);
 		}
-		if (deleteModal) {
-			setDeleteModal(!deleteModal);
-		}
 		if (createModal) {
 			setCreateModal(!createModal);
-		}
-	};
-
-	const apiDeleteCategory = async () => {
-		const res: any = await deleteCategoryApi(idCategory);
-		if (res?.data) {
-			setDeleteModal(!deleteModal);
-			toast.success("Xóa danh mục thành công!");
-		} else {
-			toast.error("Xóa danh mục thất bại");
 		}
 	};
 
@@ -231,7 +205,6 @@ const Category = () => {
 					paginations={listCategory.paginations}
 					handleViewCategory={handleViewCategory}
 					handleEditCategory={handleEditCategory}
-					handleDeleteCategory={handleDeleteCategory}
 					data={
 						listCategory
 							? listCategory.data.map((item) => {
@@ -260,15 +233,6 @@ const Category = () => {
 					isClass={"active"}
 					id={idCategory}
 					handleClose={handleClosePopup}
-				/>
-			)}
-
-			{deleteModal && (
-				<ModalConfirm
-					show={deleteModal}
-					content={`Xác nhận xóa danh mục sản phẩm này?`}
-					handleAction={apiDeleteCategory}
-					onHide={() => setDeleteModal(false)}
 				/>
 			)}
 

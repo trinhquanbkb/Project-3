@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
-import { useUpdateCategoryMutation } from "../../../api/categoryApi";
 import {
 	useGetProductDetailQuery,
 	useUpdateProductMutation,
 } from "../../../api/productApi";
+import ImageUpload from "../../../components/ImageUpload";
 
 const EditCategory = ({
 	id,
@@ -25,7 +26,12 @@ const EditCategory = ({
 	const formik = useFormik({
 		initialValues: {
 			name: "",
+			url: "",
 		},
+		validationSchema: Yup.object({
+			name: Yup.string().required("Trường bắt buộc!"),
+			url: Yup.string().required("Trường bắt buộc!"),
+		}),
 		onSubmit: async (values: any) => {
 			const res: any = await updateCategory({
 				id: id,
@@ -47,6 +53,7 @@ const EditCategory = ({
 		if (CategoryDetail) {
 			formik.setValues({
 				name: CategoryDetail.product_name,
+				url: CategoryDetail.product_name,
 			});
 		}
 	}, [CategoryDetail]);
@@ -94,6 +101,17 @@ const EditCategory = ({
 																formik.handleChange
 															}
 														/>
+														{formik.errors.name &&
+															formik.touched
+																.name && (
+																<p className="error mb-0">
+																	{
+																		formik
+																			.errors
+																			.name as string
+																	}
+																</p>
+															)}
 													</Form.Group>
 												</Col>
 
@@ -102,14 +120,37 @@ const EditCategory = ({
 														<Form.Label>
 															Ảnh
 														</Form.Label>
-														<div className="img-product">
-															<img
-																src={
-																	CategoryDetail?.url
-																}
-																alt="img-product"
-															/>
-														</div>
+														<ImageUpload
+															url={
+																formik.values
+																	.url
+															}
+															setUrl={(
+																url: any
+															) => {
+																console.log(
+																	url
+																);
+																formik.setValues(
+																	{
+																		...formik.values,
+																		url: url,
+																	}
+																);
+															}}
+														/>
+
+														{formik.errors.url &&
+															formik.touched
+																.url && (
+																<p className="error mb-0">
+																	{
+																		formik
+																			.errors
+																			.url as string
+																	}
+																</p>
+															)}
 													</Form.Group>
 												</Col>
 

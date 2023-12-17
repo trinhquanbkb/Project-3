@@ -75,16 +75,6 @@ const TableCategory = (props: ITableCategory) => {
 										<i className="uil uil-edit-alt"></i>
 										<span className="title">Sửa</span>
 									</button>
-									<button
-										type="button"
-										className="btn btn-delete-tracking"
-										onClick={() => {
-											props.handleDeleteCategory(item.id);
-										}}
-									>
-										<i className="uil uil-times"></i>
-										<span className="title">Xóa</span>
-									</button>
 								</div>
 							)),
 							(item["code"] = (

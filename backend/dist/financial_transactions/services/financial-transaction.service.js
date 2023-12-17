@@ -25,7 +25,16 @@ let FinancialTransactionService = class FinancialTransactionService {
         this.productItemModel = productItemModel;
     }
     async create(roleDto) {
-        const createdRole = new this.roleModel(roleDto);
+        const productItems = await this.productItemModel.insertMany(roleDto.products.map(product => ({
+            expriry_data: product.expriry_data,
+            quantity: product.quantity,
+            price: product.price,
+            warehouse_id: roleDto.warehouseId,
+            supplier_id: roleDto.supplierId,
+            product_id: product.product_id,
+            weight: product.weight
+        })));
+        const createdRole = new this.roleModel(Object.assign(Object.assign({}, roleDto), { products: productItems.map(productItem => productItem._id.toString()) }));
         return createdRole.save();
     }
     async findAll(pagination, filter) {
@@ -41,6 +50,10 @@ let FinancialTransactionService = class FinancialTransactionService {
                 path: 'supplierId',
                 model: 'Supplier',
             },
+            {
+                path: 'products',
+                model: 'ProductItem'
+            }
         ])
             .exec();
         const total = await this.roleModel.countDocuments(filter).exec();

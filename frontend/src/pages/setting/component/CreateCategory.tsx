@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useCreateProductMutation } from "../../../api/productApi";
+import ImageUpload from "../../../components/ImageUpload";
 
 const CreateCategory = ({
 	handleClose,
@@ -16,14 +17,19 @@ const CreateCategory = ({
 	const formik = useFormik({
 		initialValues: {
 			name: "",
+			url: "",
 		},
+		validationSchema: Yup.object({
+			name: Yup.string().required("Trường bắt buộc!"),
+			url: Yup.string().required("Trường bắt buộc!"),
+		}),
 		onSubmit: async (values: any) => {
 			const res: any = await createCategory({
 				product_name: values.name,
 				quantity: 0,
 				category: [],
-				url: "https://res.cloudinary.com/mrcj/image/upload/v1702620298/Cloudinary-Re…",
-				products_items: [],
+				url: values.url,
+				products_items_item: [],
 			});
 			if (res?.data) {
 				toast.success("Tạo danh mục sản phẩm mới thành công");
@@ -73,18 +79,44 @@ const CreateCategory = ({
 															formik.handleChange
 														}
 													/>
+
+													{formik.errors.name &&
+														formik.touched.name && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.name as string
+																}
+															</p>
+														)}
 												</Form.Group>
 											</Col>
 
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>Ảnh</Form.Label>
-													<div className="img-product">
-														<img
-															src="..."
-															alt="gsdgsd"
-														/>
-													</div>
+													<ImageUpload
+														url={formik.values.url}
+														setUrl={(url: any) => {
+															console.log(url);
+															formik.setValues({
+																...formik.values,
+																url: url,
+															});
+														}}
+													/>
+
+													{formik.errors.url &&
+														formik.touched.url && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.url as string
+																}
+															</p>
+														)}
 												</Form.Group>
 											</Col>
 

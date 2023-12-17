@@ -15,12 +15,7 @@ const swagger_1 = require("@nestjs/swagger");
 class CreateFinancialTransactionDto {
 }
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 20 }),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", Number)
-], CreateFinancialTransactionDto.prototype, "weight", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: "jsfh" }),
+    (0, swagger_1.ApiProperty)({ example: "656ea7bf54a30218aea8cb80" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateFinancialTransactionDto.prototype, "supplierId", void 0);
@@ -35,18 +30,18 @@ __decorate([
     __metadata("design:type", String)
 ], CreateFinancialTransactionDto.prototype, "status", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: "jsfh" }),
+    (0, swagger_1.ApiProperty)({ example: "65661aae5d6716968c2b811a" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateFinancialTransactionDto.prototype, "warehouseId", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: [{
-                productId: "",
-                quantity: 20,
-                price: 10,
-                total: 200,
-                weight: 30,
+                expriry_data: "20/11/2022",
+                quantity: 21,
+                price: 21000,
+                product_id: '656fce775c72bc1cef5b4d5a',
+                weight: 30
             }]
     }),
     (0, class_validator_1.IsArray)(),

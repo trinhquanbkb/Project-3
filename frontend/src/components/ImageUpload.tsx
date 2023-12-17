@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 
-const ImageUpload = ({ url, setUrl }: { url: any; setUrl: any }) => {
+const ImageUpload = ({
+	url,
+	setUrl,
+	className,
+}: {
+	url: any;
+	setUrl: any;
+	className?: string;
+}) => {
 	const [loading, setLoading] = useState(false);
 
 	const uploadImage = async (image: any) => {
@@ -39,8 +47,12 @@ const ImageUpload = ({ url, setUrl }: { url: any; setUrl: any }) => {
 	};
 
 	return (
-		<div className="h-screen sm:px-8 md:px-16 sm:py-8">
-			<div className="container mx-auto max-w-screen-lg h-full">
+		<div
+			className={`${
+				className ? className : ""
+			} h-screen sm:px-8 md:px-16 sm:py-8`}
+		>
+			<div className="mx-auto max-w-screen-lg h-full">
 				<header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
 					<input
 						id="hidden-input"
