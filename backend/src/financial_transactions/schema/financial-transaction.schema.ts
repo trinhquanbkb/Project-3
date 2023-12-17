@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { configs } from 'src/config/configuration';
+import { Warehouse } from 'src/warehouse/schema/warehouse.schema';
 
 export type FinancialTransactionsDocument = FinancialTransaction & Document;
 
@@ -13,6 +14,7 @@ export type ProductType = {
   productItemId: string|undefined;
   weight: number;
   category: string;
+  expriry_data: string;
 }
 
 @Schema({
@@ -40,7 +42,7 @@ export class FinancialTransaction {
 
   @Prop({
     require: true,
-    type: String
+    type: String,
   })
   warehouseId: string
 
@@ -58,10 +60,12 @@ export class FinancialTransaction {
 
   @Prop({
     require: true,
-    type: Array<ProductType>
+    type: Array<String>
   })
-  products: Array<ProductType>
+  products: Array<String>
 
 }
+
+
 
 export const FinancialTransactionSchema = SchemaFactory.createForClass(FinancialTransaction);

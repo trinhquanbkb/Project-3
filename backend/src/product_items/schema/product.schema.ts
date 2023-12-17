@@ -37,6 +37,11 @@ export class ProductItem {
   })
   supplier_id: string;
 
+  @Prop({
+    type: String,
+  })
+  product_id: string;
+
 }
 
 export const ProductItemSchema = SchemaFactory.createForClass(ProductItem);

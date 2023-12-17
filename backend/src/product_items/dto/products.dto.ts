@@ -20,4 +20,8 @@ export class ProductItemDTO {
   @ApiProperty({ example: '', description: 'id đối tác' })
   @IsString()
   supplier_id: string;
+
+  @ApiProperty({ example: '', description: 'id sản phẩm' })
+  @IsString()
+  product_id: string;
 }
