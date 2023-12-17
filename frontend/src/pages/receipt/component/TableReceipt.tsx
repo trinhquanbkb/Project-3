@@ -10,6 +10,11 @@ const columns = [
 		accessor: "id",
 	},
 	{
+		Header: "Trạng thái",
+		accessor: "statusCss",
+		sort: false,
+	},
+	{
 		Header: "Số lượng",
 		accessor: "quantity",
 	},
@@ -19,11 +24,11 @@ const columns = [
 		sort: false,
 	},
 	{
-		Header: "Mã đối tác",
+		Header: "Đối tác",
 		accessor: "supplierId",
 	},
 	{
-		Header: "Mã nhà kho",
+		Header: "Kho",
 		accessor: "warehouseId",
 	},
 	{
@@ -69,7 +74,7 @@ const TableReceipt = (props: ITableReceipt) => {
 				</Col>
 			</Row>
 
-			{/* {props.data == null || undefined
+			{props.data == null || undefined
 				? null
 				: props.data.forEach(
 						(item: any) => (
@@ -78,46 +83,33 @@ const TableReceipt = (props: ITableReceipt) => {
 									<button
 										type="button"
 										className="btn btn-create-order"
-										onClick={() => {
-											props.handleViewUser(item.id);
-										}}
 									>
 										<i className="uil uil-eye"></i>
 										<span className="title">
-											Xem nhân sự
+											Xem chi tiết
 										</span>
 									</button>
-									<button
-										type="button"
-										className="btn btn-edit-tracking"
-										onClick={() => {
-											props.handleEditUser(item.id);
-										}}
-									>
-										<i className="uil uil-edit-alt"></i>
-										<span className="title">
-											Sửa nhân sự
-										</span>
-									</button>
-									<button
-										type="button"
-										className="btn btn-delete-tracking"
-										onClick={() => {
-											props.handleDeleteUser(item.id);
-										}}
-									>
-										<i className="uil uil-times"></i>
-										<span className="title">
-											Xóa nhân sự
-										</span>
-									</button>
+									{item.status !== "Thành công" ? (
+										<button
+											type="button"
+											className="btn btn-delete-tracking"
+										>
+											<i className="uil uil-check"></i>
+											<span className="title">
+												Duyệt phiếu nhập kho
+											</span>
+										</button>
+									) : null}
 								</div>
 							)),
-							(item["code"] = (
-								<p className="fw-bold">{item.code}</p>
+							(item["statusCss"] = (
+								<p className="fw-bold mb-0">{item.statusCss}</p>
+							)),
+							(item["id"] = (
+								<p className="fw-bold mb-0">{item.id}</p>
 							))
 						)
-				  )} */}
+				  )}
 		</>
 	);
 };

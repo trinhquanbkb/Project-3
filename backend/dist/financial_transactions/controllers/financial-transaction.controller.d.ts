@@ -5,9 +5,9 @@ export declare class FinancialTransactionController {
     constructor(financialTransactionService: FinancialTransactionService);
     create(createFinancialTransactionDto: CreateFinancialTransactionDto): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
     findAll(pagination: any, filter: string): Promise<{
-        data: (import("mongoose").Document<unknown, {}, import("../schema/financial-transaction.schema").FinancialTransactionsDocument> & import("../schema/financial-transaction.schema").FinancialTransaction & import("mongoose").Document<any, any, any> & {
+        data: Omit<import("mongoose").Document<unknown, {}, import("../schema/financial-transaction.schema").FinancialTransactionsDocument> & import("../schema/financial-transaction.schema").FinancialTransaction & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
-        })[];
+        }, never>[];
         paginations: {
             page: any;
             pageSize: any;

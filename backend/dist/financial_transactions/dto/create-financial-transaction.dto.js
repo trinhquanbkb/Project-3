@@ -42,13 +42,11 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: [{
-                name: "Áo phông",
+                productId: "",
                 quantity: 20,
                 price: 10,
                 total: 200,
-                productItemId: "",
                 weight: 30,
-                category: ""
             }]
     }),
     (0, class_validator_1.IsArray)(),

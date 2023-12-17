@@ -14,7 +14,7 @@ import CreateCategory from "./component/CreateCategory";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import TableCategory from "./component/TableCategory";
-import { ICategoryQuery } from "../../models/category.model";
+import { useGetProductListQuery } from "../../api/productApi";
 
 const listBreadCrumb = [
 	{
@@ -37,14 +37,15 @@ const Category = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
-	const [search, setSearch] = useState<ICategoryQuery>({
+	const [search, setSearch] = useState<any>({
 		page: 1,
 		pageSize: 10,
 		name: "",
 	});
 
-	const { data: listCategory, isFetching } = useGetCategoryListQuery({
+	const { data: listCategory, isFetching } = useGetProductListQuery({
 		...search,
+		product_name: search.name,
 	});
 
 	const [deleteCategoryApi] = useDeleteCategoryMutation();
@@ -52,7 +53,7 @@ const Category = () => {
 	useEffect(() => {
 		const query = queryString.stringifyUrl(
 			{
-				url: "/category",
+				url: "/setting/category",
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
@@ -236,7 +237,7 @@ const Category = () => {
 							? listCategory.data.map((item) => {
 									return {
 										id: item._id,
-										name: item.name,
+										name: item.product_name,
 									};
 							  })
 							: null
@@ -265,7 +266,7 @@ const Category = () => {
 			{deleteModal && (
 				<ModalConfirm
 					show={deleteModal}
-					content={`Xác nhận xóa nhà kho?`}
+					content={`Xác nhận xóa danh mục sản phẩm này?`}
 					handleAction={apiDeleteCategory}
 					onHide={() => setDeleteModal(false)}
 				/>

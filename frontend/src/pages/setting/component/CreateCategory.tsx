@@ -2,7 +2,7 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useCreateCategoryMutation } from "../../../api/categoryApi";
+import { useCreateProductMutation } from "../../../api/productApi";
 
 const CreateCategory = ({
 	handleClose,
@@ -11,7 +11,7 @@ const CreateCategory = ({
 	handleClose: () => void;
 	isClass: string;
 }) => {
-	const [createCategory] = useCreateCategoryMutation();
+	const [createCategory] = useCreateProductMutation();
 
 	const formik = useFormik({
 		initialValues: {
@@ -19,13 +19,17 @@ const CreateCategory = ({
 		},
 		onSubmit: async (values: any) => {
 			const res: any = await createCategory({
-				name: values.name,
+				product_name: values.name,
+				quantity: 0,
+				category: [],
+				url: "https://res.cloudinary.com/mrcj/image/upload/v1702620298/Cloudinary-Re…",
+				products_items: [],
 			});
 			if (res?.data) {
-				toast.success("Tạo danh mục mới thành công");
+				toast.success("Tạo danh mục sản phẩm mới thành công");
 				handleClose();
 			} else {
-				toast.error("Tạo danh mục mới thất bại");
+				toast.error("Tạo danh mục sản phẩm mới thất bại");
 			}
 		},
 	});
@@ -57,7 +61,7 @@ const CreateCategory = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Tên danh mục
+														Tên sản phẩm
 													</Form.Label>
 													<Form.Control
 														type="text"
@@ -69,6 +73,18 @@ const CreateCategory = ({
 															formik.handleChange
 														}
 													/>
+												</Form.Group>
+											</Col>
+
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>Ảnh</Form.Label>
+													<div className="img-product">
+														<img
+															src="..."
+															alt="gsdgsd"
+														/>
+													</div>
 												</Form.Group>
 											</Col>
 
