@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FinancialTransactionSchema = exports.FinancialTransaction = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const configuration_1 = require("../../config/configuration");
+const warehouse_schema_1 = require("../../warehouse/schema/warehouse.schema");
 let FinancialTransaction = class FinancialTransaction {
 };
 __decorate([
@@ -38,7 +39,7 @@ __decorate([
 __decorate([
     (0, mongoose_1.Prop)({
         require: true,
-        type: String
+        type: String,
     }),
     __metadata("design:type", String)
 ], FinancialTransaction.prototype, "warehouseId", void 0);

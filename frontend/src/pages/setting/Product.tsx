@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import queryString from "query-string";
 
-import { useDeleteCategoryMutation, useGetCategoryListQuery } from "../../api/categoryApi";
+import {
+	useDeleteCategoryMutation,
+	useGetCategoryListQuery,
+} from "../../api/categoryApi";
 import NotFoundTable from "../../components/NotFoundTable";
 import Loading from "../../components/Loading";
 import EditCategory from "./component/EditCategory";
@@ -12,7 +15,6 @@ import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import TableCategory from "./component/TableCategory";
 import { ICategoryQuery } from "../../models/category.model";
-
 
 const listBreadCrumb = [
 	{
@@ -28,7 +30,6 @@ const listBreadCrumb = [
 	},
 ];
 
-
 const CategoryList = () => {
 	const [idCategory, setIdCategory] = useState("");
 	const [keywordCategoryName, setKeywordCategoryName] = useState("");
@@ -36,13 +37,15 @@ const CategoryList = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
-	const [search, setSearch] = useState<ICategoryQuery>({
+	const [search, setSearch] = useState<any>({
 		page: 1,
 		pageSize: 10,
 		name: "",
 	});
 
-	const { data: listCategory, isFetching } = useGetCategoryListQuery({ ...search });
+	const { data: listCategory, isFetching } = useGetCategoryListQuery({
+		...search,
+	});
 
 	const [deleteCategoryApi] = useDeleteCategoryMutation();
 
@@ -93,7 +96,6 @@ const CategoryList = () => {
 			setSearch({
 				...search,
 				name: keywordCategoryName.trim(),
-
 			});
 		}
 	};
@@ -167,7 +169,8 @@ const CategoryList = () => {
 										setCreateModal(!createModal);
 									}}
 								>
-									<i className="uil-plus me-1"></i> Thêm loai san pham
+									<i className="uil-plus me-1"></i> Thêm loai
+									san pham
 								</Button>
 							</div>
 						</div>
@@ -205,8 +208,7 @@ const CategoryList = () => {
 													onClick={() => {
 														setSearch({
 															...search,
-															name:
-																keywordCategoryName.trim(),
+															name: keywordCategoryName.trim(),
 														});
 													}}
 												></Button>

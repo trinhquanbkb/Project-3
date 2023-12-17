@@ -10,9 +10,9 @@ export declare class FinancialTransactionService {
     constructor(roleModel: Model<FinancialTransactionsDocument>, productModel: Model<ProductDocument>, productItemModel: Model<ProductItemDocument>);
     create(roleDto: CreateFinancialTransactionDto): Promise<FinancialTransactionsDocument>;
     findAll(pagination: any, filter: any): Promise<{
-        data: (import("mongoose").Document<unknown, {}, FinancialTransactionsDocument> & import("../schema/financial-transaction.schema").FinancialTransaction & import("mongoose").Document<any, any, any> & {
+        data: Omit<import("mongoose").Document<unknown, {}, FinancialTransactionsDocument> & import("../schema/financial-transaction.schema").FinancialTransaction & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
-        })[];
+        }, never>[];
         paginations: {
             page: any;
             pageSize: any;

@@ -6,11 +6,11 @@ import { ITableCategory } from "../../../models/category.model";
 
 const columns = [
 	{
-		Header: "Mã danh mục",
+		Header: "Mã sản phẩm",
 		accessor: "id",
 	},
 	{
-		Header: "Tên danh mục",
+		Header: "Tên sản phẩm",
 		accessor: "name",
 	},
 	{

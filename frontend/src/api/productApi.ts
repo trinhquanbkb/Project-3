@@ -1,11 +1,11 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
-import { 
-	IProduct, 
+import {
+	IProduct,
 	IProductQuery,
 	IUpdateProduct,
-	ICreateProduct 
+	ICreateProduct,
 } from "../models/product.model";
 
 export const successToastAction = createAction<string>("toast/success");
@@ -37,7 +37,7 @@ const ProductApi = api.injectEndpoints({
 			any,
 			{
 				id: string;
-				data: IUpdateProduct;
+				data: any;
 			}
 		>({
 			query: ({ id, ...data }) => ({
@@ -58,14 +58,14 @@ const ProductApi = api.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: "Product", id: "List" }],
 		}),
-		createProduct: build.mutation<any, ICreateProduct>({
+		createProduct: build.mutation<any, any>({
 			query: (data) => ({
 				url: "Products",
 				method: "POST",
 				data,
 			}),
 			invalidatesTags: [{ type: "Product", id: "List" }],
-		})
+		}),
 	}),
 });
 

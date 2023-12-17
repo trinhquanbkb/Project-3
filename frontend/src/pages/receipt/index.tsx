@@ -228,11 +228,13 @@ const ReceiptList = () => {
 							? listReceipt.data.map((item) => {
 									return {
 										id: item._id,
-										supplierId: item.supplierId,
+										supplierId: item.supplierId.name,
 										quantity: item.products.length,
 										weight: item.weight,
 										note: item.note,
-										warehouseId: item?.warehouseId,
+										warehouseId: item?.warehouseId.name,
+										status: item.status,
+										statusCss: item.status,
 									};
 							  })
 							: null

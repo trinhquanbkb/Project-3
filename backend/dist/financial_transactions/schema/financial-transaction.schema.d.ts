@@ -32,6 +32,7 @@ export type ProductType = {
     productItemId: string | undefined;
     weight: number;
     category: string;
+    expriry_data: string;
 };
 export declare class FinancialTransaction {
     id: string;
@@ -40,7 +41,7 @@ export declare class FinancialTransaction {
     warehouseId: string;
     note: string;
     status: string;
-    products: Array<ProductType>;
+    products: Array<String>;
 }
 export declare const FinancialTransactionSchema: import("mongoose").Schema<FinancialTransaction, import("mongoose").Model<FinancialTransaction, any, any, any, Document<unknown, any, FinancialTransaction> & FinancialTransaction & {
     _id: import("mongoose").Types.ObjectId;

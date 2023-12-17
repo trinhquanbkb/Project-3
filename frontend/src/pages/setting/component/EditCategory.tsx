@@ -3,10 +3,11 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
+import { useUpdateCategoryMutation } from "../../../api/categoryApi";
 import {
-	useGetCategoryDetailQuery,
-	useUpdateCategoryMutation,
-} from "../../../api/categoryApi";
+	useGetProductDetailQuery,
+	useUpdateProductMutation,
+} from "../../../api/productApi";
 
 const EditCategory = ({
 	id,
@@ -18,8 +19,8 @@ const EditCategory = ({
 	isClass: string;
 }) => {
 	const { data: CategoryDetail, isFetching: fetchingCategory } =
-		useGetCategoryDetailQuery(id);
-	const [updateCategory] = useUpdateCategoryMutation();
+		useGetProductDetailQuery(id);
+	const [updateCategory] = useUpdateProductMutation();
 
 	const formik = useFormik({
 		initialValues: {
@@ -29,15 +30,15 @@ const EditCategory = ({
 			const res: any = await updateCategory({
 				id: id,
 				data: {
-					name: values.name,
+					product_name: values.name,
 				},
 			});
 			if (res?.data) {
 				handleClose();
 
-				toast.success("Sửa thông tin danh mục thành công!");
+				toast.success("Sửa thông tin danh mục sản phẩm thành công!");
 			} else {
-				toast.error("Sửa thông tin danh mục thất bại!");
+				toast.error("Sửa thông tin danh mục sản phẩm thất bại!");
 			}
 		},
 	});
@@ -45,7 +46,7 @@ const EditCategory = ({
 	useEffect(() => {
 		if (CategoryDetail) {
 			formik.setValues({
-				name: CategoryDetail.name,
+				name: CategoryDetail.product_name,
 			});
 		}
 	}, [CategoryDetail]);
@@ -80,7 +81,7 @@ const EditCategory = ({
 												<Col xs={12} md={6}>
 													<Form.Group className="mb-3">
 														<Form.Label>
-															Tên danh mục
+															Tên sản phẩm
 														</Form.Label>
 														<Form.Control
 															type="text"
@@ -93,6 +94,22 @@ const EditCategory = ({
 																formik.handleChange
 															}
 														/>
+													</Form.Group>
+												</Col>
+
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Ảnh
+														</Form.Label>
+														<div className="img-product">
+															<img
+																src={
+																	CategoryDetail?.url
+																}
+																alt="img-product"
+															/>
+														</div>
 													</Form.Group>
 												</Col>
 
