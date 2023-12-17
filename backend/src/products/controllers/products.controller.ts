@@ -60,6 +60,11 @@ export class OrdersController {
     return this.rolesService.findRoleById(id);
   }
 
+  @Get('/search/:search')
+  searchProduct(@Param('search') search: string) {
+    return this.rolesService.search(search);
+  }
+
   @Post('test')
   findOne(@Body() filter: any) {
     return this.rolesService.findOne({});

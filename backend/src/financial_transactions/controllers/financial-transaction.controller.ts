@@ -24,10 +24,20 @@ export class FinancialTransactionController {
   ) { }
 
   @Post()
-  async create(@Body() createFinancialTransactionDto: CreateFinancialTransactionDto) {    
+  async create(@Body() createFinancialTransactionDto: CreateFinancialTransactionDto) {
     return this.financialTransactionService.create(
       createFinancialTransactionDto,
     );
+  }
+
+  @Post('/approve/:id')
+  async approve(@Param('id') id: string) {
+    return this.financialTransactionService.update(id, { status: "Thành công" })
+  }
+
+  @Post('/cancel:id')
+  async cancel(@Param('id') id: string) {
+    return this.financialTransactionService.update(id, { status: "Huỷ" })
   }
 
   @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })

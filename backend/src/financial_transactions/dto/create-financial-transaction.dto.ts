@@ -19,10 +19,6 @@ export class CreateFinancialTransactionDto {
   @IsString()
   note: string;
 
-  @ApiProperty({ example: "Thành công" })
-  @IsString()
-  status: string;
-
   @ApiProperty({ example: "65661aae5d6716968c2b811a" })
   @IsString()
   warehouseId: string;

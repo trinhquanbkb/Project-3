@@ -69,6 +69,11 @@ export class OrdersService {
     return this.productModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }
 
+  async search(inputString: string){
+    const regex = new RegExp(inputString, 'i')
+    return await this.productModel.find({ product_name: { $regex: regex } }).exec();
+  }
+
   async deleteRole(id: string): Promise<ProductDocument | null> {
     return this.productModel.findByIdAndRemove(id).exec();
   }

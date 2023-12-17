@@ -42,8 +42,9 @@ export class FinancialTransaction {
   note: string
 
   @Prop({
-    require: true,
-    type: String
+    require: false,
+    type: String,
+    default: "Chờ duyệt"
   })
   status: string
 

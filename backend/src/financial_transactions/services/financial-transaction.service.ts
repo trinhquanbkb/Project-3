@@ -8,6 +8,7 @@ import { CreateFinancialTransactionDto } from '../dto/create-financial-transacti
 import { ProductDocument } from 'src/products/schema/product.schema';
 import { ProductItemDocument } from 'src/product_items/schema/product.schema';
 import path from 'path';
+import { UpdateFinancialTransactionDto } from '../dto/update-financial-transaction.dto';
 
 
 @Injectable()
@@ -26,7 +27,9 @@ export class FinancialTransactionService {
       warehouse_id: roleDto.warehouseId,
       supplier_id: roleDto.supplierId,
       product_id: product.product_id,
-      weight: product.weight
+      weight: product.weight,
+      quantity_sold: 0,
+      hide: true
     })))
     const createdRole = new this.roleModel({
       ...roleDto,
@@ -69,7 +72,16 @@ export class FinancialTransactionService {
     return this.roleModel.findById(id).exec();
   }
 
-  async update(id: string, roleDto: CreateFinancialTransactionDto): Promise<FinancialTransactionsDocument | null> {
+  async update(id: string, roleDto: any): Promise<FinancialTransactionsDocument | null> {
+    if (roleDto.status == "Thành công") {
+      const data = await this.roleModel.findById(id)
+      if (data) {
+        this.productItemModel.updateMany(
+          { _id: { $in: data.products } }, // Chọn các bản ghi dựa trên mảng các id
+          { $set: { hide: false } }
+        )
+      }
+    }
     return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }
 
