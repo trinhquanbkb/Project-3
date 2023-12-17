@@ -5,25 +5,28 @@ import { FilterQuery, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ProductItemDocument } from '../schema/product.schema';
 import { ProductItemDTO } from '../dto/products.dto';
+import { ProductDocument } from 'src/products/schema/product.schema';
 
 @Injectable()
 export class OrdersService {
-  constructor(@InjectModel('ProductItem') private roleModel: Model<ProductItemDocument>) {}
+  constructor(@InjectModel('ProductItem') private roleModel: Model<ProductItemDocument>,
+  ) {}
 
   async createRole(roleDto: ProductItemDTO): Promise<ProductItemDocument> {
     const createdRole = new this.roleModel(roleDto);
-    return createdRole.save();
+    const product_item = await createdRole.save();
+    return product_item
   }
 
   async findAllRoles(pagination: any, filter: any){
     const {  page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
     const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10))
-    .populate({
-      path: 'product_id',
-      model: 'Product'
-    })
-    .exec();;
+    // .populate({
+    //   path: 'product_id',
+    //   model: 'Product'
+    // })
+    .exec();
     const total = await this.roleModel.countDocuments(filter).exec();
     const paginations = {
       "page": page,

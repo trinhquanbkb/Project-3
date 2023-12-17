@@ -6,17 +6,6 @@ import { Warehouse } from 'src/warehouse/schema/warehouse.schema';
 export type FinancialTransactionsDocument = FinancialTransaction & Document;
 
 
-export type ProductType = {
-  name: string;
-  quantity: number;
-  price: number;
-  total: number;
-  productItemId: string|undefined;
-  weight: number;
-  category: string;
-  expriry_data: string;
-}
-
 @Schema({
   timestamps: true
 })

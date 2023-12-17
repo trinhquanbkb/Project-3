@@ -13,6 +13,9 @@ export class ProductItemDTO {
   @ApiProperty({ example: 23000, description: 'Giá tiền' })
   price: number;
 
+  @ApiProperty({ example: 23000, description: 'Cân nặng' })
+  weight: number;
+
   @ApiProperty({ example: '', description: 'id của kho' })
   @IsString()
   warehouse_id: string;
