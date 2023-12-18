@@ -35,10 +35,14 @@ export interface IUpdateReceipt {
 
 export interface ICreateReceipt {
 	supplierId: string;
-	weight: number;
 	note: string;
-	products: Array<any>;
-	status: string;
+	products: {
+		expriry_data: string;
+		quantity: number;
+		price: number;
+		product_id: string;
+		weight: number;
+	}[];
 	warehouseId: string;
 }
 

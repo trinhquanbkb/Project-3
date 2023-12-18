@@ -25,11 +25,6 @@ __decorate([
     __metadata("design:type", String)
 ], CreateFinancialTransactionDto.prototype, "note", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: "Thành công" }),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateFinancialTransactionDto.prototype, "status", void 0);
-__decorate([
     (0, swagger_1.ApiProperty)({ example: "65661aae5d6716968c2b811a" }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

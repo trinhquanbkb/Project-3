@@ -22,6 +22,6 @@ export declare class FinancialTransactionService {
         messenger: string;
     }>;
     findOne(id: string): Promise<FinancialTransactionsDocument | null>;
-    update(id: string, roleDto: CreateFinancialTransactionDto): Promise<FinancialTransactionsDocument | null>;
+    update(id: string, roleDto: any): Promise<FinancialTransactionsDocument | null>;
     remove(id: string): Promise<FinancialTransactionsDocument | null>;
 }

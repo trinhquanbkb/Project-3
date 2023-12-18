@@ -1,11 +1,11 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
-import { 
-	IReceipt, 
+import {
+	IReceipt,
 	IReceiptQuery,
 	IUpdateReceipt,
-	ICreateReceipt 
+	ICreateReceipt,
 } from "../models/receipt.model";
 
 export const successToastAction = createAction<string>("toast/success");
@@ -64,8 +64,11 @@ const ReceiptApi = api.injectEndpoints({
 				method: "POST",
 				data,
 			}),
-			invalidatesTags: [{ type: "Receipt", id: "List" }],
-		})
+			invalidatesTags: [
+				{ type: "Receipt", id: "List" },
+				{ type: "Receipt", id: "Detail" },
+			],
+		}),
 	}),
 });
 

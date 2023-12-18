@@ -3,6 +3,7 @@ import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
 import { ITableReceipt } from "../../../models/receipt.model";
+import { checkStatus } from "../../../constants/status";
 
 const columns = [
 	{
@@ -103,7 +104,13 @@ const TableReceipt = (props: ITableReceipt) => {
 								</div>
 							)),
 							(item["statusCss"] = (
-								<p className="fw-bold mb-0">{item.statusCss}</p>
+								<p
+									className={`mb-0 status ${checkStatus(
+										item.status
+									)}`}
+								>
+									{item.status}
+								</p>
 							)),
 							(item["id"] = (
 								<p className="fw-bold mb-0">{item.id}</p>

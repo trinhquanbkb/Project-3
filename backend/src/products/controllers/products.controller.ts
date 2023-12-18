@@ -62,7 +62,7 @@ export class OrdersController {
 
   @Get('/search/:search')
   searchProduct(@Param('search') search: string) {
-    return this.rolesService.search(search);
+    return this.rolesService.search(search ? search : '');
   }
 
   @Post('test')
