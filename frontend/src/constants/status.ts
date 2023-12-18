@@ -1,11 +1,17 @@
-export const StatusTracking:any = 
-    {
-    '10':'Đã huỷ bỏ',
-    '20':'Chưa có loại',
-    '30':'Chưa có KH',
-    '40':'Đã nhập kho',
-    '50':'Đang vận chuyển',
-    '60':'Đã đến Việt Nam',
-    '80':'Đã khai thác',
-    '100':'Hoàn thành', 
-}
+export const checkStatus = (data: any) => {
+	let statusClass;
+	switch (data) {
+		case "Chờ duyệt":
+			statusClass = "cho-duyet";
+			break;
+		case "Hủy":
+			statusClass = "huy";
+			break;
+		case "Thành công":
+			statusClass = "thanh-cong";
+			break;
+		default:
+			statusClass = "";
+	}
+	return statusClass;
+};

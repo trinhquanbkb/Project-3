@@ -25,6 +25,12 @@ let FinancialTransactionController = class FinancialTransactionController {
     async create(createFinancialTransactionDto) {
         return this.financialTransactionService.create(createFinancialTransactionDto);
     }
+    async approve(id) {
+        return this.financialTransactionService.update(id, { status: "Thành công" });
+    }
+    async cancel(id) {
+        return this.financialTransactionService.update(id, { status: "Huỷ" });
+    }
     findAll(pagination, filter) {
         const parsedFilter = JSON.parse(filter ? filter : "{}");
         return this.financialTransactionService.findAll(pagination, parsedFilter);
@@ -46,6 +52,20 @@ __decorate([
     __metadata("design:paramtypes", [create_financial_transaction_dto_1.CreateFinancialTransactionDto]),
     __metadata("design:returntype", Promise)
 ], FinancialTransactionController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)('/approve/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FinancialTransactionController.prototype, "approve", null);
+__decorate([
+    (0, common_1.Post)('/cancel:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], FinancialTransactionController.prototype, "cancel", null);
 __decorate([
     (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
     (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),

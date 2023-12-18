@@ -52,8 +52,9 @@ __decorate([
 ], FinancialTransaction.prototype, "note", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        require: true,
-        type: String
+        require: false,
+        type: String,
+        default: "Chờ duyệt"
     }),
     __metadata("design:type", String)
 ], FinancialTransaction.prototype, "status", void 0);

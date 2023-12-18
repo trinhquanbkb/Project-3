@@ -32,7 +32,9 @@ let FinancialTransactionService = class FinancialTransactionService {
             warehouse_id: roleDto.warehouseId,
             supplier_id: roleDto.supplierId,
             product_id: product.product_id,
-            weight: product.weight
+            weight: product.weight,
+            quantity_sold: 0,
+            hide: true
         })));
         const createdRole = new this.roleModel(Object.assign(Object.assign({}, roleDto), { products: productItems.map(productItem => productItem._id.toString()) }));
         return createdRole.save();
@@ -69,6 +71,12 @@ let FinancialTransactionService = class FinancialTransactionService {
         return this.roleModel.findById(id).exec();
     }
     async update(id, roleDto) {
+        if (roleDto.status == "Thành công") {
+            const data = await this.roleModel.findById(id);
+            if (data) {
+                this.productItemModel.updateMany({ _id: { $in: data.products } }, { $set: { hide: false } });
+            }
+        }
         return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
     }
     async remove(id) {

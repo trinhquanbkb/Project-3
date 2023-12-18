@@ -8,7 +8,6 @@ type ProductsType = {
 export declare class CreateFinancialTransactionDto {
     supplierId: string;
     note: string;
-    status: string;
     warehouseId: string;
     products: ProductsType[];
 }

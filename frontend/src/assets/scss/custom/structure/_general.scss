@@ -31,3 +31,36 @@ body {
 		width: 100%;
 	}
 }
+
+.status.cho-duyet {
+	border: 1px solid orange;
+	border-radius: 100px;
+	padding: 4px 16px;
+	text-align: center;
+	font-weight: 400;
+	background: orange;
+	color: white;
+	font-size: 15px;
+}
+
+.status.thanh-cong {
+	border: 1px solid #08a608;
+	border-radius: 100px;
+	padding: 4px 16px;
+	text-align: center;
+	font-weight: 400;
+	background: #05aa05;
+	color: white;
+	font-size: 15px;
+}
+
+.status.huy {
+	border: 1px solid #847692;
+	border-radius: 100px;
+	padding: 4px 16px;
+	text-align: center;
+	font-weight: 400;
+	background: #847692;
+	font-size: 15px;
+	color: white;
+}
