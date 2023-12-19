@@ -22,10 +22,11 @@ export class OrdersService {
     const {  page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
     const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10))
-    // .populate({
-    //   path: 'product_id',
-    //   model: 'Product'
-    // })
+    .populate({
+      path: 'product_id',
+      model: 'Product',
+      select: "product_name"
+    })
     .exec();
     const total = await this.roleModel.countDocuments(filter).exec();
     const paginations = {
