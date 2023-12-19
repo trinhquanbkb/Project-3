@@ -97,7 +97,7 @@ const TableShipper = (props: ITableShipper) => {
 									>
 										<i className="uil uil-eye"></i>
 										<span className="title">
-											Xem nhà kho
+											Xem đối tác
 										</span>
 									</button>
 									<button
@@ -109,7 +109,7 @@ const TableShipper = (props: ITableShipper) => {
 									>
 										<i className="uil uil-edit-alt"></i>
 										<span className="title">
-											Sửa nhà kho
+											Sửa đối tác
 										</span>
 									</button>
 									<button
@@ -121,7 +121,7 @@ const TableShipper = (props: ITableShipper) => {
 									>
 										<i className="uil uil-times"></i>
 										<span className="title">
-											Xóa nhà kho
+											Xóa đối tác
 										</span>
 									</button>
 								</div>

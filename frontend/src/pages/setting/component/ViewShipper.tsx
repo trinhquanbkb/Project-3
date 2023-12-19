@@ -23,7 +23,7 @@ const ViewShipper = ({
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Thông tin nhà kho</h2>
+						<h2>Thông tin đối tác</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 
@@ -38,7 +38,7 @@ const ViewShipper = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Mã nhà kho
+														Mã đối tác
 													</Form.Label>
 													<Form.Control
 														type="text"
@@ -51,7 +51,7 @@ const ViewShipper = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Tên nhà kho
+														Tên đối tác
 													</Form.Label>
 													<Form.Control
 														type="text"

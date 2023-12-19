@@ -56,9 +56,9 @@ const EditShipper = ({
             if (res?.data) {
                 handleClose();
 
-                toast.success("Sửa thông tin nhà kho thành công!");
+                toast.success("Sửa thông tin đối tác thành công!");
             } else {
-                toast.error("Sửa thông tin nhà kho thất bại!");
+                toast.error("Sửa thông tin đối tác thất bại!");
             }
         },
     });
@@ -85,7 +85,7 @@ const EditShipper = ({
             >
                 <div className="popup-info-inner">
                     <div className="title-popup">
-                        <h2>Sửa thông tin nhà kho</h2>
+                        <h2>Sửa thông tin đối tác</h2>
                         <span className="close" onClick={handleClose}></span>
                     </div>
 

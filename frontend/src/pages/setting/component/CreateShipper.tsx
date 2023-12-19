@@ -49,10 +49,10 @@ const CreateShipper = ({
 				}
 			);
 			if (res?.data) {
-				toast.success("Tạo mới nhà kho thành công");
+				toast.success("Tạo mới đối tác thành công");
 				handleClose();
 			} else {
-				toast.error("Tạo mới nhà kho thất bại");
+				toast.error("Tạo mới đối tác thất bại");
 			}
 
 		},
@@ -66,7 +66,7 @@ const CreateShipper = ({
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Tạo nhà kho mới</h2>
+						<h2>Tạo đối tác mới</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 

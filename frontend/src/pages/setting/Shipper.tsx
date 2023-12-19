@@ -146,9 +146,9 @@ const ShipperList = () => {
 		const res: any = await deleteShipperApi(idShipper);
 		if (res?.data) {
 			setDeleteModal(!deleteModal);
-			toast.success("Xóa nhà kho thành công!");
+			toast.success("Xóa đối tác vận chuyển thành công!");
 		} else {
-			toast.error("Xóa nhà kho thất bại");
+			toast.error("Xóa đối tác vận chuyển thất bại");
 		}
 	};
 
@@ -196,7 +196,7 @@ const ShipperList = () => {
 										setCreateModal(!createModal);
 									}}
 								>
-									<i className="uil-plus me-1"></i> Thêm nhà kho
+									<i className="uil-plus me-1"></i> Thêm đối tác vận chuyển
 								</Button>
 							</div>
 						</div>
@@ -295,7 +295,7 @@ const ShipperList = () => {
 			{deleteModal && (
 				<ModalConfirm
 					show={deleteModal}
-					content={`Xác nhận xóa nhà kho?`}
+					content={`Xác nhận xóa đối tác vận chuyển?`}
 					handleAction={apiDeleteShipper}
 					onHide={() => setDeleteModal(false)}
 				/>
