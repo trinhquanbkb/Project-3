@@ -11,11 +11,26 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('authorization')
 export class OrdersController {
-  constructor(private readonly rolesService: OrdersService) {}
+  constructor(private readonly rolesService: OrdersService) { }
 
   @Post()
   createRole(@Body() roleDto: OrdersDTO) {
     return this.rolesService.createRole(roleDto);
+  }
+
+  @Post('/approve/:id')
+  async approve(@Param('id') id: string) {
+    return this.rolesService.update(id, { status: "Thành công" })
+  }
+
+  @Post('/waiting_for_delivery/:id')
+  async waiting(@Param('id') id: string) {
+    return this.rolesService.update(id, { status: "Chờ xuất kho" })
+  }
+
+  @Post('/cancel:id')
+  async cancel(@Param('id') id: string) {
+    return this.rolesService.update(id, { status: "Huỷ" })
   }
 
   @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
@@ -23,7 +38,7 @@ export class OrdersController {
   @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
   @Get()
   findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.rolesService.findAllRoles(pagination, JSON.parse(filter?filter:"{}"));
+    return this.rolesService.findAllRoles(pagination, JSON.parse(filter ? filter : "{}"));
   }
 
   @Get(':id')
@@ -33,7 +48,7 @@ export class OrdersController {
 
   @Put(':id')
   updateRole(@Param('id') id: string, @Body() roleDto: OrdersDTO) {
-    return this.rolesService.updateRole(id, roleDto);
+    return this.rolesService.update(id, roleDto);
   }
 
   @Delete(':id')
