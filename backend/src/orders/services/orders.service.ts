@@ -17,7 +17,7 @@ export class OrdersService {
     const updateOperations = product_items.map(update => ({
       updateOne: {
         filter: { _id: update.id },
-        update: { $inc: { quantity: -update.quantity } },
+        update: { $inc: { quantity: -update.quantity, quantity_sold: +update.quantity} },
       },
     }));
     this.productItemModel.bulkWrite(updateOperations)
