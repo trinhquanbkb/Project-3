@@ -40,13 +40,7 @@ const ShipperList = () => {
 	const [search, setSearch] = useState<IShipperQuery>({
 		page: 1,
 		pageSize: 10,
-		name: "",
-		address: {
-			district: "",
-			wards: "",
-			city: "",
-			address: "",
-		}
+		filter: {}
 	});
 
 	const { data: listShipper, isFetching } = useGetShipperListQuery({ ...search });
@@ -54,23 +48,20 @@ const ShipperList = () => {
 	const [deleteShipperApi] = useDeleteShipperMutation();
 
 	useEffect(() => {
+
 		const query = location.search;
 		const parsed = queryString.parse(query);
+		
 		const page = parsed.page ? Number(parsed.page) : 1;
 		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
-		const name = parsed.name ? parsed.name.toString() : "";
-		// const address = parsed.address ? parsed.address : "";
+		const filter = parsed.filter ? parsed.filter : {};
 
 		setSearch({
 			...search,
 			page,
 			pageSize,
-			name,
+			filter: filter,
 		});
-
-		if (name) {
-			setKeywordShipperName(name);
-		}
 	}, []);
 
 	// xử lý việc url thay đổi khi có filter
@@ -81,7 +72,7 @@ const ShipperList = () => {
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
-					name: search.name,
+					filter: JSON.stringify(search.filter),
 
 				},
 			},
@@ -119,11 +110,21 @@ const ShipperList = () => {
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
-			setSearch({
-				...search,
-				name: keywordShipperName.trim(),
-
-			});
+			if (keywordShipperName.trim() === ""){
+				setSearch({
+					...search,
+					filter: {
+						
+					}
+				});
+			}else {
+				setSearch({
+					...search,
+					filter: {
+						name: keywordShipperName.trim(),
+					}
+				});
+			}
 		}
 	};
 
@@ -232,11 +233,21 @@ const ShipperList = () => {
 													type="submit"
 													className="btn-search"
 													onClick={() => {
-														setSearch({
-															...search,
-															name:
-																keywordShipperName.trim(),
-														});
+														if (keywordShipperName.trim() === ""){
+															setSearch({
+																...search,
+																filter: {
+																	
+																}
+															});
+														}else {
+															setSearch({
+																...search,
+																filter: {
+																	name: keywordShipperName.trim(),
+																}
+															});
+														}
 													}}
 												></Button>
 											</Form.Group>

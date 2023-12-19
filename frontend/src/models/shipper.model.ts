@@ -37,8 +37,7 @@ export interface ICreateShipper {
 export interface IShipperQuery {
 	page: number;
 	pageSize: number;
-	name: string;
-	address: IAddress;
+	filter: {};
 }
 
 export interface ITableShipper {
