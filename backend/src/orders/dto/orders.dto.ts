@@ -35,4 +35,8 @@ export class OrdersDTO {
   @ApiProperty({ example: 'Được kiểm tra', description: 'Ghi chú' })
   @IsString()
   note: string;
+
+  @ApiProperty({ example: 'id', description: 'id shipping' })
+  @IsString()
+  shipping_id: string;
 }
