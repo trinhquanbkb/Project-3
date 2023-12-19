@@ -30,8 +30,9 @@ export class Order {
   products: ProductsType[];
 
   @Prop({
-    required: true,
+    required: false,
     type: String,
+    default: "Chờ duyệt"
   })
   status: string;
 
@@ -40,7 +41,6 @@ export class Order {
     type: String,
   })
   note: string;
-
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

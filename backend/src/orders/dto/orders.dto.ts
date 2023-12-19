@@ -2,9 +2,15 @@ import { IsString, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 
+export type ProductItemType = {
+  product_item_id: String,
+  quantity: Number
+}
+
 export type ProductsType = {
-  product_id: [],
-  quantity: String,
+  product_id: String,
+  product_item: ProductItemType[],
+  price: Number,
 }
 
 export class OrdersDTO {
@@ -16,13 +22,15 @@ export class OrdersDTO {
   @IsString()
   receiver: string;
 
-  @ApiProperty({ example: [{}], description: 'Mảng sản phẩm' })
+  @ApiProperty({
+    example: [{
+      product_id: 'id san pham',
+      product_item: [{ product_item_id: 'id item', quantity: 1 }],
+      price: 10000
+    }], description: 'Mảng sản phẩm'
+  })
   @IsString()
   products: ProductsType[];
-
-  @ApiProperty({ example: 'Đang giao', description: 'Trạng thái' })
-  @IsString()
-  status: string;
 
   @ApiProperty({ example: 'Được kiểm tra', description: 'Ghi chú' })
   @IsString()
