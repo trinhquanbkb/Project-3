@@ -41,6 +41,12 @@ export class Order {
     type: String,
   })
   note: string;
+
+  @Prop({
+    required: true,
+    type: String,
+  })
+  shipping_id: string;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
