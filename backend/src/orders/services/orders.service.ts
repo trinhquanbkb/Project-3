@@ -53,11 +53,11 @@ export class OrdersService {
             path: 'supplier_id',
             model: 'Supplier', 
           },
-          {
-            path: 'shipping_id',
-            model: 'Shipping', 
-          },
         ] 
+      },
+      {
+        path: 'shipping_id',
+        model: 'Shipping', 
       }
     ])
     .exec();

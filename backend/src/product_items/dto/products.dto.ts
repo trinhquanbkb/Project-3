@@ -1,4 +1,4 @@
-import { IsString, IsArray, IsNumber } from 'class-validator';
+import { IsString, IsArray, IsNumber, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ProductItemDTO {
@@ -23,6 +23,10 @@ export class ProductItemDTO {
   @ApiProperty({ example: '', description: 'id đối tác' })
   @IsString()
   supplier_id: string;
+
+  @ApiProperty({ example: true, description: 'trạng thái huỷ' })
+  @IsBoolean()
+  hide: Boolean;
 
   @ApiProperty({ example: '', description: 'id sản phẩm' })
   @IsString()
