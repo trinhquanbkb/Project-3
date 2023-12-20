@@ -23,6 +23,7 @@ const SettingWarehouse = React.lazy(() => import("../pages/setting/Warehouse"));
 const SettingCategory = React.lazy(() => import("../pages/setting/Category"));
 const SettingRole = React.lazy(() => import("../pages/setting/Role"));
 const SettingSupplier = React.lazy(() => import("../pages/setting/Supplier"));
+const SettingShipper = React.lazy(() => import("../pages/setting/Shipper"));
 
 // receipt
 const ReceiptList = React.lazy(() => import("../pages/receipt/index"));
@@ -201,6 +202,12 @@ const projectAppRoutes: RoutesProps[] = [
 				path: "/setting/supplier",
 				name: "Setting Supplier",
 				component: SettingSupplier,
+				route: PrivateRoute,
+			},
+			{
+				path: "/setting/shipping",
+				name: "Setting Shipper",
+				component: SettingShipper,
 				route: PrivateRoute,
 			},
 			{
