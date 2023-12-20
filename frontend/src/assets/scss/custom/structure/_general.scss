@@ -13,9 +13,12 @@ body {
 
 .input-search {
 	width: 100%;
+	border-radius: 4px;
+	border: 1px solid #d4d4d4;
 
 	.select__control.css-1s2u09g-control {
 		height: 44px;
+		border: none;
 	}
 	.select__control.select__control--menu-is-open,
 	.select__control.css-1pahdxg-control {

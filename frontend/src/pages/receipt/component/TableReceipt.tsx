@@ -20,11 +20,6 @@ const columns = [
 		accessor: "quantity",
 	},
 	{
-		Header: "Tổng cân nặng",
-		accessor: "weight",
-		sort: false,
-	},
-	{
 		Header: "Đối tác",
 		accessor: "supplierId",
 	},
@@ -84,16 +79,25 @@ const TableReceipt = (props: ITableReceipt) => {
 									<button
 										type="button"
 										className="btn btn-create-order"
+										onClick={() => {
+											props.handleViewReceipt(item.id);
+										}}
 									>
 										<i className="uil uil-eye"></i>
 										<span className="title">
 											Xem chi tiết
 										</span>
 									</button>
-									{item.status !== "Thành công" ? (
+									{item.status !== "Thành công" &&
+									item.status !== "Huỷ" ? (
 										<button
 											type="button"
 											className="btn btn-delete-tracking"
+											onClick={() => {
+												props.handleApproveReceipt(
+													item.id
+												);
+											}}
 										>
 											<i className="uil uil-check"></i>
 											<span className="title">
@@ -111,9 +115,6 @@ const TableReceipt = (props: ITableReceipt) => {
 								>
 									{item.status}
 								</p>
-							)),
-							(item["id"] = (
-								<p className="fw-bold mb-0">{item.id}</p>
 							))
 						)
 				  )}

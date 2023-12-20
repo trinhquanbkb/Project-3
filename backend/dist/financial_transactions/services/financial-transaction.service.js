@@ -25,7 +25,7 @@ let FinancialTransactionService = class FinancialTransactionService {
         this.productItemModel = productItemModel;
     }
     async create(roleDto) {
-        const productItems = await this.productItemModel.insertMany(roleDto.products.map(product => ({
+        const productItems = await this.productItemModel.insertMany(roleDto.products.map((product) => ({
             expriry_data: product.expriry_data,
             quantity: product.quantity,
             price: product.price,
@@ -34,15 +34,26 @@ let FinancialTransactionService = class FinancialTransactionService {
             product_id: product.product_id,
             weight: product.weight,
             quantity_sold: 0,
-            hide: true
+            hide: true,
         })));
-        const createdRole = new this.roleModel(Object.assign(Object.assign({}, roleDto), { products: productItems.map(productItem => productItem._id.toString()) }));
+        const createdRole = new this.roleModel(Object.assign(Object.assign({}, roleDto), { products: productItems.map((productItem) => productItem._id.toString()) }));
         return createdRole.save();
     }
     async findAll(pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
-        const data = await this.roleModel.find(filter).sort({ createdAt: -1 }).skip(skip).limit(parseInt(pageSize, 10))
+        let filterData = {};
+        if (filter.code !== '') {
+            filterData['_id'] = filter.code;
+        }
+        else {
+            filterData = {};
+        }
+        const data = await this.roleModel
+            .find(filterData)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(parseInt(pageSize, 10))
             .populate([
             {
                 path: 'warehouseId',
@@ -54,24 +65,44 @@ let FinancialTransactionService = class FinancialTransactionService {
             },
             {
                 path: 'products',
-                model: 'ProductItem'
-            }
+                model: 'ProductItem',
+            },
         ])
             .exec();
-        const total = await this.roleModel.countDocuments(filter).exec();
+        const total = await this.roleModel.countDocuments(filterData).exec();
         const paginations = {
-            "page": page,
-            "pageSize": pageSize,
-            "total": total,
-            "totalPage": Math.ceil(total / pageSize)
+            page: page,
+            pageSize: pageSize,
+            total: total,
+            totalPage: Math.ceil(total / pageSize),
         };
-        return { data, paginations, messenger: "succes" };
+        return { data, paginations, messenger: 'success' };
     }
     async findOne(id) {
-        return this.roleModel.findById(id).exec();
+        return this.roleModel
+            .findById(id)
+            .populate([
+            {
+                path: 'warehouseId',
+                model: 'Warehouse',
+            },
+            {
+                path: 'supplierId',
+                model: 'Supplier',
+            },
+            {
+                path: 'products',
+                model: 'ProductItem',
+                populate: {
+                    path: 'product_id',
+                    model: 'Product',
+                },
+            },
+        ])
+            .exec();
     }
     async update(id, roleDto) {
-        if (roleDto.status == "Thành công") {
+        if (roleDto.status == 'Thành công') {
             const data = await this.roleModel.findById(id);
             if (data) {
                 this.productItemModel.updateMany({ _id: { $in: data.products } }, { $set: { hide: false } });

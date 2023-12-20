@@ -65,7 +65,6 @@ export class OrdersService {
 
   async findOne(filter: any) {
     let data = this.productModel.find(filter);
-    console.log(data);
     return data;
   }
 

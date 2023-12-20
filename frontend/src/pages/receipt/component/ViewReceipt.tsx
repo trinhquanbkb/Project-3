@@ -1,6 +1,7 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Loading from "../../../components/Loading";
-import { useGetUserDetailQuery } from "../../../api/userApi";
+import { useGetReceiptDetailQuery } from "../../../api/receiptApi";
+import { convertDate } from "../../../utils/function";
 
 const ViewReceipt = ({
 	id,
@@ -11,8 +12,7 @@ const ViewReceipt = ({
 	handleClose: () => void;
 	isClass: string;
 }) => {
-	const { data: userDetail, isFetching: fetchingUser } =
-		useGetUserDetailQuery(id);
+	const { data, isFetching } = useGetReceiptDetailQuery(id);
 
 	return (
 		<>
@@ -23,78 +23,205 @@ const ViewReceipt = ({
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Thông tin nhân viên</h2>
+						<h2>Thông tin chi tiết phiếu nhập kho</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 
-					{fetchingUser ? (
+					{isFetching ? (
 						<Loading />
 					) : (
 						<div className="popup-inner view-order">
 							<div className="content-order-detail">
 								<div className="wrap-order-detail w-100">
-									<div className="order-detail">
-										<Row>
-											<Col xs={12} md={6}>
-												<Form.Group className="mb-3">
-													<Form.Label>
-														Mã nhân viên
-													</Form.Label>
-													<Form.Control
-														type="text"
-														name="code"
-														value={userDetail?._id}
-														disabled
-													/>
-												</Form.Group>
-											</Col>
-											<Col xs={12} md={6}>
-												<Form.Group className="mb-3">
-													<Form.Label>
-														Tên nhân viên
-													</Form.Label>
-													<Form.Control
-														type="text"
-														name="username"
-														value={
-															userDetail?.username
-														}
-														disabled
-													/>
-												</Form.Group>
-											</Col>
-											<Col xs={12} md={6}>
-												<Form.Group className="mb-3">
-													<Form.Label>
-														Email
-													</Form.Label>
-													<Form.Control
-														type="text"
-														name="email"
-														value={
-															userDetail?.email
-														}
-														disabled
-													/>
-												</Form.Group>
-											</Col>
-											<Col xs={12} md={6}>
-												<Form.Group className="mb-3">
-													<Form.Label>
-														Số điện thoại
-													</Form.Label>
-													<Form.Control
-														type="text"
-														name="phone"
-														value={
-															userDetail?.phone
-														}
-														disabled
-													/>
-												</Form.Group>
-											</Col>
-										</Row>
-									</div>
+									<Form>
+										<div className="order-detail">
+											<Row>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Đối tác
+														</Form.Label>
+														<Form.Control
+															name="supplierId"
+															value={
+																data?.supplierId
+																	.name
+															}
+														></Form.Control>
+													</Form.Group>
+												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Nhập về kho
+														</Form.Label>
+														<Form.Control
+															name="warehouseId"
+															value={
+																data
+																	?.warehouseId
+																	.name
+															}
+														></Form.Control>
+													</Form.Group>
+												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Ghi chú
+														</Form.Label>
+														<Form.Control
+															type="text"
+															name="note"
+															value={data?.note}
+														/>
+													</Form.Group>
+												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Ngày tạo
+														</Form.Label>
+														<Form.Control
+															type="text"
+															value={convertDate(
+																data?.createdAt
+															)}
+														/>
+													</Form.Group>
+												</Col>
+												<div className="popup-inner view-order px-2">
+													<table
+														role="table"
+														className="table table-centered react-table table-custom table-tracking"
+													>
+														<thead>
+															<tr>
+																<th
+																	style={{
+																		width: "5%",
+																	}}
+																>
+																	STT
+																</th>
+																<th
+																	style={{
+																		width: "40%",
+																	}}
+																>
+																	Sản phẩm
+																</th>
+																<th
+																	style={{
+																		width: "13%",
+																	}}
+																>
+																	Cân nặng
+																</th>
+																<th
+																	style={{
+																		width: "13%",
+																	}}
+																>
+																	Số lượng{" "}
+																</th>
+																<th
+																	style={{
+																		width: "13%",
+																	}}
+																>
+																	Giá nhập
+																</th>
+																<th
+																	style={{
+																		width: "13%",
+																	}}
+																>
+																	Ngày hết hạn
+																</th>
+																<th></th>
+															</tr>
+														</thead>
+														<tbody>
+															{data?.products.map(
+																(
+																	row,
+																	index
+																) => (
+																	<tr
+																		key={
+																			index
+																		}
+																	>
+																		<td>
+																			{
+																				index
+																			}
+																		</td>
+																		<td>
+																			<input
+																				className="form-control"
+																				type="text"
+																				value={
+																					row
+																						.product_id
+																						.product_name
+																				}
+																			/>
+																		</td>
+																		<td>
+																			<input
+																				className="form-control"
+																				type="text"
+																				value={
+																					row.weight
+																				}
+																			/>
+																		</td>
+																		<td>
+																			<input
+																				className="form-control"
+																				type="text"
+																				value={
+																					row.quantity
+																				}
+																			/>
+																		</td>
+																		<td>
+																			<input
+																				className="form-control"
+																				type="text"
+																				value={
+																					row.price
+																				}
+																			/>
+																		</td>
+																		<td>
+																			{row.expriry_data ? (
+																				<input
+																					className="form-control"
+																					type="date"
+																					value={
+																						row.expriry_data
+																					}
+																				/>
+																			) : (
+																				<input
+																					className="form-control"
+																					type="text"
+																					value="Không có"
+																				/>
+																			)}
+																		</td>
+																	</tr>
+																)
+															)}
+														</tbody>
+													</table>
+												</div>
+											</Row>
+										</div>
+									</Form>
 								</div>
 								<div className="btn-bottom">
 									<Button
