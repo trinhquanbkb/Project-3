@@ -36,6 +36,7 @@ const CreateReceipt = ({
 	const [products, setProducts] = useState<Array<ProdutType>>([
 		{ ...productDefault },
 	]);
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const [supplier, setSupplier] = useState<Array<any>>([]);
 	const [warehose, setWarehose] = useState<Array<any>>([]);
 
@@ -81,6 +82,12 @@ const CreateReceipt = ({
 		);
 	}, []);
 
+	const handleClick = () => {
+		if (!buttonDisabled) {
+			setButtonDisabled(true);
+		}
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			supplierId: "",
@@ -96,7 +103,7 @@ const CreateReceipt = ({
 			let validate = true;
 			let idRowNull = null;
 			rows.forEach((item) => {
-				if (!item.productItemId) {
+				if (!item.productItemId || item.quantity <= 0 || item.price) {
 					validate = false;
 					idRowNull = item.id;
 				}
@@ -116,17 +123,28 @@ const CreateReceipt = ({
 				});
 				if (res?.data) {
 					toast.success("Tạo thông tin phiếu nhập kho thành công");
+					setButtonDisabled(!buttonDisabled);
 					handleClose();
 				} else {
 					toast.error("Tạo thông tin phiếu nhập kho thất bại");
+					setButtonDisabled(!buttonDisabled);
 				}
 			} else {
 				toast.warning(
-					`Cần điền đầy đủ thông tin cho sản phẩm hàng thứ ${idRowNull}`
+					`Cần điền đầy đủ các thông tin cho sản phẩm hàng thứ ${idRowNull} như: tên sản phẩm, giá nhập, số lượng`
 				);
+				setButtonDisabled(false);
 			}
 		},
 	});
+
+	useEffect(() => {
+		if (Object.keys(formik.errors).length === 0) {
+			setButtonDisabled(false);
+		} else {
+			setButtonDisabled(true);
+		}
+	}, [formik.errors]);
 
 	return (
 		<>
@@ -294,7 +312,7 @@ const CreateReceipt = ({
 																	width: "12%",
 																}}
 															>
-																Giá
+																Giá nhập
 															</th>
 															<th
 																style={{
@@ -539,7 +557,9 @@ const CreateReceipt = ({
 													onClick={(e) => {
 														e.preventDefault();
 														formik.handleSubmit();
+														handleClick();
 													}}
+													disabled={buttonDisabled}
 												>
 													<i className="uil uil-check me-1"></i>{" "}
 													Xác nhận

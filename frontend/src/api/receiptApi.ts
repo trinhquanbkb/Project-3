@@ -17,7 +17,7 @@ const ReceiptApi = api.injectEndpoints({
 				data: IReceipt[];
 				paginations: IPagination;
 			},
-			IReceiptQuery
+			any
 		>({
 			query: (params) => ({
 				url: "financial-transaction",
@@ -69,6 +69,26 @@ const ReceiptApi = api.injectEndpoints({
 				{ type: "Receipt", id: "Detail" },
 			],
 		}),
+		approveReceipt: build.mutation<any, string>({
+			query: (id) => ({
+				url: `financial-transaction/approve/${id}`,
+				method: "POST",
+			}),
+			invalidatesTags: [
+				{ type: "Receipt", id: "List" },
+				{ type: "Receipt", id: "Detail" },
+			],
+		}),
+		cancelReceipt: build.mutation<any, string>({
+			query: (id) => ({
+				url: `financial-transaction/cancel/${id}`,
+				method: "POST",
+			}),
+			invalidatesTags: [
+				{ type: "Receipt", id: "List" },
+				{ type: "Receipt", id: "Detail" },
+			],
+		}),
 	}),
 });
 
@@ -78,4 +98,6 @@ export const {
 	useUpdateReceiptMutation,
 	useDeleteReceiptMutation,
 	useCreateReceiptMutation,
+	useApproveReceiptMutation,
+	useCancelReceiptMutation,
 } = ReceiptApi;

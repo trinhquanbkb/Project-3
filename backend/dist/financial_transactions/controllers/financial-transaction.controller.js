@@ -26,13 +26,15 @@ let FinancialTransactionController = class FinancialTransactionController {
         return this.financialTransactionService.create(createFinancialTransactionDto);
     }
     async approve(id) {
-        return this.financialTransactionService.update(id, { status: "Thành công" });
+        return this.financialTransactionService.update(id, {
+            status: 'Thành công',
+        });
     }
     async cancel(id) {
-        return this.financialTransactionService.update(id, { status: "Huỷ" });
+        return this.financialTransactionService.update(id, { status: 'Huỷ' });
     }
     findAll(pagination, filter) {
-        const parsedFilter = JSON.parse(filter ? filter : "{}");
+        const parsedFilter = JSON.parse(filter ? filter : '{}');
         return this.financialTransactionService.findAll(pagination, parsedFilter);
     }
     findOne(id) {
@@ -60,16 +62,31 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], FinancialTransactionController.prototype, "approve", null);
 __decorate([
-    (0, common_1.Post)('/cancel:id'),
+    (0, common_1.Post)('/cancel/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], FinancialTransactionController.prototype, "cancel", null);
 __decorate([
-    (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
-    (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),
-    (0, swagger_1.ApiQuery)({ name: 'filter', type: String, required: false, description: 'Filter' }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'pageSize',
+        type: Number,
+        required: false,
+        description: 'Page size',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'filter',
+        type: String,
+        required: false,
+        description: 'Filter',
+    }),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Query)('filter')),

@@ -1,4 +1,5 @@
 import { IPagination } from "./pagination.model";
+import { IProduct } from "./product.model";
 import { ISupplier } from "./supplier.model";
 import { IWarehouse } from "./warehouse.model";
 
@@ -9,14 +10,20 @@ export interface IReceipt {
 	note: string;
 	status: string;
 	products: {
+		_id: string;
 		name: string;
 		quantity: number;
 		price: number;
 		total: number;
 		weight: number;
-		category: string;
+		expriry_data: string;
+		createdAt: string;
+		hide: boolean;
+		quantity_sold: number;
+		product_id: IProduct;
 	}[];
 	warehouseId: IWarehouse;
+	createdAt: string | undefined;
 }
 
 export interface IReceiptQuery {
@@ -52,6 +59,7 @@ export interface ITableReceipt {
 	handleViewReceipt: any;
 	handleEditReceipt: any;
 	handleDeleteReceipt: any;
+	handleApproveReceipt: any;
 	data:
 		| {
 				id: string;
