@@ -22,6 +22,7 @@ const products_module_2 = require("./product_items/products.module");
 const categories_module_1 = require("./categories/categories.module");
 const orders_module_1 = require("./orders/orders.module");
 const suppliers_module_1 = require("./suppliers/suppliers.module");
+const shipping_module_1 = require("./shipping/shipping.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -41,7 +42,8 @@ AppModule = __decorate([
             categories_module_1.CategoriesModule,
             orders_module_1.OrdersModule,
             permisstions_module_1.PermisstionsModule,
-            suppliers_module_1.SuppliersModule
+            suppliers_module_1.SuppliersModule,
+            shipping_module_1.ShippingsModule
         ],
     })
 ], AppModule);
