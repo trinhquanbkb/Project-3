@@ -23,18 +23,16 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { FinancialTransactionsDocument } from '../schema/financial-transaction.schema';
-import { CreateFinancialTransactionDto } from '../dto/create-financial-transaction.dto';
-import { ProductDocument } from 'src/products/schema/product.schema';
+import { OrderDocument } from '../schema/order.schema';
+import { OrdersDTO } from '../dto/orders.dto';
 import { ProductItemDocument } from 'src/product_items/schema/product.schema';
-export declare class FinancialTransactionService {
+export declare class OrdersService {
     private roleModel;
-    private productModel;
     private productItemModel;
-    constructor(roleModel: Model<FinancialTransactionsDocument>, productModel: Model<ProductDocument>, productItemModel: Model<ProductItemDocument>);
-    create(roleDto: CreateFinancialTransactionDto): Promise<FinancialTransactionsDocument>;
-    findAll(pagination: any, filter: any): Promise<{
-        data: Omit<import("mongoose").Document<unknown, {}, FinancialTransactionsDocument> & import("../schema/financial-transaction.schema").FinancialTransaction & import("mongoose").Document<any, any, any> & {
+    constructor(roleModel: Model<OrderDocument>, productItemModel: Model<ProductItemDocument>);
+    createRole(roleDto: OrdersDTO): Promise<OrderDocument>;
+    findAllRoles(pagination: any, filter: any): Promise<{
+        data: Omit<import("mongoose").Document<unknown, {}, OrderDocument> & import("../schema/order.schema").Order & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         }, never>[];
         paginations: {
@@ -45,7 +43,7 @@ export declare class FinancialTransactionService {
         };
         messenger: string;
     }>;
-    findOne(id: string): Promise<FinancialTransactionsDocument | null>;
-    update(id: string, roleDto: any): Promise<FinancialTransactionsDocument | null>;
-    remove(id: string): Promise<FinancialTransactionsDocument | null>;
+    findRoleById(id: string): Promise<OrderDocument | null>;
+    update(id: string, roleDto: any): Promise<OrderDocument | null>;
+    deleteRole(id: string): Promise<OrderDocument | null>;
 }

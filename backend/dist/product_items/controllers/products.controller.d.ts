@@ -23,16 +23,14 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { FinancialTransactionService } from '../services/financial-transaction.service';
-import { CreateFinancialTransactionDto } from '../dto/create-financial-transaction.dto';
-export declare class FinancialTransactionController {
-    private readonly financialTransactionService;
-    constructor(financialTransactionService: FinancialTransactionService);
-    create(createFinancialTransactionDto: CreateFinancialTransactionDto): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    approve(id: string): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    cancel(id: string): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    findAll(pagination: any, filter: string): Promise<{
-        data: Omit<import("mongoose").Document<unknown, {}, import("../schema/financial-transaction.schema").FinancialTransactionsDocument> & import("../schema/financial-transaction.schema").FinancialTransaction & import("mongoose").Document<any, any, any> & {
+import { OrdersService } from '../services/products.service';
+import { ProductItemDTO } from '../dto/products.dto';
+export declare class OrdersController {
+    private readonly rolesService;
+    constructor(rolesService: OrdersService);
+    createRole(roleDto: ProductItemDTO): Promise<import("../schema/product.schema").ProductItemDocument>;
+    findAllRoles(pagination: any, filter: string): Promise<{
+        data: Omit<import("mongoose").Document<unknown, {}, import("../schema/product.schema").ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         }, never>[];
         paginations: {
@@ -43,7 +41,7 @@ export declare class FinancialTransactionController {
         };
         messenger: string;
     }>;
-    findOne(id: string): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    update(id: string, updateFinancialTransactionDto: CreateFinancialTransactionDto): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
-    remove(id: string): Promise<import("../schema/financial-transaction.schema").FinancialTransactionsDocument>;
+    findRoleById(id: string): Promise<import("../schema/product.schema").ProductItemDocument>;
+    updateRole(id: string, roleDto: ProductItemDTO): Promise<import("../schema/product.schema").ProductItemDocument>;
+    deleteRole(id: string): Promise<import("../schema/product.schema").ProductItemDocument>;
 }
