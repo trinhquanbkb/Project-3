@@ -4,7 +4,10 @@ import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 
 import TableWarehouse from "./component/TableWarehouse";
-import { useDeleteWarehouseMutation, useGetWarehouseListQuery } from "../../api/warehouseApi";
+import {
+	useDeleteWarehouseMutation,
+	useGetWarehouseListQuery,
+} from "../../api/warehouseApi";
 import { IWarehouseQuery } from "../../models/warehouse.model";
 import Loading from "../../components/Loading";
 import ViewWarehouse from "./component/ViewWarehouse";
@@ -13,7 +16,6 @@ import EditWarehouse from "./component/EditWarehouse";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import CreateWarehouse from "./component/CreateWarehouse";
-
 
 const listBreadCrumb = [
 	{
@@ -29,7 +31,6 @@ const listBreadCrumb = [
 	},
 ];
 
-
 const WarehouseList = () => {
 	const location = useLocation();
 	const [idWarehouse, setIdWarehouse] = useState("");
@@ -41,17 +42,18 @@ const WarehouseList = () => {
 	const [search, setSearch] = useState<IWarehouseQuery>({
 		page: 1,
 		pageSize: 10,
-		filter: {}
+		filter: {},
 	});
-	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({ ...search });
+	const { data: listWarehouse, isFetching } = useGetWarehouseListQuery({
+		...search,
+	});
 
 	const [deleteWarehouseApi] = useDeleteWarehouseMutation();
 
 	useEffect(() => {
-
 		const query = location.search;
 		const parsed = queryString.parse(query);
-		
+
 		const page = parsed.page ? Number(parsed.page) : 1;
 		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
 		const filter = parsed.filter ? parsed.filter : {};
@@ -65,7 +67,7 @@ const WarehouseList = () => {
 	}, []);
 
 	// xử lý việc url thay đổi khi có filter
-	useEffect(() => {		
+	useEffect(() => {
 		const query = queryString.stringifyUrl(
 			{
 				url: "warehouse",
@@ -109,19 +111,17 @@ const WarehouseList = () => {
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
-			if (keywordWarehouseName.trim() === ""){
+			if (keywordWarehouseName.trim() === "") {
 				setSearch({
 					...search,
-					filter: {
-						
-					}
+					filter: {},
 				});
-			}else {
+			} else {
 				setSearch({
 					...search,
 					filter: {
 						name: keywordWarehouseName.trim(),
-					}
+					},
 				});
 			}
 		}
@@ -196,7 +196,8 @@ const WarehouseList = () => {
 										setCreateModal(!createModal);
 									}}
 								>
-									<i className="uil-plus me-1"></i> Thêm nhà kho
+									<i className="uil-plus me-1"></i> Thêm nhà
+									kho
 								</Button>
 							</div>
 						</div>
@@ -232,19 +233,20 @@ const WarehouseList = () => {
 													type="submit"
 													className="btn-search"
 													onClick={() => {
-														if (keywordWarehouseName.trim() === ""){
+														if (
+															keywordWarehouseName.trim() ===
+															""
+														) {
 															setSearch({
 																...search,
-																filter: {
-																	
-																}
+																filter: {},
 															});
-														}else {
+														} else {
 															setSearch({
 																...search,
 																filter: {
 																	name: keywordWarehouseName.trim(),
-																}
+																},
 															});
 														}
 													}}
@@ -271,12 +273,12 @@ const WarehouseList = () => {
 					data={
 						listWarehouse
 							? listWarehouse.data.map((item) => {
-								return {
-									id: item._id,
-									name: item.name,
-									address: item.address
-								};
-							})
+									return {
+										id: item._id,
+										name: item.name,
+										address: item.address,
+									};
+							  })
 							: null
 					}
 				/>
