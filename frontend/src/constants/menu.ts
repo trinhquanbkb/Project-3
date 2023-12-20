@@ -63,12 +63,6 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		icon: "settings",
 		children: [
 			{
-				key: "setting-role",
-				label: "Vai trò",
-				url: "/setting/role",
-				parentKey: "setting",
-			},
-			{
 				key: "setting-category",
 				label: "Danh mục sản phẩm",
 				url: "/setting/category",

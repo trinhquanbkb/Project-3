@@ -59,12 +59,16 @@ const ReceiptList = () => {
 		const parsed = queryString.parse(query);
 		const page = parsed.page ? Number(parsed.page) : 1;
 		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const code = parsed.code ? parsed.code.toString() : "";
 
 		setSearch({
 			...search,
 			page,
 			pageSize,
 		});
+
+		setFilter({ code: code });
+		setKeywordCode(code);
 	}, []);
 
 	// xử lý việc url thay đổi khi có filter
@@ -75,6 +79,7 @@ const ReceiptList = () => {
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
+					code: filter.code,
 				},
 			},
 			{
@@ -82,7 +87,7 @@ const ReceiptList = () => {
 			}
 		);
 		window.history.pushState(null, "", query);
-	}, [search]);
+	}, [search, filter]);
 
 	// handle filter page with page and pageSize
 	const handleFilterPage = (filter: any) => {
@@ -228,6 +233,7 @@ const ReceiptList = () => {
 												<Form.Control
 													type="search"
 													placeholder="Tìm kiếm mã phiếu nhập kho"
+													value={keywordCode}
 													onChange={(e) => {
 														setKeywordCode(
 															e.target.value
