@@ -9,9 +9,17 @@ import * as path from 'path';
 export class ImagesController {
     @Get(':filename')
     async getImage(@Param('filename') filename: string, @Res() res: Response) {
-      // Kiểm tra xem tên file có chứa ../ hay không
+      // Kiểm tra xem tên file có chứa .. hay không
       if (filename.includes('..')) {
         throw new Error('Tên file không hợp lệ');
+      }
+
+      const fileExtension = path.extname(filename).toLowerCase();
+      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif']; // Thêm các định dạng mở rộng khác nếu cần
+  
+      const isValidExtension = allowedExtensions.some(ext => fileExtension.endsWith(ext));
+      if (!isValidExtension) {
+        throw new Error('Định dạng file không hỗ trợ');
       }
 
       const filePath = path.join(__dirname, '..', 'uploads', filename);
