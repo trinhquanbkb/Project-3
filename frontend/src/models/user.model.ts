@@ -33,9 +33,7 @@ export interface ICreateUser {
 export interface IUserQuery {
 	page: number;
 	pageSize: number;
-	username?: string;
-	role_id: string;
-	email: string;
+	filter: { username?: string; role_id: string; email: string };
 }
 
 export interface ITableUser {

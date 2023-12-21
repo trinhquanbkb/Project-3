@@ -39,7 +39,7 @@ const TrackingList = () => {
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
-	const [search, setSearch] = useState<IUserQuery>({
+	const [search, setSearch] = useState<any>({
 		page: 1,
 		pageSize: 10,
 		username: "",
@@ -48,7 +48,15 @@ const TrackingList = () => {
 	});
 
 	// fetch user
-	const { data: listUser, isFetching } = useGetUserListQuery({ ...search });
+	const { data: listUser, isFetching } = useGetUserListQuery({
+		page: search.page,
+		pageSize: search.pageSize,
+		filter: {
+			username: search.username.trim(),
+			role_id: search.role_id.trim(),
+			email: search.email.trim(),
+		},
+	});
 
 	// api delete user
 	const [deleteUserApi] = useDeleteUserMutation();
