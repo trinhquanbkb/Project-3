@@ -41,6 +41,9 @@ let OrdersService = class OrdersService {
     async findRoleById(id) {
         return this.roleModel.findById(id).exec();
     }
+    async findProductItemsByWarehouseId(warehouseId) {
+        return this.roleModel.find({ warehouse_id: warehouseId }).exec();
+    }
     async updateRole(id, roleDto) {
         return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
     }

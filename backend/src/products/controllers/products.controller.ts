@@ -1,7 +1,7 @@
 // roles.controller.ts
 
 import { Controller, Post, Get, Put, Delete, Param, Body, UseGuards, Query } from '@nestjs/common';
-import { OrdersService } from '../services/products.service';
+import { OrdersServiceProduct } from '../services/products.service';
 import { ProductsDTO } from '../dto/products.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
@@ -12,7 +12,7 @@ import { FilterQuery } from 'mongoose';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('authorization')
 export class OrdersController {
-  constructor(private readonly rolesService: OrdersService) {}
+  constructor(private readonly rolesService: OrdersServiceProduct) {}
 
   @Post()
   createRole(@Body() roleDto: ProductsDTO) {

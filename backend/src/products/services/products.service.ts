@@ -7,7 +7,7 @@ import { ProductDocument } from '../schema/product.schema';
 import { ProductsDTO } from '../dto/products.dto';
 
 @Injectable()
-export class OrdersService {
+export class OrdersServiceProduct {
   constructor(@InjectModel('Product') private roleModel: Model<ProductDocument>) {}
 
   async createRole(roleDto: ProductsDTO): Promise<ProductDocument> {
