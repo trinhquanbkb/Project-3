@@ -17,15 +17,29 @@ export class UsersService {
     return await this.usersRepository.create(createUserDto);
   }
 
-  async findAll(pagination: any, filter: any){
-    const {  page, pageSize } = pagination;
+  async findAll(pagination: any, filter: any) {
+    const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
+
+    let filterData = {};
+    if (filter.username !== '') {
+      filterData['username'] = filter.username;
+    }
+    if (filter.role_id !== '') {
+      filterData['role_id'] = filter.role_id;
+    }
+    if (filter.email !== '') {
+      filterData['email'] = filter.email;
+    }
+
+    console.log(filterData);
+
     const data = await this.usersRepository.findAll(
-      filter,
+      filterData,
       skip,
       parseInt(pageSize, 10),
     );
-    const total = await this.usersRepository.countAll(filter);
+    const total = await this.usersRepository.countAll(filterData);
     const paginations = {
       page: page,
       pageSize: pageSize,
