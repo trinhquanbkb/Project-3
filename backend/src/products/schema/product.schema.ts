@@ -6,16 +6,15 @@ import { Document } from 'mongoose';
 export type ProductDocument = Product & Document;
 
 @Schema({
-  timestamps: true
+  timestamps: true,
 })
 export class Product {
-
   @Prop({
     required: true,
     type: String,
   })
   product_name: string;
-  
+
   @Prop({
     required: true,
     type: Array<any>,

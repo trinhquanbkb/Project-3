@@ -35,6 +35,9 @@ const DeliveryBillList = React.lazy(
 
 // inventory
 const InventoryList = React.lazy(() => import("../pages/inventory/index"));
+const InventoryDetail = React.lazy(
+	() => import("../pages/inventory/Components/ViewInventory")
+);
 
 // employee
 const EmployeeList = React.lazy(() => import("../pages/employee/index"));
@@ -126,6 +129,12 @@ const projectAppRoutes: RoutesProps[] = [
 		roles: ["Admin"],
 		icon: "uil-briefcase",
 		children: [
+			{
+				path: "/inventory/:id",
+				name: "Inventory Detail",
+				component: InventoryDetail,
+				route: PrivateRoute,
+			},
 			{
 				path: "/inventory",
 				name: "Inventory List",
