@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import { useGetProductListQuery } from "../../api/productApi";
-import ViewEmployee from "./Components/ViewEmplyee";
+import ItemProduct from "./Components/ItemProduct";
+import PaginationSingle from "../../components/PaginationSingle";
+import Loading from "../../components/Loading";
+import { useHistory } from "react-router-dom";
 
 const listBreadCrumb = [
 	{
@@ -18,24 +21,23 @@ const listBreadCrumb = [
 ];
 
 const UserList = () => {
-	const [viewModal, setViewModal] = useState(false);
+	const history = useHistory();
 	const [search, setSearch] = useState<any>({
 		page: 1,
-		pageSize: 10,
+		pageSize: 20,
 	});
-	const [id, setId] = useState("");
 	const { data: listProduct, isFetching } = useGetProductListQuery({
 		...search,
 	});
 
-	if (isFetching) {
-		return <>empty</>;
-	}
-	const handleClosePopup = () => {
-		if (viewModal) {
-			setViewModal(!viewModal);
-		}
+	const handlePagination = (page: number) => {
+		setSearch({ ...search, page: page });
 	};
+
+	const handleViewModal = (id: string) => {
+		history.push(`/inventory/${id}`);
+	};
+
 	return (
 		<>
 			<Row>
@@ -106,57 +108,30 @@ const UserList = () => {
 				</Col>
 			</Row>
 
-			<div
-				style={{
-					display: "grid",
-					gridTemplateColumns: "repeat(4, 1fr)",
-					gap: "10px",
-					padding: "20px",
-				}}
-			>
-				{" "}
-				{listProduct?.data.map(
-					(dt) =>
-						dt.quantity > 0 && (
-							<div
-								style={{
-									padding: "20px",
-									border: "1px solid #ddd",
-									textAlign: "center",
-								}}
-							>
-								<img
-									src={dt.url}
-									style={{
-										width: "100%",
-										objectFit: "cover",
-										aspectRatio: "1/1",
-									}}
-								/>
-								<div style={{ fontSize: 16, fontWeight: 700 }}>
-									Tên: {dt.product_name}
-								</div>
-								<div style={{ fontSize: 16, fontWeight: 600 }}>
-									Số lượng:{dt.quantity}
-								</div>
-								<button
-									onClick={() => {
-										setId(dt._id);
-										setViewModal(true);
-									}}
-								>
-									Xem chi tiết
-								</button>
-							</div>
-						)
-				)}
-			</div>
-			{viewModal && (
-				<ViewEmployee
-					isClass={"active"}
-					id={id.toString()}
-					handleClose={handleClosePopup}
-				/>
+			{listProduct ? (
+				<div>
+					<Row>
+						{listProduct?.data.map((dt, index) => {
+							return (
+								<Col xs={4} lg={3} key={index}>
+									<ItemProduct
+										data={dt}
+										handleView={handleViewModal}
+									/>
+								</Col>
+							);
+						})}
+					</Row>
+
+					<PaginationSingle
+						page={search.page}
+						handlePagination={handlePagination}
+						totalPage={listProduct.paginations.totalPage}
+						className="mt-2 mb-5"
+					/>
+				</div>
+			) : (
+				<Loading />
 			)}
 		</>
 	);

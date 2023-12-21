@@ -1,7 +1,7 @@
 // roles.service.ts
 
 import { Injectable } from '@nestjs/common';
-import { FilterQuery, Model } from 'mongoose';
+import mongoose, { FilterQuery, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { ProductDocument } from '../schema/product.schema';
 import { ProductsDTO } from '../dto/products.dto';
@@ -50,17 +50,55 @@ export class OrdersService {
       ])
       .exec();
     const total = await this.productModel.countDocuments(filter).exec();
+    const results = data.map((item) => {
+      let quantityPr = 0;
+      item.product_items.forEach((i) => {
+        quantityPr += i.quantity;
+      });
+      return { ...item, quantity: quantityPr };
+    });
     const paginations = {
       page: page,
       pageSize: pageSize,
       total: total,
       totalPage: Math.ceil(total / pageSize),
     };
-    return { data, paginations, messenger: 'succes' };
+    return { data: results, paginations, messenger: 'succes' };
   }
 
-  async findRoleById(id: string): Promise<ProductDocument | null> {
-    return this.productModel.findById(id).exec();
+  async findRoleById(id: string): Promise<any> {
+    const result = await this.productModel
+      .aggregate([
+        {
+          $match: {
+            _id: new mongoose.Types.ObjectId(id),
+          },
+        },
+        {
+          $lookup: {
+            from: 'productitems',
+            let: { productId: '$_id' },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ['$product_id', { $toString: '$$productId' }],
+                  },
+                },
+              },
+            ],
+            as: 'product_items',
+          },
+        },
+      ])
+      .exec();
+    let quantity = 0;
+    if (result.length === 0) {
+      return {};
+    } else {
+      result[0].product_items.forEach((item) => (quantity += item.quantity));
+      return { ...result[0], quantity: quantity };
+    }
   }
 
   async findOne(filter: any) {
