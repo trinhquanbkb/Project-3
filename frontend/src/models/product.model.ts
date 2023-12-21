@@ -5,9 +5,9 @@ export interface IProduct {
 	product_name: string;
 	quantity: number;
 	url: string;
-	products_items_item: Array<any>;
-	createdAt: Date;
-	updatedAt: Date;
+	product_items: Array<any>;
+	createdAt: string;
+	updatedAt: string;
 	__v: any;
 }
 

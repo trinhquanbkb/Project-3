@@ -18,3 +18,18 @@ export const checkStatus = (data: any) => {
 	}
 	return statusClass;
 };
+
+export const checkStatusProductItem = (data: any) => {
+	let statusClass;
+	switch (data) {
+		case "Đã duyệt":
+			statusClass = "thanh-cong";
+			break;
+		case "Chưa duyệt":
+			statusClass = "huy";
+			break;
+		default:
+			statusClass = "";
+	}
+	return statusClass;
+};

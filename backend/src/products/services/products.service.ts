@@ -92,7 +92,13 @@ export class OrdersService {
         },
       ])
       .exec();
-    return result.length === 0 ? {} : result[0];
+    let quantity = 0;
+    if (result.length === 0) {
+      return {};
+    } else {
+      result[0].product_items.forEach((item) => (quantity += item.quantity));
+      return { ...result[0], quantity: quantity };
+    }
   }
 
   async findOne(filter: any) {
