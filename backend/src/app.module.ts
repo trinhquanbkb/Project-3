@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
@@ -16,6 +16,7 @@ import { SuppliersModule } from './suppliers/suppliers.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { TopProductModule } from './top_product/top_product.module'
 import { InventoryProductsModule } from './inventory_products/inventory_products.module';
+import { XSSRequestWrapper } from './middlewares/XSSRequestWrapper';
 
 @Module({
   imports: [
@@ -39,4 +40,8 @@ import { InventoryProductsModule } from './inventory_products/inventory_products
     InventoryProductsModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(XSSRequestWrapper).forRoutes('*');
+  }
+}

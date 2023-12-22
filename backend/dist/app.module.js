@@ -25,7 +25,11 @@ const suppliers_module_1 = require("./suppliers/suppliers.module");
 const statistics_module_1 = require("./statistics/statistics.module");
 const top_product_module_1 = require("./top_product/top_product.module");
 const inventory_products_module_1 = require("./inventory_products/inventory_products.module");
+const XSSRequestWrapper_1 = require("./middlewares/XSSRequestWrapper");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer.apply(XSSRequestWrapper_1.XSSRequestWrapper).forRoutes('*');
+    }
 };
 AppModule = __decorate([
     (0, common_1.Module)({
