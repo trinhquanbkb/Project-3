@@ -45,6 +45,9 @@ export declare class OrdersService {
     findProductItemsByWarehouseId(warehouseId: string): Promise<(import("mongoose").Document<unknown, {}, ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     })[]>;
+    sortByQuantitySoldWareHouse(warehouseId: string, limit: number): Promise<(import("mongoose").Document<unknown, {}, ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
     updateRole(id: string, roleDto: ProductItemDTO): Promise<ProductItemDocument | null>;
     deleteRole(id: string): Promise<ProductItemDocument | null>;
 }

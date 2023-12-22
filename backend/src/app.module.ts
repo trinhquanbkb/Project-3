@@ -14,6 +14,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { SuppliersModule } from './suppliers/suppliers.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { TopProductModule } from './top_product/top_product.module'
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     PermisstionsModule,
     SuppliersModule,
     StatisticsModule,
+    TopProductModule,
   ],
 })
 export class AppModule {}

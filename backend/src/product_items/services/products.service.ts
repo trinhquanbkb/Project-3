@@ -37,6 +37,10 @@ export class OrdersService {
     return this.roleModel.find({ warehouse_id: warehouseId }).exec();
   }
 
+  async sortByQuantitySoldWareHouse(warehouseId: string, limit: number) {
+    return this.roleModel.find({ warehouse_id: warehouseId }).sort({ quantity_sold: -1 }).limit(limit).exec();
+  }
+
   async updateRole(id: string, roleDto: ProductItemDTO): Promise<ProductItemDocument | null> {
     return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }
