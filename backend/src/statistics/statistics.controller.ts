@@ -7,7 +7,6 @@ import { OrdersService } from 'src/product_items/services/products.service';
 import { OrdersServiceProduct } from 'src/products/services/products.service';
 
 
-
 @Controller('statistics')
 @ApiTags('statistics')
 @UseGuards(JwtAuthGuard)
@@ -24,39 +23,28 @@ export class StatisticsController {
   async getStatistics(@Req() request: any): Promise<any> {
     const token = request.headers.authorization.replace('Bearer ', '');
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    
     const warehouseId = decodedToken["warehouse_id"];
-
     if (warehouseId) {
-      const productItems = await this.ordersService.findProductItemsByWarehouseId(warehouseId);
-      const productItemIds = productItems.map(item => item.id);
-      // const productIds = productItems.map(item => item.customProductId);
-      const productIds: string[] = [];
+      const productItems: any[] = await this.ordersService.findProductItemsByWarehouseId(warehouseId);
+      const productsArray: any[] = [];
+      
+      for (const productId of productItems) {
+        // const quantity = productId.get('quantity') || 0;
+        // const quantity_sold = productId.get('quantity_sold') || 0;
+        // const remainingQuantity = quantity - quantity_sold;
 
-      for (const item of productItems) {
-        productIds.push(item['product_id']);
-        // console.log(item)
+        const product_id = productId.get('product_id')
+
+        if (product_id) {
+          const product = await this.productsService.findRoleById(product_id);
+          if (product) {
+            const productWithDetails = { ...product.toObject(), ...productId.toObject()};
+            // const productWithDetails = { ...product.toObject(), ...productId.toObject(), "remainingQuantity": remainingQuantity };
+            productsArray.push(productWithDetails);
+          }
+        }
       }
-      // const productsArray: any[] = [];
-
-      for (const productId of productIds) {
-        const product: any = await this.productsService.findRoleById(productId)
-
-        // if (product) {
-        //   product.quantity = await this.ordersService.findRoleById(productId)['quantity'];
-        //   // product.newField2 = 'value2';
-        //   productsArray.push(product);
-        // }
-        // productsArray.push(product);
-        // return product;
-        console.log(product)
-      }
-
-      // return productsArray;
-
+      return productsArray;
     }
-
-    
-    return "Hết";
   }
 }
