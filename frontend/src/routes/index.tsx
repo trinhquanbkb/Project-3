@@ -28,6 +28,9 @@ const SettingShipper = React.lazy(() => import("../pages/setting/Shipper"));
 // receipt
 const ReceiptList = React.lazy(() => import("../pages/receipt/index"));
 
+// charts
+const Charts = React.lazy(() => import("../pages/charts/"));
+
 // delivery bill
 const DeliveryBillList = React.lazy(
 	() => import("../pages/deliveryBill/index")
@@ -41,9 +44,6 @@ const InventoryDetail = React.lazy(
 
 // employee
 const EmployeeList = React.lazy(() => import("../pages/employee/index"));
-
-// report
-const Report = React.lazy(() => import("../pages/report/index"));
 
 // statistics
 const Statistics = React.lazy(() => import("../pages/statistics/index"));
@@ -159,21 +159,6 @@ const projectAppRoutes: RoutesProps[] = [
 		],
 	},
 	{
-		path: "/report",
-		name: "Report",
-		route: PrivateRoute,
-		roles: ["Admin"],
-		icon: "uil-briefcase",
-		children: [
-			{
-				path: "/report",
-				name: "Report List",
-				component: Report,
-				route: PrivateRoute,
-			},
-		],
-	},
-	{
 		path: "/statistics",
 		name: "Statistics",
 		route: PrivateRoute,
@@ -226,6 +211,12 @@ const projectAppRoutes: RoutesProps[] = [
 				route: PrivateRoute,
 			},
 		],
+	},
+	{
+		path: "/components/charts",
+		name: "Charts",
+		component: Charts,
+		route: PrivateRoute,
 	},
 ];
 
