@@ -10,7 +10,15 @@ export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOne(filter: any): Promise<UserDocument | null> {
-    return this.userModel.findOne(filter);
+    return this.userModel
+      .findOne(filter)
+      .populate([
+        {
+          path: 'warehouse_id', // Tên trường trong schema FinancialTransaction
+          model: 'Warehouse', // Tên collection
+        },
+      ])
+      .exec();
   }
 
   async create(createDto: CreateUserDto): Promise<UserDocument> {

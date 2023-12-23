@@ -29,24 +29,30 @@ let OrdersService = class OrdersService {
     async findAllRoles(pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
-        const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10))
+        const data = await this.roleModel
+            .find(filter)
+            .skip(skip)
+            .limit(parseInt(pageSize, 10))
             .populate({
             path: 'product_id',
             model: 'Product',
-            select: "product_name"
+            select: 'product_name',
         })
             .exec();
         const total = await this.roleModel.countDocuments(filter).exec();
         const paginations = {
-            "page": page,
-            "pageSize": pageSize,
-            "total": total,
-            "totalPage": Math.ceil(total / pageSize)
+            page: page,
+            pageSize: pageSize,
+            total: total,
+            totalPage: Math.ceil(total / pageSize),
         };
-        return { data, paginations, messenger: "succes" };
+        return { data, paginations, messenger: 'succes' };
     }
     async findRoleById(id) {
         return this.roleModel.findById(id).exec();
+    }
+    async search(inputString) {
+        return await this.roleModel.findById(inputString).exec();
     }
     async updateRole(id, roleDto) {
         return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();

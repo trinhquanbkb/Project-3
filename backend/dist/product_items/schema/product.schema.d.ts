@@ -25,6 +25,7 @@
 import { Document } from 'mongoose';
 export type ProductItemDocument = ProductItem & Document;
 export declare class ProductItem {
+    id: string;
     expriry_data: string;
     quantity: Number;
     weight: Number;

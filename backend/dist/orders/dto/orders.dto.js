@@ -26,11 +26,14 @@ __decorate([
 ], OrdersDTO.prototype, "receiver", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: [{
+        example: [
+            {
                 product_id: 'id san pham',
                 product_item: [{ product_item_id: 'id item', quantity: 1 }],
-                price: 10000
-            }], description: 'Mảng sản phẩm'
+                price: 10000,
+            },
+        ],
+        description: 'Mảng sản phẩm',
     }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", Array)

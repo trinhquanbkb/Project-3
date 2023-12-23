@@ -15,6 +15,13 @@ let ProductItem = class ProductItem {
 };
 __decorate([
     (0, mongoose_1.Prop)({
+        require: true,
+        type: String,
+    }),
+    __metadata("design:type", String)
+], ProductItem.prototype, "id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
         required: false,
         type: String,
     }),
@@ -72,7 +79,7 @@ __decorate([
 ], ProductItem.prototype, "hide", void 0);
 ProductItem = __decorate([
     (0, mongoose_1.Schema)({
-        timestamps: true
+        timestamps: true,
     })
 ], ProductItem);
 exports.ProductItem = ProductItem;

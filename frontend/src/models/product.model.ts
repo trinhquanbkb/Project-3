@@ -49,3 +49,18 @@ export interface ITableProduct {
 		  }[]
 		| null;
 }
+
+export interface IProductItem {
+	_id: string;
+	expriry_data: string;
+	quantity: number;
+	weight: number;
+	price: number;
+	warehouse_id: string;
+	supplier_id: string;
+	product_id: string;
+	quantity_sold: number;
+	hide: boolean;
+	createdAt: string;
+	updatedAt: string;
+}
