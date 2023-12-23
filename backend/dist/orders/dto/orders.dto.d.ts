@@ -5,7 +5,7 @@ export type ProductItemType = {
 export type ProductsType = {
     product_id: String;
     product_item: ProductItemType[];
-    price: Number;
+    priceSold: Number;
 };
 export declare class OrdersDTO {
     sender: string;

@@ -19,7 +19,7 @@ export interface List<D> {
 
 export const axiosBaseQuery =
 	(
-		{ baseUrl }: { baseUrl: string|undefined } = { baseUrl: "" }
+		{ baseUrl }: { baseUrl: string | undefined } = { baseUrl: "" }
 	): BaseQueryFn<AxiosRequestConfig, any, { data: any; status?: number }> =>
 	async (configs) => {
 		try {
@@ -49,6 +49,16 @@ const baseQuery = axiosBaseQuery({
 export const api = createApi({
 	baseQuery: baseQuery,
 	reducerPath: "api",
-	tagTypes: ["User", "Warehouse", "Role", "Receipt", "Category", "Supplier", "Product", "Shipper"],
+	tagTypes: [
+		"User",
+		"Warehouse",
+		"Role",
+		"Receipt",
+		"Category",
+		"Supplier",
+		"Product",
+		"Shipper",
+		"DeliveryBill",
+	],
 	endpoints: () => ({}),
 });

@@ -26,10 +26,13 @@ let OrdersController = class OrdersController {
         return this.rolesService.createRole(roleDto);
     }
     findAllRoles(pagination, filter) {
-        return this.rolesService.findAllRoles(pagination, JSON.parse(filter ? filter : "{}"));
+        return this.rolesService.findAllRoles(pagination, JSON.parse(filter ? filter : '{}'));
     }
     findRoleById(id) {
         return this.rolesService.findRoleById(id);
+    }
+    searchProductItem(search) {
+        return this.rolesService.search(search ? search : '');
     }
     updateRole(id, roleDto) {
         return this.rolesService.updateRole(id, roleDto);
@@ -46,9 +49,24 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "createRole", null);
 __decorate([
-    (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
-    (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),
-    (0, swagger_1.ApiQuery)({ name: 'filter', type: String, required: false, description: 'Filter' }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'pageSize',
+        type: Number,
+        required: false,
+        description: 'Page size',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'filter',
+        type: String,
+        required: false,
+        description: 'Filter',
+    }),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Query)('filter')),
@@ -63,6 +81,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "findRoleById", null);
+__decorate([
+    (0, common_1.Get)('/search/:search'),
+    __param(0, (0, common_1.Param)('search')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], OrdersController.prototype, "searchProductItem", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),

@@ -32,8 +32,6 @@ export class UsersService {
       filterData['email'] = filter.email;
     }
 
-    console.log(filterData);
-
     const data = await this.usersRepository.findAll(
       filterData,
       skip,

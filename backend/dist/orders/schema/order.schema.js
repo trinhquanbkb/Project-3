@@ -38,7 +38,7 @@ __decorate([
     (0, mongoose_1.Prop)({
         required: false,
         type: String,
-        default: "Chờ duyệt"
+        default: 'Chờ duyệt',
     }),
     __metadata("design:type", String)
 ], Order.prototype, "status", void 0);
@@ -51,14 +51,21 @@ __decorate([
 ], Order.prototype, "note", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
+        required: false,
         type: String,
     }),
     __metadata("design:type", String)
 ], Order.prototype, "shipping_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true,
+        type: String,
+    }),
+    __metadata("design:type", String)
+], Order.prototype, "address", void 0);
 Order = __decorate([
     (0, mongoose_1.Schema)({
-        timestamps: true
+        timestamps: true,
     })
 ], Order);
 exports.Order = Order;
