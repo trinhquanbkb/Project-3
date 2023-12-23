@@ -6,21 +6,14 @@ import { Document } from 'mongoose';
 export type ProductDocument = Product & Document;
 
 @Schema({
-  timestamps: true
+  timestamps: true,
 })
 export class Product {
-
   @Prop({
     required: true,
     type: String,
   })
   product_name: string;
-
-  @Prop({
-    required: true,
-    type: Number,
-  })
-  quantity: number;
 
   @Prop({
     required: true,
@@ -33,13 +26,6 @@ export class Product {
     type: String,
   })
   url: string;
-
-  @Prop({
-    required: false,
-    type: Array,
-  })
-  products_items_item: Array<string>;
-
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

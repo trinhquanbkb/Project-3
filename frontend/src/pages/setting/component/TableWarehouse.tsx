@@ -39,6 +39,7 @@ const columns = [
 		Header: "Hành động",
 		accessor: "action",
 		sort: false,
+		width: 200,
 	},
 ];
 
@@ -72,7 +73,7 @@ const TableWarehouse = (props: ITableWarehouse) => {
 					</Card>
 				</Col>
 			</Row>
-									
+
 			{props.data == null || undefined
 				? null
 				: props.data.forEach(
@@ -107,7 +108,9 @@ const TableWarehouse = (props: ITableWarehouse) => {
 										type="button"
 										className="btn btn-delete-tracking"
 										onClick={() => {
-											props.handleDeleteWarehouse(item.id);
+											props.handleDeleteWarehouse(
+												item.id
+											);
 										}}
 									>
 										<i className="uil uil-times"></i>

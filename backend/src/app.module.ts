@@ -17,6 +17,8 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { TopProductModule } from './top_product/top_product.module'
 import { InventoryProductsModule } from './inventory_products/inventory_products.module';
 import { XSSRequestWrapper } from './middlewares/XSSRequestWrapper';
+import { ShippingsModule } from './shipping/shipping.module';
+
 
 @Module({
   imports: [
@@ -38,6 +40,7 @@ import { XSSRequestWrapper } from './middlewares/XSSRequestWrapper';
     StatisticsModule,
     TopProductModule,
     InventoryProductsModule,
+    ShippingsModule
   ],
 })
 export class AppModule {

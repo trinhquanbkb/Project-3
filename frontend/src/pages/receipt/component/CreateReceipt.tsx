@@ -1,32 +1,28 @@
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useCreateReceiptMutation } from "../../../api/receiptApi";
 import { useEffect, useState } from "react";
 import { getRequest } from "../../../api/baseApi";
+import SearchProduct from "../../../components/SearchProduct";
 
 type ProdutType = {
 	id: number;
-	name: string;
+	expriry_data: string;
 	quantity: number;
 	price: number;
-	total: number;
-	productItemId: string;
+	productItemId: any;
 	weight: number;
-	category: string;
-	url: any;
 };
 
 const productDefault = {
 	id: 1,
-	name: "",
 	quantity: 0,
 	price: 0,
-	total: 0,
 	weight: 0,
+	expriry_data: "",
 	productItemId: "",
-	category: "",
-	url: "",
 };
 
 const CreateReceipt = ({
@@ -37,12 +33,9 @@ const CreateReceipt = ({
 	isClass: string;
 }) => {
 	const [createReceipt] = useCreateReceiptMutation();
-	const [products, setProducts] = useState<Array<ProdutType>>([
-		{ ...productDefault },
-	]);
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const [supplier, setSupplier] = useState<Array<any>>([]);
 	const [warehose, setWarehose] = useState<Array<any>>([]);
-	const [category, setCategory] = useState<Array<any>>([]);
 
 	const [rows, setRows] = useState<Array<ProdutType>>([
 		{ ...productDefault },
@@ -52,14 +45,11 @@ const CreateReceipt = ({
 			...prevRows,
 			{
 				id: prevRows.length + 1,
-				name: "",
 				quantity: 0,
 				price: 0,
-				total: 0,
 				weight: 0,
 				productItemId: "",
-				category: "",
-				url: "",
+				expriry_data: "",
 			},
 		]);
 	};
@@ -81,54 +71,81 @@ const CreateReceipt = ({
 	};
 
 	useEffect(() => {
-		getRequest("/suppliers", "pageSize=1000&page=1").then((data) =>
-			setSupplier(data.data)
-		);
+		getRequest("/suppliers", "pageSize=1000&page=1").then((data) => {
+			setSupplier(data.data);
+		});
 		getRequest("/warehouses", "pageSize=1000&page=1").then((data) =>
 			setWarehose(data.data)
 		);
-		getRequest("/categories", "pageSize=1000&page=1").then((data) =>
-			setCategory(data.data)
-		);
 	}, []);
+
+	const handleClick = () => {
+		if (!buttonDisabled) {
+			setButtonDisabled(true);
+		}
+	};
 
 	const formik = useFormik({
 		initialValues: {
-			weight: 0,
 			supplierId: "",
 			note: "",
-			status: "",
 			warehouseId: "",
 			products: [],
 		},
+		validationSchema: Yup.object({
+			supplierId: Yup.string().required("Trường bắt buộc!"),
+			warehouseId: Yup.string().required("Trường bắt buộc!"),
+		}),
 		onSubmit: async (values: any) => {
-			const res: any = await createReceipt({
-				weight: products.reduce(
-					(accumulator: any, currentValue: any) => {
-						const weight = currentValue.weight || 0;
-
-						return accumulator + weight;
-					},
-					0
-				),
-				supplierId: values.supplierId,
-				warehouseId: values.warehouseId,
-				note: values.note,
-				status: "Thành công",
-				products: products.map((p) => ({
-					...p,
-					total: p.price * p.quantity,
-				})),
+			let validate = true;
+			let idRowNull = null;
+			rows.forEach((item) => {
+				if (
+					!item.productItemId ||
+					item.quantity <= 0 ||
+					item.price <= 0
+				) {
+					validate = false;
+					idRowNull = item.id;
+				}
 			});
-			if (res?.data) {
-				toast.success("Tạo thông tin phiếu nhập kho thành công");
-				handleClose();
+			if (validate) {
+				const res: any = await createReceipt({
+					supplierId: values.supplierId,
+					warehouseId: values.warehouseId,
+					note: values.note,
+					products: rows.map((p) => ({
+						expriry_data: p.expriry_data,
+						quantity: p.quantity,
+						price: p.price,
+						product_id: p.productItemId,
+						weight: p.weight,
+					})),
+				});
+				if (res?.data) {
+					toast.success("Tạo thông tin phiếu nhập kho thành công");
+					setButtonDisabled(!buttonDisabled);
+					handleClose();
+				} else {
+					toast.error("Tạo thông tin phiếu nhập kho thất bại");
+					setButtonDisabled(!buttonDisabled);
+				}
 			} else {
-				toast.error("Tạo thông tin phiếu nhập kho thất bại");
+				toast.warning(
+					`Cần điền đầy đủ các thông tin cho sản phẩm hàng thứ ${idRowNull} như: tên sản phẩm, giá nhập, số lượng`
+				);
+				setButtonDisabled(false);
 			}
 		},
 	});
-	console.log(rows);
+
+	useEffect(() => {
+		if (Object.keys(formik.errors).length === 0) {
+			setButtonDisabled(false);
+		} else {
+			setButtonDisabled(true);
+		}
+	}, [formik.errors]);
 
 	return (
 		<>
@@ -160,10 +177,18 @@ const CreateReceipt = ({
 															formik.values
 																.supplierId
 														}
-														onChange={
-															formik.handleChange
-														}
+														onChange={(e: any) => {
+															formik.setValues({
+																...formik.values,
+																supplierId:
+																	e.target
+																		.value,
+															});
+														}}
 													>
+														<option value={""}>
+															Chọn
+														</option>
 														{supplier.map((s) => (
 															<option
 																value={s?._id}
@@ -172,6 +197,17 @@ const CreateReceipt = ({
 															</option>
 														))}
 													</Form.Select>
+													{formik.errors.supplierId &&
+														formik.touched
+															.supplierId && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.supplierId as string
+																}
+															</p>
+														)}
 												</Form.Group>
 											</Col>
 											<Col xs={12} md={6}>
@@ -185,10 +221,18 @@ const CreateReceipt = ({
 															formik.values
 																.warehouseId
 														}
-														onChange={
-															formik.handleChange
-														}
+														onChange={(e: any) => {
+															formik.setValues({
+																...formik.values,
+																warehouseId:
+																	e.target
+																		.value,
+															});
+														}}
 													>
+														<option value={""}>
+															Chọn
+														</option>
 														{warehose.map((s) => (
 															<option
 																value={s?._id}
@@ -197,6 +241,19 @@ const CreateReceipt = ({
 															</option>
 														))}
 													</Form.Select>
+
+													{formik.errors
+														.warehouseId &&
+														formik.touched
+															.warehouseId && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.warehouseId as string
+																}
+															</p>
+														)}
 												</Form.Group>
 											</Col>
 											<Col xs={12} md={6}>
@@ -256,16 +313,15 @@ const CreateReceipt = ({
 																	width: "12%",
 																}}
 															>
-																Giá
+																Giá nhập
 															</th>
 															<th
 																style={{
 																	width: "12%",
 																}}
 															>
-																Loại sản phẩm
+																Ngày hết hạn
 															</th>
-															<th>Ảnh</th>
 															<th></th>
 														</tr>
 													</thead>
@@ -279,15 +335,14 @@ const CreateReceipt = ({
 																		{row.id}
 																	</td>
 																	<td>
-																		<input
-																			type="text"
-																			placeholder="Tên sản phẩm"
-																			className="form-control"
-																			value={
-																				row.name
+																		<SearchProduct
+																			className="basic-single form-search-user form-search-filter"
+																			placeholder={
+																				"Tìm kiếm theo tên sản phẩm"
 																			}
-																			onChange={(
-																				e
+																			handleKeyword={(
+																				id: any,
+																				value: any
 																			) => {
 																				setRows(
 																					(
@@ -301,14 +356,16 @@ const CreateReceipt = ({
 																								row.id
 																									? {
 																											...prevRow,
-																											name: e
-																												.target
-																												.value,
+																											productItemId:
+																												id,
 																									  }
 																									: prevRow
 																						)
 																				);
 																			}}
+																			keywordId={
+																				row.productItemId
+																			}
 																		/>
 																	</td>
 																	<td>
@@ -415,63 +472,12 @@ const CreateReceipt = ({
 																		/>
 																	</td>
 																	<td>
-																		<Form.Select
-																			className="form-control"
-																			style={{
-																				height: "44px",
-																			}}
-																			value={
-																				row.category
-																			}
-																			onChange={(
-																				e: any
-																			) => {
-																				setRows(
-																					(
-																						prevRows
-																					) =>
-																						prevRows.map(
-																							(
-																								prevRow
-																							) =>
-																								prevRow.id ===
-																								row.id
-																									? {
-																											...prevRow,
-																											category:
-																												e
-																													.target
-																													.value,
-																									  }
-																									: prevRow
-																						)
-																				);
-																			}}
-																		>
-																			{category.map(
-																				(
-																					s
-																				) => (
-																					<option
-																						value={
-																							s?.name
-																						}
-																					>
-																						{
-																							s.name
-																						}
-																					</option>
-																				)
-																			)}
-																		</Form.Select>
-																	</td>
-																	<td>
 																		<input
-																			className="d-flex flex-column justify-content-center"
-																			type="file"
-																			style={{
-																				width: "180px",
-																			}}
+																			type="date"
+																			className="form-control"
+																			value={
+																				row.expriry_data
+																			}
 																			onChange={(
 																				e
 																			) => {
@@ -487,13 +493,10 @@ const CreateReceipt = ({
 																								row.id
 																									? {
 																											...prevRow,
-																											url: e
-																												.target
-																												.files
-																												? e
-																														.target
-																														.files[0]
-																												: null,
+																											expriry_data:
+																												e
+																													.target
+																													.value,
 																									  }
 																									: prevRow
 																						)
@@ -555,7 +558,9 @@ const CreateReceipt = ({
 													onClick={(e) => {
 														e.preventDefault();
 														formik.handleSubmit();
+														handleClick();
 													}}
+													disabled={buttonDisabled}
 												>
 													<i className="uil uil-check me-1"></i>{" "}
 													Xác nhận

@@ -23,9 +23,13 @@ const SettingWarehouse = React.lazy(() => import("../pages/setting/Warehouse"));
 const SettingCategory = React.lazy(() => import("../pages/setting/Category"));
 const SettingRole = React.lazy(() => import("../pages/setting/Role"));
 const SettingSupplier = React.lazy(() => import("../pages/setting/Supplier"));
+const SettingShipper = React.lazy(() => import("../pages/setting/Shipper"));
 
 // receipt
 const ReceiptList = React.lazy(() => import("../pages/receipt/index"));
+
+// charts
+const Charts = React.lazy(() => import("../pages/charts/"));
 
 // delivery bill
 const DeliveryBillList = React.lazy(
@@ -34,12 +38,12 @@ const DeliveryBillList = React.lazy(
 
 // inventory
 const InventoryList = React.lazy(() => import("../pages/inventory/index"));
+const InventoryDetail = React.lazy(
+	() => import("../pages/inventory/Components/ViewInventory")
+);
 
 // employee
 const EmployeeList = React.lazy(() => import("../pages/employee/index"));
-
-// report
-const Report = React.lazy(() => import("../pages/report/index"));
 
 // statistics
 const Statistics = React.lazy(() => import("../pages/statistics/index"));
@@ -126,6 +130,12 @@ const projectAppRoutes: RoutesProps[] = [
 		icon: "uil-briefcase",
 		children: [
 			{
+				path: "/inventory/:id",
+				name: "Inventory Detail",
+				component: InventoryDetail,
+				route: PrivateRoute,
+			},
+			{
 				path: "/inventory",
 				name: "Inventory List",
 				component: InventoryList,
@@ -144,21 +154,6 @@ const projectAppRoutes: RoutesProps[] = [
 				path: "/employees",
 				name: "Employee List",
 				component: EmployeeList,
-				route: PrivateRoute,
-			},
-		],
-	},
-	{
-		path: "/report",
-		name: "Report",
-		route: PrivateRoute,
-		roles: ["Admin"],
-		icon: "uil-briefcase",
-		children: [
-			{
-				path: "/report",
-				name: "Report List",
-				component: Report,
 				route: PrivateRoute,
 			},
 		],
@@ -204,12 +199,24 @@ const projectAppRoutes: RoutesProps[] = [
 				route: PrivateRoute,
 			},
 			{
+				path: "/setting/shipping",
+				name: "Setting Shipper",
+				component: SettingShipper,
+				route: PrivateRoute,
+			},
+			{
 				path: "/setting/warehouse",
 				name: "Setting Warehouse",
 				component: SettingWarehouse,
 				route: PrivateRoute,
 			},
 		],
+	},
+	{
+		path: "/components/charts",
+		name: "Charts",
+		component: Charts,
+		route: PrivateRoute,
 	},
 ];
 

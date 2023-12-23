@@ -8,7 +8,6 @@ export interface ICategory {
 	__v: any;
 }
 
-
 export interface IUpdateCategory {
 	name: string;
 }
@@ -18,9 +17,13 @@ export interface ICreateCategory {
 }
 
 export interface ICategoryQuery {
-	page: number;
-	pageSize: number;
-	name: string;
+	pagination: {
+		page: number;
+		pageSize: number;
+	};
+	filter: {
+		name: string;
+	};
 }
 
 export interface ITableCategory {
@@ -28,10 +31,9 @@ export interface ITableCategory {
 	paginations: IPagination;
 	handleViewCategory: any;
 	handleEditCategory: any;
-	handleDeleteCategory: any;
 	data:
-	| {
-		name: string;
-	}[]
-	| null;
+		| {
+				name: string;
+		  }[]
+		| null;
 }

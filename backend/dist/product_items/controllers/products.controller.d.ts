@@ -20,3 +20,4 @@ export declare class OrdersController {
     updateRole(id: string, roleDto: ProductItemDTO): Promise<import("../schema/product.schema").ProductItemDocument>;
     deleteRole(id: string): Promise<import("../schema/product.schema").ProductItemDocument>;
 }
+

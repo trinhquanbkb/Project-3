@@ -25,11 +25,16 @@
 import { Document } from 'mongoose';
 export type ProductItemDocument = ProductItem & Document;
 export declare class ProductItem {
+    id: string;
     expriry_data: string;
     quantity: Number;
+    weight: Number;
     price: Number;
     warehouse_id: string;
     supplier_id: string;
+    product_id: string;
+    quantity_sold: Number;
+    hide: Boolean;
 }
 export declare const ProductItemSchema: import("mongoose").Schema<ProductItem, import("mongoose").Model<ProductItem, any, any, any, Document<unknown, any, ProductItem> & ProductItem & {
     _id: import("mongoose").Types.ObjectId;

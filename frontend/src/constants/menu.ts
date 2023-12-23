@@ -43,13 +43,6 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		url: "/employees",
 	},
 	{
-		key: "report",
-		label: "Báo cáo",
-		isTitle: false,
-		icon: "clipboard",
-		url: "/report",
-	},
-	{
 		key: "statistics",
 		label: "Thống kê",
 		isTitle: false,
@@ -63,12 +56,6 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		icon: "settings",
 		children: [
 			{
-				key: "setting-role",
-				label: "Vai trò",
-				url: "/setting/role",
-				parentKey: "setting",
-			},
-			{
 				key: "setting-category",
 				label: "Danh mục sản phẩm",
 				url: "/setting/category",
@@ -78,6 +65,12 @@ const MENU_ITEMS: MenuItemTypes[] = [
 				key: "setting-supplier",
 				label: "Đối tác kinh doanh",
 				url: "/setting/supplier",
+				parentKey: "setting",
+			},
+			{
+				key: "setting-shipping",
+				label: "Đối tác vận chuyển",
+				url: "/setting/shipping",
 				parentKey: "setting",
 			},
 			{

@@ -25,19 +25,28 @@ __decorate([
     __metadata("design:type", String)
 ], OrdersDTO.prototype, "receiver", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: [{}], description: 'Mảng sản phẩm' }),
+    (0, swagger_1.ApiProperty)({
+        example: [
+            {
+                product_id: 'id san pham',
+                product_item: [{ product_item_id: 'id item', quantity: 1 }],
+                price: 10000,
+            },
+        ],
+        description: 'Mảng sản phẩm',
+    }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", Array)
 ], OrdersDTO.prototype, "products", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Đang giao', description: 'Trạng thái' }),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], OrdersDTO.prototype, "status", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ example: 'Được kiểm tra', description: 'Ghi chú' }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], OrdersDTO.prototype, "note", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: 'id', description: 'id shipping' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], OrdersDTO.prototype, "shipping_id", void 0);
 exports.OrdersDTO = OrdersDTO;
 //# sourceMappingURL=orders.dto.js.map

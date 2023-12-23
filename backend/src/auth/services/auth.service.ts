@@ -20,7 +20,6 @@ export class AuthService {
   ) {}
 
   async signUp(data: SignUpDto) {
-    data.password = hashSync(data.password, configs.saltOrRound)
     return await this.userService.create(data);
   }
 
@@ -40,7 +39,9 @@ export class AuthService {
 
   async checkIfDataSeeded(): Promise<boolean> {
     // Kiểm tra xem có người dùng admin trong cơ sở dữ liệu hay không
-    const adminUser = await this.userService.findOne({ email: 'admin@gmail.com' });
+    const adminUser = await this.userService.findOne({
+      email: 'admin@gmail.com',
+    });
     return !!adminUser; // Trả về true nếu có adminUser, ngược lại false
   }
 }

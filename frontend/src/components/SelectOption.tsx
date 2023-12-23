@@ -32,7 +32,6 @@ export default function SelectOption(props: IProps) {
 			<Form.Group className={className}>
 				{props.isLabel ? <Form.Label>{props.label}</Form.Label> : null}
 				<Select
-					isClearable
 					placeholder={props.placeholder}
 					className="basic-single"
 					classNamePrefix="select"

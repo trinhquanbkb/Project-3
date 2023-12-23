@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
 import {
-	useGetCategoryDetailQuery,
-	useUpdateCategoryMutation,
-} from "../../../api/categoryApi";
+	useGetProductDetailQuery,
+	useUpdateProductMutation,
+} from "../../../api/productApi";
+import ImageUpload from "../../../components/ImageUpload";
 
 const EditCategory = ({
 	id,
@@ -18,26 +20,31 @@ const EditCategory = ({
 	isClass: string;
 }) => {
 	const { data: CategoryDetail, isFetching: fetchingCategory } =
-		useGetCategoryDetailQuery(id);
-	const [updateCategory] = useUpdateCategoryMutation();
+		useGetProductDetailQuery(id);
+	const [updateCategory] = useUpdateProductMutation();
 
 	const formik = useFormik({
 		initialValues: {
 			name: "",
+			url: "",
 		},
+		validationSchema: Yup.object({
+			name: Yup.string().required("Trường bắt buộc!"),
+			url: Yup.string().required("Trường bắt buộc!"),
+		}),
 		onSubmit: async (values: any) => {
 			const res: any = await updateCategory({
 				id: id,
 				data: {
-					name: values.name,
+					product_name: values.name,
 				},
 			});
 			if (res?.data) {
 				handleClose();
 
-				toast.success("Sửa thông tin danh mục thành công!");
+				toast.success("Sửa thông tin danh mục sản phẩm thành công!");
 			} else {
-				toast.error("Sửa thông tin danh mục thất bại!");
+				toast.error("Sửa thông tin danh mục sản phẩm thất bại!");
 			}
 		},
 	});
@@ -45,7 +52,8 @@ const EditCategory = ({
 	useEffect(() => {
 		if (CategoryDetail) {
 			formik.setValues({
-				name: CategoryDetail.name,
+				name: CategoryDetail.product_name,
+				url: CategoryDetail.product_name,
 			});
 		}
 	}, [CategoryDetail]);
@@ -80,7 +88,7 @@ const EditCategory = ({
 												<Col xs={12} md={6}>
 													<Form.Group className="mb-3">
 														<Form.Label>
-															Tên danh mục
+															Tên sản phẩm
 														</Form.Label>
 														<Form.Control
 															type="text"
@@ -93,6 +101,56 @@ const EditCategory = ({
 																formik.handleChange
 															}
 														/>
+														{formik.errors.name &&
+															formik.touched
+																.name && (
+																<p className="error mb-0">
+																	{
+																		formik
+																			.errors
+																			.name as string
+																	}
+																</p>
+															)}
+													</Form.Group>
+												</Col>
+
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Ảnh
+														</Form.Label>
+														<ImageUpload
+															url={
+																formik.values
+																	.url
+															}
+															setUrl={(
+																url: any
+															) => {
+																console.log(
+																	url
+																);
+																formik.setValues(
+																	{
+																		...formik.values,
+																		url: url,
+																	}
+																);
+															}}
+														/>
+
+														{formik.errors.url &&
+															formik.touched
+																.url && (
+																<p className="error mb-0">
+																	{
+																		formik
+																			.errors
+																			.url as string
+																	}
+																</p>
+															)}
 													</Form.Group>
 												</Col>
 

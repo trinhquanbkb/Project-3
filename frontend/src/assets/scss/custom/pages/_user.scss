@@ -4,7 +4,6 @@
 	justify-content: space-between;
 	max-width: 850px;
 	border-radius: 6px;
-	border: 1px solid #d1d5db;
 	background: #fff;
 	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 	padding: 10px 42px 10px 0px;
@@ -88,6 +87,8 @@
 .table-custom {
 	margin-bottom: 0;
 	font-size: 16px;
+	border: 1px solid #e6e0d6b0;
+
 	thead {
 		background-color: #e6e8ec;
 		color: #777e90;

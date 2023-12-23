@@ -24,15 +24,6 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Document } from 'mongoose';
 export type FinancialTransactionsDocument = FinancialTransaction & Document;
-export type ProductType = {
-    name: string;
-    quantity: number;
-    price: number;
-    total: number;
-    productItemId: string | undefined;
-    weight: number;
-    category: string;
-};
 export declare class FinancialTransaction {
     id: string;
     weight: number;
@@ -40,7 +31,7 @@ export declare class FinancialTransaction {
     warehouseId: string;
     note: string;
     status: string;
-    products: Array<ProductType>;
+    products: Array<String>;
 }
 export declare const FinancialTransactionSchema: import("mongoose").Schema<FinancialTransaction, import("mongoose").Model<FinancialTransaction, any, any, any, Document<unknown, any, FinancialTransaction> & FinancialTransaction & {
     _id: import("mongoose").Types.ObjectId;

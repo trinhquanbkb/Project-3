@@ -29,6 +29,10 @@ __decorate([
     __metadata("design:type", Number)
 ], ProductItemDTO.prototype, "price", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ example: 23000, description: 'Cân nặng' }),
+    __metadata("design:type", Number)
+], ProductItemDTO.prototype, "weight", void 0);
+__decorate([
     (0, swagger_1.ApiProperty)({ example: '', description: 'id của kho' }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
@@ -38,5 +42,15 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], ProductItemDTO.prototype, "supplier_id", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: true, description: 'trạng thái huỷ' }),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], ProductItemDTO.prototype, "hide", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ example: '', description: 'id sản phẩm' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ProductItemDTO.prototype, "product_id", void 0);
 exports.ProductItemDTO = ProductItemDTO;
 //# sourceMappingURL=products.dto.js.map

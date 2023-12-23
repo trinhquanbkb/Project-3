@@ -1,225 +1,352 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
-import StatisticsChartWidget from '../../components/StatisticsChartWidget';
-import TableCustomer from "./Components/TableCustomer";
-import UpdateCustomer from "./Components/UpdateCustomer";
-import AddCustomer from "./Components/AddCustomer";
+import queryString from "query-string";
+
+//dummy data
+import { useLocation } from "react-router-dom";
+import Loading from "../../components/Loading";
+import NotFoundTable from "../../components/NotFoundTable";
+import { toast } from "react-toastify";
+import { IReceiptQuery } from "../../models/receipt.model";
+import ModalApprove from "./component/ModalApprove";
+import CreateDeliveryBill from "./component/CreateDeliveyBill";
+import {
+	useCancelDeliveryBillMutation,
+	useGetDeliveryBillListQuery,
+	useWaitingDeliveryBillMutation,
+} from "../../api/deliveryBillApi";
+import TableDeliveryBill from "./component/TableDeliveryBill";
+import ViewDeliveryBill from "./component/ViewDeliveryBill";
+import ModalExport from "./component/ModalExport";
 
 const listBreadCrumb = [
-  {
-    path: "/",
-    label: "Home",
-    active: false,
-  },
-  {
-    path: "/",
-    label: "Danh sách khách hàng",
-    active: true,
-  }
+	{
+		path: "/",
+		label: "Home",
+		active: false,
+		icon: "uil-home-alt",
+	},
+	{
+		path: "/delivery-bill",
+		label: "Phiếu xuất kho",
+		active: true,
+	},
 ];
 
-const listRadioFilter = [
-  {
-    label: "Chưa có sale phụ trách",
-    value: 0,
-  },
-  {
-    label: "Khách có công nợ",
-    value: 1,
-  },
-];
+const ReceiptList = () => {
+	const location = useLocation();
+	const [id, setId] = useState("");
+	const [keywordCode, setKeywordCode] = useState("");
+	const [buttonDisabled, setButtonDisabled] = useState(false);
+	const [viewModal, setViewModal] = useState(false);
+	const [createModal, setCreateModal] = useState(false);
+	const [editModal, setEditModal] = useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [approveModal, setApproveModal] = useState(false);
+	const [exportModal, setExportModal] = useState(false);
+	const [waitingApi] = useWaitingDeliveryBillMutation();
+	const [cancelApi] = useCancelDeliveryBillMutation();
+	const [search, setSearch] = useState<IReceiptQuery>({
+		page: 1,
+		pageSize: 10,
+	});
+	const [filter, setFilter] = useState({ code: "" });
+	const { data: listDeliveryBill, isFetching: fetchingDeliveryBill } =
+		useGetDeliveryBillListQuery({
+			...search,
+			filter: filter,
+		});
 
-const CustomerList = () => {
-  const [addCustomer, setAddCustomer] = useState(false);
-  const [updateCustomer, setUpdateCustomer] = useState(false);
+	useEffect(() => {
+		const query = location.search;
+		const parsed = queryString.parse(query);
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const code = parsed.code ? parsed.code.toString() : "";
 
-  const handleUpdateCustomer = () => {
-    setUpdateCustomer(!updateCustomer);
-  }
+		setSearch({
+			...search,
+			page,
+			pageSize,
+		});
 
-  const handleAddCustomer = () => {
-    setAddCustomer(!addCustomer);
-  }
+		setFilter({ code: code });
+		setKeywordCode(code);
+	}, []);
 
-  const handleClosePopup = () => {
-    if (updateCustomer) {
-      setUpdateCustomer(!updateCustomer);
-    }
-    if (addCustomer) {
-      setAddCustomer(!addCustomer);
-    }
-  }
+	// xử lý việc url thay đổi khi có filter
+	useEffect(() => {
+		const query = queryString.stringifyUrl(
+			{
+				url: "/delivery-bill",
+				query: {
+					page: search.page,
+					pageSize: search.pageSize,
+					code: filter.code,
+				},
+			},
+			{
+				skipEmptyString: true,
+			}
+		);
+		window.history.pushState(null, "", query);
+	}, [search, filter]);
 
+	// handle filter page with page and pageSize
+	const handleFilterPage = (filter: any) => {
+		setSearch({
+			...search,
+			page: filter.page,
+			pageSize: filter.pageSize,
+		});
+	};
 
-  return (
-    <>
-      <Row>
-        <Col xs={12}>
-          <div className="page-title-box">
-            <div className="page-title-box-group">
-              <Breadcrumb listProps={{ className: "m-0" }}>
-                {(listBreadCrumb || []).map((item, index) => {
-                  return item.active ? (
-                    <Breadcrumb.Item active key={index}>
-                      <i className="uil uil-file-alt"></i> {item.label}
-                    </Breadcrumb.Item>
-                  ) : (
-                    <Breadcrumb.Item key={index} href={item.path}>
-                      {item.label === 'Home' ? (<i className="uil uil-home-alt"></i>) : ''}
-                    </Breadcrumb.Item>
-                  );
-                })}
-              </Breadcrumb>
-              <div className="page-title-right">
-                <div className="mt-2 mt-md-0">
-                  <Button variant="primary" className="mb-2 mb-sm-0" onClick={handleAddCustomer}>
-                    <i className="uil uil-plus-square"></i> Thêm khách hàng
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
+	const handleViewDeliveryBill = (id: string) => {
+		setViewModal(!viewModal);
+		setId(id);
+	};
 
-      <Row>
-        <Col sm={6} xl={3} className="mb-3">
-          <StatisticsChartWidget
-            title="Tổng số dư hiện tại"
-            stats="-613M"
-            trend={{
-              textClass: 'text-success',
-              icon: 'uil uil-arrow-up',
-              value: '10.21%',
-            }}
-            colors={['#727cf5']}
-          />
-        </Col>
+	const handleEditDeliveryBill = (id: string) => {
+		setEditModal(!editModal);
+		setId(id);
+	};
 
-        <Col sm={6} xl={3} className="mb-3">
-          <StatisticsChartWidget
-            title="Tổng thanh toán"
-            stats="8,5B"
-            trend={{
-              textClass: 'text-danger',
-              icon: 'uil uil-arrow-down',
-              value: '5.05%',
-            }}
-            colors={['#f77e53']}
-          />
-        </Col>
-        <Col sm={6} xl={3} className="mb-3">
-          <StatisticsChartWidget
-            title="Tổng tiền đã nạp"
-            stats="8,5B"
-            trend={{
-              textClass: 'text-success',
-              icon: 'uil uil-arrow-up',
-              value: '21.16%',
-            }}
-            colors={['#43d39e']}
-          />
-        </Col>
+	const handleDeleteDelieryBill = (id: string) => {
+		setDeleteModal(!deleteModal);
+		setId(id);
+	};
 
-        <Col sm={6} xl={3} className="mb-3">
-          <StatisticsChartWidget
-            title="Tổng sô lượng khách hàng"
-            stats="341 người"
-            trend={{
-              textClass: 'text-danger',
-              icon: 'uil uil-arrow-down',
-              value: '5.05%',
-            }}
-            colors={['#ffbe0b']}
-          />
-        </Col>
-      </Row>
+	const handleApproveDelieryBill = (id: string) => {
+		setApproveModal(!approveModal);
+		setId(id);
+	};
 
-      <Row className="mt-1 mb-4">
-        <Col xs={12}>
-          <div className="box-tag">
-            <div className="item-tag">
-              <span>Freeship</span>
-            </div>
-            <div className="item-tag">
-              <span>Được công nợ</span>
-            </div>
-            <div className="item-tag">
-              <span>Thu tiền trước</span>
-            </div>
-          </div>
-        </Col>
-      </Row>
+	const handleExportDelieryBill = (id: string) => {
+		setExportModal(!exportModal);
+		setId(id);
+	};
 
-      <Row>
-        <Col xs={12}>
-          <div className="page-title-box pt-0">
-            <Form className="form-customer">
+	const handleClick = () => {
+		if (!buttonDisabled) {
+			setButtonDisabled(true);
+		}
+	};
 
-              <Form.Group className="form-search-user">
-                <Form.Group className="form-border">
-                  <Form.Control type="search" name="customer" placeholder="Tìm kiếm theo khách hàng" />
-                </Form.Group>
-                <Button type="submit" className="btn-search"></Button>
-              </Form.Group>
+	const handleClosePopup = () => {
+		if (viewModal) {
+			setViewModal(!viewModal);
+		}
+		if (editModal) {
+			setEditModal(!editModal);
+		}
+		if (deleteModal) {
+			setDeleteModal(!deleteModal);
+		}
+		if (createModal) {
+			setCreateModal(!createModal);
+		}
+		if (approveModal) {
+			setApproveModal(!approveModal);
+		}
+	};
 
-              <Form.Group className="form-search-user">
-                <Form.Group className="form-border">
-                  <Form.Control type="search" name="nickname" placeholder="Tìm kiếm theo nickname" />
-                </Form.Group>
-                <Button type="submit" className="btn-search"></Button>
-              </Form.Group>
+	const fetchApprove = async () => {
+		const res = await waitingApi(id);
+		if (res) {
+			toast.success("Duyệt phiếu thành công!");
+			setApproveModal(!approveModal);
+			setButtonDisabled(false);
+		} else {
+			toast.error("Server: Lỗi xử lý!");
+			setButtonDisabled(false);
+		}
+	};
 
-              <Form.Group className="form-search-user">
-                <Form.Group className="form-border">
-                  <Form.Control type="search" name="sale" placeholder="Tìm kiếm theo sale" />
-                </Form.Group>
-                <Button type="submit" className="btn-search"></Button>
-              </Form.Group>
+	const fetchCancel = async () => {
+		const res = await cancelApi(id);
+		if (res) {
+			toast.success("Hủy phiếu thành công!");
+			setApproveModal(!approveModal);
+			setButtonDisabled(false);
+		} else {
+			toast.error("Server: Lỗi xử lý!");
+			setButtonDisabled(false);
+		}
+	};
 
-              <Form.Group className="form-search-btn">
-                {
-                  listRadioFilter.map((item, index) => (
-                    <Form.Check key={index}
-                      inline
-                      label={item.label}
-                      type="radio"
-                      name="sale"
-                      className='form-check-inline-label'
-                      id={`sale-${index}`}
-                    />
-                  ))
-                }
-              </Form.Group>
-              <Form.Group className="form-search-btn">
-                <Button variant="primary">
-                  <i className="uil uil-search"></i>
-                </Button>
-                <Button variant="primary">
-                  <i className="uil uil-redo"></i>
-                </Button>
-              </Form.Group>
-            </Form>
+	return (
+		<>
+			<Row>
+				<Col xs={12}>
+					<div className="page-title-box">
+						<Breadcrumb listProps={{ className: "m-0" }}>
+							{(listBreadCrumb || []).map((item, index) => {
+								return item.active ? (
+									<Breadcrumb.Item active key={index}>
+										{item.icon !== "" ? (
+											<i
+												className={`uil ${item.icon}`}
+											></i>
+										) : (
+											""
+										)}{" "}
+										{item.label}
+									</Breadcrumb.Item>
+								) : (
+									<Breadcrumb.Item
+										key={index}
+										href={item.path}
+									>
+										{item.icon !== "" ? (
+											<i
+												className={`uil ${item.icon}`}
+											></i>
+										) : (
+											""
+										)}{" "}
+										{item.label}
+									</Breadcrumb.Item>
+								);
+							})}
+						</Breadcrumb>
+						<div className="page-title-right">
+							<div className="mt-2 mt-md-0">
+								<Button
+									variant="primary"
+									className="mb-2 mb-sm-0"
+									onClick={() => {
+										setCreateModal(!createModal);
+									}}
+								>
+									<i className="uil-plus me-1"></i> Nhập phiếu
+									xuất kho
+								</Button>
+							</div>
+						</div>
+					</div>
+				</Col>
+			</Row>
 
-            <Button variant="outline-primary">
-              <i className="uil uil-export me-1"></i>Xuất Excel
-            </Button>
-          </div>
-        </Col>
-      </Row>
+			<hr className="mt-0" />
 
-      <TableCustomer handleUpdate={handleUpdateCustomer} />
+			<Row>
+				<Col xs={12}>
+					<div className="wrap-filter">
+						<div className="list-input">
+							<Row>
+								<Col xs={3}>
+									<div className="col-left">
+										<div className="input-search">
+											<Form.Group className="form-search-user form-search-tracking">
+												<Form.Control
+													type="search"
+													placeholder="Tìm kiếm mã phiếu xuất kho"
+													value={keywordCode}
+													onChange={(e) => {
+														setKeywordCode(
+															e.target.value
+														);
+													}}
+													onKeyUp={(e) => {
+														if (e.key === "Enter") {
+															setFilter({
+																...filter,
+																code: keywordCode.trim(),
+															});
+														}
+													}}
+												/>
+												<Button
+													type="submit"
+													className="btn-search"
+												></Button>
+											</Form.Group>
+										</div>
+									</div>
+								</Col>
+							</Row>
+						</div>
+					</div>
+				</Col>
+			</Row>
 
-      {
-        (updateCustomer && <UpdateCustomer isClass={'active'} handleClose={handleClosePopup} />)
-      }
+			{fetchingDeliveryBill ? (
+				<Loading />
+			) : listDeliveryBill ? (
+				<TableDeliveryBill
+					handleFilter={handleFilterPage}
+					paginations={listDeliveryBill.paginations}
+					handleViewDeliveryBill={handleViewDeliveryBill}
+					handleEditDeliveryBill={handleEditDeliveryBill}
+					handleDeleteDelieryBill={handleDeleteDelieryBill}
+					handleApproveDelieryBill={handleApproveDelieryBill}
+					handleExportDelieryBill={handleExportDelieryBill}
+					data={
+						listDeliveryBill
+							? listDeliveryBill.data.map((item) => {
+									return {
+										id: item._id,
+										status: item.status,
+										sender: item.sender,
+										receiver: item.receiver,
+										shipping: item.shipping_id
+											? item.shipping_id
+											: null,
+										address: item.address,
+										createdAt: item.createdAt,
+										tracking: item.tracking,
+									};
+							  })
+							: null
+					}
+				/>
+			) : (
+				<NotFoundTable />
+			)}
 
-      {
-        (addCustomer && <AddCustomer isClass={'active'} handleClose={handleClosePopup} />)
-      }
+			{viewModal && (
+				<ViewDeliveryBill
+					isClass={"active"}
+					id={id}
+					handleClose={handleClosePopup}
+				/>
+			)}
 
-    </>
-  );
+			{approveModal && (
+				<ModalApprove
+					show={approveModal}
+					content={`Xác nhận duyệt phiếu xuất kho?`}
+					handleAction={fetchApprove}
+					handleCancel={fetchCancel}
+					onHide={() => setApproveModal(false)}
+					buttonDisabled={buttonDisabled}
+					handleButton={handleClick}
+				/>
+			)}
+
+			{exportModal && (
+				<ModalExport
+					show={exportModal}
+					content={`Điền thông tin vận chuyển đơn hàng:`}
+					handleAction={() => {
+						setButtonDisabled(false);
+						setExportModal(!exportModal);
+					}}
+					id={id}
+					onHide={() => setExportModal(!exportModal)}
+					buttonDisabled={buttonDisabled}
+					handleButton={handleClick}
+				/>
+			)}
+
+			{createModal && (
+				<CreateDeliveryBill
+					isClass={"active"}
+					handleClose={handleClosePopup}
+				/>
+			)}
+		</>
+	);
 };
 
-export default CustomerList;
+export default ReceiptList;

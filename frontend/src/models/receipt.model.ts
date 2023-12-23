@@ -1,12 +1,29 @@
 import { IPagination } from "./pagination.model";
+import { IProduct } from "./product.model";
+import { ISupplier } from "./supplier.model";
+import { IWarehouse } from "./warehouse.model";
 
 export interface IReceipt {
 	_id: string;
-	supplierId: string;
+	supplierId: ISupplier;
 	weight: number;
 	note: string;
-	products: Array<any>
-	warehouseId: string;
+	status: string;
+	products: {
+		_id: string;
+		name: string;
+		quantity: number;
+		price: number;
+		total: number;
+		weight: number;
+		expriry_data: string;
+		createdAt: string;
+		hide: boolean;
+		quantity_sold: number;
+		product_id: IProduct;
+	}[];
+	warehouseId: IWarehouse;
+	createdAt: string | undefined;
 }
 
 export interface IReceiptQuery {
@@ -19,16 +36,20 @@ export interface IUpdateReceipt {
 	weight: number;
 	note: string;
 	products: Array<any>;
-	status: string
+	status: string;
 	warehouseId: string;
 }
 
 export interface ICreateReceipt {
 	supplierId: string;
-	weight: number;
 	note: string;
-	products: Array<any>;
-	status: string;
+	products: {
+		expriry_data: string;
+		quantity: number;
+		price: number;
+		product_id: string;
+		weight: number;
+	}[];
 	warehouseId: string;
 }
 
@@ -38,14 +59,15 @@ export interface ITableReceipt {
 	handleViewReceipt: any;
 	handleEditReceipt: any;
 	handleDeleteReceipt: any;
+	handleApproveReceipt: any;
 	data:
-	| {
-		id: string;
-		supplierId: string;
-		quantity: number;
-		weight: number;
-		note: string;
-		warehouseId: string;
-	}[]
-	| null;
+		| {
+				id: string;
+				supplierId: string;
+				quantity: number;
+				weight: number;
+				note: string;
+				warehouseId: string;
+		  }[]
+		| null;
 }

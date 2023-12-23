@@ -51,3 +51,4 @@ export declare class OrdersService {
     updateRole(id: string, roleDto: ProductItemDTO): Promise<ProductItemDocument | null>;
     deleteRole(id: string): Promise<ProductItemDocument | null>;
 }
+

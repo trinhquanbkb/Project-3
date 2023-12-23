@@ -20,7 +20,8 @@ export class SignInValidation implements PipeTransform<any> {
     const password = value.password;
 
     const user = await this.usersService.findOne({ email });
-
+    
+    console.log(compareSync(password, user.password))
     if (!user) {
       return { id: null };
     }

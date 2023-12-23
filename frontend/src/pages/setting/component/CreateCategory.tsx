@@ -2,7 +2,8 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useCreateCategoryMutation } from "../../../api/categoryApi";
+import { useCreateProductMutation } from "../../../api/productApi";
+import ImageUpload from "../../../components/ImageUpload";
 
 const CreateCategory = ({
 	handleClose,
@@ -11,21 +12,30 @@ const CreateCategory = ({
 	handleClose: () => void;
 	isClass: string;
 }) => {
-	const [createCategory] = useCreateCategoryMutation();
+	const [createCategory] = useCreateProductMutation();
 
 	const formik = useFormik({
 		initialValues: {
 			name: "",
+			url: "",
 		},
+		validationSchema: Yup.object({
+			name: Yup.string().required("Trường bắt buộc!"),
+			url: Yup.string().required("Trường bắt buộc!"),
+		}),
 		onSubmit: async (values: any) => {
 			const res: any = await createCategory({
-				name: values.name,
+				product_name: values.name,
+				quantity: 0,
+				category: [],
+				url: values.url,
+				products_items_item: [],
 			});
 			if (res?.data) {
-				toast.success("Tạo danh mục mới thành công");
+				toast.success("Tạo danh mục sản phẩm mới thành công");
 				handleClose();
 			} else {
-				toast.error("Tạo danh mục mới thất bại");
+				toast.error("Tạo danh mục sản phẩm mới thất bại");
 			}
 		},
 	});
@@ -57,7 +67,7 @@ const CreateCategory = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Tên danh mục
+														Tên sản phẩm
 													</Form.Label>
 													<Form.Control
 														type="text"
@@ -69,6 +79,44 @@ const CreateCategory = ({
 															formik.handleChange
 														}
 													/>
+
+													{formik.errors.name &&
+														formik.touched.name && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.name as string
+																}
+															</p>
+														)}
+												</Form.Group>
+											</Col>
+
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>Ảnh</Form.Label>
+													<ImageUpload
+														url={formik.values.url}
+														setUrl={(url: any) => {
+															console.log(url);
+															formik.setValues({
+																...formik.values,
+																url: url,
+															});
+														}}
+													/>
+
+													{formik.errors.url &&
+														formik.touched.url && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.url as string
+																}
+															</p>
+														)}
 												</Form.Group>
 											</Col>
 

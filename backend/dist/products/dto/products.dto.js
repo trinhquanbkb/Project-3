@@ -20,11 +20,6 @@ __decorate([
     __metadata("design:type", String)
 ], ProductsDTO.prototype, "product_name", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 1, description: 'Số lượng' }),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], ProductsDTO.prototype, "quantity", void 0);
-__decorate([
     (0, swagger_1.ApiProperty)({ example: ["Áo"], description: 'Mảng phân loại sản phẩm' }),
     (0, class_validator_1.IsArray)(),
     __metadata("design:type", Array)
@@ -34,10 +29,5 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], ProductsDTO.prototype, "url", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: [], description: 'Mảng id sản phẩm string' }),
-    (0, class_validator_1.IsArray)(),
-    __metadata("design:type", Array)
-], ProductsDTO.prototype, "products_items_item", void 0);
 exports.ProductsDTO = ProductsDTO;
 //# sourceMappingURL=products.dto.js.map

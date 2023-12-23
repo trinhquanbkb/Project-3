@@ -15,6 +15,13 @@ let ProductItem = class ProductItem {
 };
 __decorate([
     (0, mongoose_1.Prop)({
+        require: true,
+        type: String,
+    }),
+    __metadata("design:type", String)
+], ProductItem.prototype, "id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
         required: false,
         type: String,
     }),
@@ -27,6 +34,13 @@ __decorate([
     }),
     __metadata("design:type", Number)
 ], ProductItem.prototype, "quantity", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: true,
+        type: Number,
+    }),
+    __metadata("design:type", Number)
+], ProductItem.prototype, "weight", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: Number,
@@ -45,9 +59,27 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], ProductItem.prototype, "supplier_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: String,
+    }),
+    __metadata("design:type", String)
+], ProductItem.prototype, "product_id", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: Number,
+    }),
+    __metadata("design:type", Number)
+], ProductItem.prototype, "quantity_sold", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        type: Boolean,
+    }),
+    __metadata("design:type", Boolean)
+], ProductItem.prototype, "hide", void 0);
 ProductItem = __decorate([
     (0, mongoose_1.Schema)({
-        timestamps: true
+        timestamps: true,
     })
 ], ProductItem);
 exports.ProductItem = ProductItem;

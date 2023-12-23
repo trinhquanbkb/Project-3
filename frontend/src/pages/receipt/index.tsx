@@ -6,14 +6,17 @@ import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import Loading from "../../components/Loading";
 import NotFoundTable from "../../components/NotFoundTable";
-import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import { IReceiptQuery } from "../../models/receipt.model";
-import { useGetReceiptListQuery } from "../../api/receiptApi";
+import {
+	useApproveReceiptMutation,
+	useCancelReceiptMutation,
+	useGetReceiptListQuery,
+} from "../../api/receiptApi";
 import TableReceipt from "./component/TableReceipt";
-import EditReceipt from "./component/EditReceipt";
 import CreateReceipt from "./component/CreateReceipt";
 import ViewReceipt from "./component/ViewReceipt";
+import ModalApprove from "./component/ModalApprove";
 
 const listBreadCrumb = [
 	{
@@ -31,17 +34,24 @@ const listBreadCrumb = [
 
 const ReceiptList = () => {
 	const location = useLocation();
-	const [idUser, setIdUser] = useState("");
+	const [id, setId] = useState("");
+	const [keywordCode, setKeywordCode] = useState("");
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const [viewModal, setViewModal] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
+	const [approveModal, setApproveModal] = useState(false);
+	const [approveApi] = useApproveReceiptMutation();
+	const [cancelApi] = useCancelReceiptMutation();
 	const [search, setSearch] = useState<IReceiptQuery>({
 		page: 1,
 		pageSize: 10,
 	});
+	const [filter, setFilter] = useState({ code: "" });
 	const { data: listReceipt, isFetching } = useGetReceiptListQuery({
 		...search,
+		filter: filter,
 	});
 
 	useEffect(() => {
@@ -49,12 +59,16 @@ const ReceiptList = () => {
 		const parsed = queryString.parse(query);
 		const page = parsed.page ? Number(parsed.page) : 1;
 		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const code = parsed.code ? parsed.code.toString() : "";
 
 		setSearch({
 			...search,
 			page,
 			pageSize,
 		});
+
+		setFilter({ code: code });
+		setKeywordCode(code);
 	}, []);
 
 	// xử lý việc url thay đổi khi có filter
@@ -65,6 +79,7 @@ const ReceiptList = () => {
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
+					code: filter.code,
 				},
 			},
 			{
@@ -72,7 +87,7 @@ const ReceiptList = () => {
 			}
 		);
 		window.history.pushState(null, "", query);
-	}, [search]);
+	}, [search, filter]);
 
 	// handle filter page with page and pageSize
 	const handleFilterPage = (filter: any) => {
@@ -85,25 +100,27 @@ const ReceiptList = () => {
 
 	const handleViewReceipt = (id: string) => {
 		setViewModal(!viewModal);
-		setIdUser(id);
+		setId(id);
 	};
 
 	const handleEditReceipt = (id: string) => {
 		setEditModal(!editModal);
-		setIdUser(id);
+		setId(id);
 	};
 
 	const handleDeleteReceipt = (id: string) => {
 		setDeleteModal(!deleteModal);
-		setIdUser(id);
+		setId(id);
 	};
 
-	const handleSearchOnEnter = (event: any) => {
-		event.preventDefault();
-		if (event.key === "Enter") {
-			setSearch({
-				...search,
-			});
+	const handleApproveReceipt = (id: string) => {
+		setApproveModal(!approveModal);
+		setId(id);
+	};
+
+	const handleClick = () => {
+		if (!buttonDisabled) {
+			setButtonDisabled(true);
 		}
 	};
 
@@ -120,16 +137,33 @@ const ReceiptList = () => {
 		if (createModal) {
 			setCreateModal(!createModal);
 		}
+		if (approveModal) {
+			setApproveModal(!approveModal);
+		}
 	};
 
-	const apiDeleteUser = async () => {
-		// const res: any = await deleteUserApi(idUser);
-		// if (res?.data) {
-		// 	setDeleteModal(!deleteModal);
-		// 	toast.success("Xóa nhân sự thành công!");
-		// } else {
-		// 	toast.error("Xóa nhân sự thất bại");
-		// }
+	const fetchApprove = async () => {
+		const res = await approveApi(id);
+		if (res) {
+			toast.success("Duyệt phiếu thành công!");
+			setApproveModal(!approveModal);
+			setButtonDisabled(false);
+		} else {
+			toast.error("Lỗi duyệt phiếu!");
+			setButtonDisabled(false);
+		}
+	};
+
+	const fetchCancel = async () => {
+		const res = await cancelApi(id);
+		if (res) {
+			toast.success("Hủy phiếu thành công!");
+			setApproveModal(!approveModal);
+			setButtonDisabled(false);
+		} else {
+			toast.error("Lỗi hủy phiếu!");
+			setButtonDisabled(false);
+		}
 	};
 
 	return (
@@ -199,6 +233,20 @@ const ReceiptList = () => {
 												<Form.Control
 													type="search"
 													placeholder="Tìm kiếm mã phiếu nhập kho"
+													value={keywordCode}
+													onChange={(e) => {
+														setKeywordCode(
+															e.target.value
+														);
+													}}
+													onKeyUp={(e) => {
+														if (e.key === "Enter") {
+															setFilter({
+																...filter,
+																code: keywordCode.trim(),
+															});
+														}
+													}}
 												/>
 												<Button
 													type="submit"
@@ -223,16 +271,19 @@ const ReceiptList = () => {
 					handleViewReceipt={handleViewReceipt}
 					handleEditReceipt={handleEditReceipt}
 					handleDeleteReceipt={handleDeleteReceipt}
+					handleApproveReceipt={handleApproveReceipt}
 					data={
 						listReceipt
 							? listReceipt.data.map((item) => {
 									return {
 										id: item._id,
-										supplierId: item.supplierId,
+										supplierId: item.supplierId.name,
 										quantity: item.products.length,
 										weight: item.weight,
 										note: item.note,
-										warehouseId: item?.warehouseId,
+										warehouseId: item?.warehouseId.name,
+										status: item.status,
+										statusCss: item.status,
 									};
 							  })
 							: null
@@ -245,25 +296,20 @@ const ReceiptList = () => {
 			{viewModal && (
 				<ViewReceipt
 					isClass={"active"}
-					id={idUser}
+					id={id}
 					handleClose={handleClosePopup}
 				/>
 			)}
 
-			{editModal && (
-				<EditReceipt
-					isClass={"active"}
-					id={idUser}
-					handleClose={handleClosePopup}
-				/>
-			)}
-
-			{deleteModal && (
-				<ModalConfirm
-					show={deleteModal}
-					content={`Xác nhận xóa nhân viên?`}
-					handleAction={apiDeleteUser}
-					onHide={() => setDeleteModal(false)}
+			{approveModal && (
+				<ModalApprove
+					show={approveModal}
+					content={`Xác nhận duyệt phiếu nhập kho?`}
+					handleAction={fetchApprove}
+					handleCancel={fetchCancel}
+					onHide={() => setApproveModal(false)}
+					buttonDisabled={buttonDisabled}
+					handleButton={handleClick}
 				/>
 			)}
 

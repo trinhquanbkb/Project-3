@@ -60,4 +60,5 @@ OrdersService = __decorate([
     __metadata("design:paramtypes", [mongoose_1.Model])
 ], OrdersService);
 exports.OrdersService = OrdersService;
+
 //# sourceMappingURL=products.service.js.map

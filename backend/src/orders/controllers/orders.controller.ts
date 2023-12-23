@@ -1,6 +1,16 @@
 // roles.controller.ts
 
-import { Controller, Post, Get, Put, Delete, Param, Body, UseGuards, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { OrdersService } from '../services/orders.service';
 import { OrdersDTO } from '../dto/orders.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -18,12 +28,52 @@ export class OrdersController {
     return this.rolesService.createRole(roleDto);
   }
 
-  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
-  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
+  @Post('/approve/:id')
+  async approve(
+    @Param('id') id: string,
+    @Body() roleDto: { shipping_id: string; tracking: string },
+  ) {
+    return this.rolesService.update(id, {
+      status: 'Thành công',
+      shipping_id: roleDto.shipping_id,
+      tracking: roleDto.tracking,
+    });
+  }
+
+  @Post('/waiting_for_delivery/:id')
+  async waiting(@Param('id') id: string) {
+    return this.rolesService.update(id, { status: 'Chờ xuất kho' });
+  }
+
+  @Post('/cancel/:id')
+  async cancel(@Param('id') id: string) {
+    return this.rolesService.update(id, { status: 'Huỷ' });
+  }
+
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'pageSize',
+    type: Number,
+    required: false,
+    description: 'Page size',
+  })
+  @ApiQuery({
+    name: 'filter',
+    type: String,
+    required: false,
+    description: 'Filter',
+  })
   @Get()
   findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.rolesService.findAllRoles(pagination, JSON.parse(filter?filter:"{}"));
+    return this.rolesService.findAllRoles(
+      pagination,
+      JSON.parse(filter ? filter : '{}'),
+    );
   }
 
   @Get(':id')
@@ -33,7 +83,7 @@ export class OrdersController {
 
   @Put(':id')
   updateRole(@Param('id') id: string, @Body() roleDto: OrdersDTO) {
-    return this.rolesService.updateRole(id, roleDto);
+    return this.rolesService.update(id, roleDto);
   }
 
   @Delete(':id')

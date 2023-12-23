@@ -1,12 +1,7 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
-import { 
-	IProduct, 
-	IProductQuery,
-	IUpdateProduct,
-	ICreateProduct 
-} from "../models/product.model";
+import { IProduct, IProductQuery } from "../models/product.model";
 
 export const successToastAction = createAction<string>("toast/success");
 export const failedToastAction = createAction<string>("toast/failed");
@@ -37,7 +32,7 @@ const ProductApi = api.injectEndpoints({
 			any,
 			{
 				id: string;
-				data: IUpdateProduct;
+				data: any;
 			}
 		>({
 			query: ({ id, ...data }) => ({
@@ -58,14 +53,20 @@ const ProductApi = api.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: "Product", id: "List" }],
 		}),
-		createProduct: build.mutation<any, ICreateProduct>({
+		createProduct: build.mutation<any, any>({
 			query: (data) => ({
 				url: "Products",
 				method: "POST",
 				data,
 			}),
 			invalidatesTags: [{ type: "Product", id: "List" }],
-		})
+		}),
+		searchProduct: build.query<IProduct[], string>({
+			query: (keyword) => ({
+				url: `Products/search/${keyword}`,
+				method: "GET",
+			}),
+		}),
 	}),
 });
 
@@ -75,4 +76,5 @@ export const {
 	useUpdateProductMutation,
 	useDeleteProductMutation,
 	useCreateProductMutation,
+	useSearchProductQuery,
 } = ProductApi;
