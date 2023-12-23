@@ -30,9 +30,9 @@ export declare class OrdersService {
     constructor(roleModel: Model<ProductItemDocument>);
     createRole(roleDto: ProductItemDTO): Promise<ProductItemDocument>;
     findAllRoles(pagination: any, filter: any): Promise<{
-        data: Omit<import("mongoose").Document<unknown, {}, ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
+        data: (import("mongoose").Document<unknown, {}, ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
-        }, never>[];
+        })[];
         paginations: {
             page: any;
             pageSize: any;
@@ -42,9 +42,13 @@ export declare class OrdersService {
         messenger: string;
     }>;
     findRoleById(id: string): Promise<ProductItemDocument | null>;
-    search(inputString: string): Promise<import("mongoose").Document<unknown, {}, ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
+    findProductItemsByWarehouseId(warehouseId: string): Promise<(import("mongoose").Document<unknown, {}, ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
-    }>;
+    })[]>;
+    sortByQuantitySoldWareHouse(warehouseId: string, limit: number): Promise<(import("mongoose").Document<unknown, {}, ProductItemDocument> & import("../schema/product.schema").ProductItem & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
     updateRole(id: string, roleDto: ProductItemDTO): Promise<ProductItemDocument | null>;
     deleteRole(id: string): Promise<ProductItemDocument | null>;
 }
+

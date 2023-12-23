@@ -22,7 +22,7 @@ import { FilterQuery } from 'mongoose';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('authorization')
 export class OrdersController {
-  constructor(private readonly rolesService: OrdersService) {}
+  constructor(private readonly rolesService: OrdersServiceProduct) {}
 
   @Post()
   createRole(@Body() roleDto: ProductsDTO) {

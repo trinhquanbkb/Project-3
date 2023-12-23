@@ -22,8 +22,14 @@ const products_module_2 = require("./product_items/products.module");
 const categories_module_1 = require("./categories/categories.module");
 const orders_module_1 = require("./orders/orders.module");
 const suppliers_module_1 = require("./suppliers/suppliers.module");
-const shipping_module_1 = require("./shipping/shipping.module");
+const statistics_module_1 = require("./statistics/statistics.module");
+const top_product_module_1 = require("./top_product/top_product.module");
+const inventory_products_module_1 = require("./inventory_products/inventory_products.module");
+const XSSRequestWrapper_1 = require("./middlewares/XSSRequestWrapper");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer.apply(XSSRequestWrapper_1.XSSRequestWrapper).forRoutes('*');
+    }
 };
 AppModule = __decorate([
     (0, common_1.Module)({
@@ -43,7 +49,9 @@ AppModule = __decorate([
             orders_module_1.OrdersModule,
             permisstions_module_1.PermisstionsModule,
             suppliers_module_1.SuppliersModule,
-            shipping_module_1.ShippingsModule
+            statistics_module_1.StatisticsModule,
+            top_product_module_1.TopProductModule,
+            inventory_products_module_1.InventoryProductsModule,
         ],
     })
 ], AppModule);
