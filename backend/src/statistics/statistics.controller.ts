@@ -4,7 +4,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import * as jwt from 'jsonwebtoken';
 import { OrdersService } from 'src/product_items/services/products.service';
-import { OrdersServiceProduct } from 'src/products/services/products.service';
+import { OrdersService as OrdersServiceProduct } from 'src/products/services/products.service';
 
 
 @Controller('statistics')
@@ -25,7 +25,7 @@ export class StatisticsController {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     const warehouseId = decodedToken["warehouse_id"];
     if (warehouseId) {
-      const productItems: any[] = await this.ordersService.findProductItemsByWarehouseId(warehouseId);
+      const productItems: any = await this.ordersService.findRoleById(warehouseId);
       const productsArray: any[] = [];
       
       for (const productId of productItems) {
