@@ -9,9 +9,8 @@ import { ProductDocument } from 'src/products/schema/product.schema';
 
 @Injectable()
 export class OrdersService {
-  constructor(
-    @InjectModel('ProductItem') private roleModel: Model<ProductItemDocument>,
-  ) {}
+  constructor(@InjectModel('ProductItem') private roleModel: Model<ProductItemDocument>,
+  ) { }
 
   async createRole(roleDto: ProductItemDTO): Promise<ProductItemDocument> {
     const createdRole = new this.roleModel(roleDto);
@@ -22,15 +21,21 @@ export class OrdersService {
   async findAllRoles(pagination: any, filter: any) {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
-    const data = await this.roleModel
-      .find(filter)
-      .skip(skip)
-      .limit(parseInt(pageSize, 10))
-      .populate({
+    const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10))
+      .populate([{
         path: 'product_id',
         model: 'Product',
-        select: 'product_name',
-      })
+        select: "product_name"
+      },
+      {
+        path: 'warehouse_id',
+        model: 'Warehouse',
+      },
+      {
+        path: 'supplier_id',
+        model: 'Supplier',
+      }
+      ])
       .exec();
     const total = await this.roleModel.countDocuments(filter).exec();
     const paginations = {
