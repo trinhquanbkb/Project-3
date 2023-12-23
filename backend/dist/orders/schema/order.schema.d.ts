@@ -33,6 +33,7 @@ export declare class Order {
     note: string;
     shipping_id: string;
     address: string;
+    tracking: string;
 }
 export declare const OrderSchema: import("mongoose").Schema<Order, import("mongoose").Model<Order, any, any, any, Document<unknown, any, Order> & Order & {
     _id: import("mongoose").Types.ObjectId;

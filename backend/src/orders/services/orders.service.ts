@@ -54,10 +54,14 @@ export class OrdersService {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
     const data = await this.roleModel
-      .find(filter)
+      .find()
       .skip(skip)
       .limit(parseInt(pageSize, 10))
       .populate([
+        {
+          path: 'shipping_id',
+          model: 'Shipping',
+        },
         {
           path: 'products.product_id',
           model: 'Product',
@@ -77,13 +81,9 @@ export class OrdersService {
             },
           ],
         },
-        {
-          path: 'shipping_id',
-          model: 'Shipping',
-        },
       ])
       .exec();
-    const total = await this.roleModel.countDocuments(filter).exec();
+    const total = await this.roleModel.countDocuments().exec();
     const paginations = {
       page: page,
       pageSize: pageSize,
@@ -94,7 +94,15 @@ export class OrdersService {
   }
 
   async findRoleById(id: string): Promise<OrderDocument | null> {
-    return this.roleModel.findById(id).exec();
+    return this.roleModel
+      .findById(id)
+      .populate([
+        {
+          path: 'products.product_id',
+          model: 'Product',
+        },
+      ])
+      .exec();
   }
 
   async update(id: string, roleDto: any): Promise<OrderDocument | null> {
