@@ -43,13 +43,6 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		url: "/employees",
 	},
 	{
-		key: "report",
-		label: "Báo cáo",
-		isTitle: false,
-		icon: "clipboard",
-		url: "/report",
-	},
-	{
 		key: "statistics",
 		label: "Thống kê",
 		isTitle: false,

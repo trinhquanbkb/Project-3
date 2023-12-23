@@ -100,7 +100,11 @@ const CreateReceipt = ({
 			let validate = true;
 			let idRowNull = null;
 			rows.forEach((item) => {
-				if (!item.productItemId || item.quantity <= 0 || item.price) {
+				if (
+					!item.productItemId ||
+					item.quantity <= 0 ||
+					item.price <= 0
+				) {
 					validate = false;
 					idRowNull = item.id;
 				}

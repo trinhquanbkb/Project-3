@@ -28,7 +28,7 @@ const listBreadCrumb = [
 
 const columns = [
 	{
-		Header: "Mã PXK",
+		Header: "Mã PNK",
 		accessor: "idWarehouse",
 		sort: false,
 		width: 80,
