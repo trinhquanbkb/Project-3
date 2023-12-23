@@ -16,7 +16,7 @@ export default function SelectRole(props: IProps) {
 	});
 
 	let optionRole: OptionTypes[] = [];
-	optionRole.push({ value: null, label: "Select" });
+	optionRole.push({ value: "", label: "Select" });
 	if (data) {
 		data.data.forEach((item) => {
 			optionRole.push({

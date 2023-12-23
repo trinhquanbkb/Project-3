@@ -3,32 +3,29 @@ import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
 import { ITableReceipt } from "../../../models/receipt.model";
+import { checkStatus } from "../../../constants/status";
 
 const columns = [
 	{
 		Header: "Mã PNK",
 		accessor: "id",
-		sort: true,
+	},
+	{
+		Header: "Trạng thái",
+		accessor: "statusCss",
+		sort: false,
 	},
 	{
 		Header: "Số lượng",
 		accessor: "quantity",
-		sort: true,
 	},
 	{
-		Header: "Tổng cân nặng",
-		accessor: "weight",
-		sort: false,
-	},
-	{
-		Header: "Mã đối tác",
+		Header: "Đối tác",
 		accessor: "supplierId",
-		sort: true,
 	},
 	{
-		Header: "Mã nhà kho",
+		Header: "Kho",
 		accessor: "warehouseId",
-		sort: true,
 	},
 	{
 		Header: "Ghi chú",
@@ -73,7 +70,7 @@ const TableReceipt = (props: ITableReceipt) => {
 				</Col>
 			</Row>
 
-			{/* {props.data == null || undefined
+			{props.data == null || undefined
 				? null
 				: props.data.forEach(
 						(item: any) => (
@@ -83,45 +80,44 @@ const TableReceipt = (props: ITableReceipt) => {
 										type="button"
 										className="btn btn-create-order"
 										onClick={() => {
-											props.handleViewUser(item.id);
+											props.handleViewReceipt(item.id);
 										}}
 									>
 										<i className="uil uil-eye"></i>
 										<span className="title">
-											Xem nhân sự
+											Xem chi tiết
 										</span>
 									</button>
-									<button
-										type="button"
-										className="btn btn-edit-tracking"
-										onClick={() => {
-											props.handleEditUser(item.id);
-										}}
-									>
-										<i className="uil uil-edit-alt"></i>
-										<span className="title">
-											Sửa nhân sự
-										</span>
-									</button>
-									<button
-										type="button"
-										className="btn btn-delete-tracking"
-										onClick={() => {
-											props.handleDeleteUser(item.id);
-										}}
-									>
-										<i className="uil uil-times"></i>
-										<span className="title">
-											Xóa nhân sự
-										</span>
-									</button>
+									{item.status !== "Thành công" &&
+									item.status !== "Huỷ" ? (
+										<button
+											type="button"
+											className="btn btn-delete-tracking"
+											onClick={() => {
+												props.handleApproveReceipt(
+													item.id
+												);
+											}}
+										>
+											<i className="uil uil-check"></i>
+											<span className="title">
+												Duyệt phiếu nhập kho
+											</span>
+										</button>
+									) : null}
 								</div>
 							)),
-							(item["code"] = (
-								<p className="fw-bold">{item.code}</p>
+							(item["statusCss"] = (
+								<p
+									className={`mb-0 status ${checkStatus(
+										item.status
+									)}`}
+								>
+									{item.status}
+								</p>
 							))
 						)
-				  )} */}
+				  )}
 		</>
 	);
 };

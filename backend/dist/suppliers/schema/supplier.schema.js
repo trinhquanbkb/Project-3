@@ -19,13 +19,13 @@ __decorate([
         type: String,
     }),
     __metadata("design:type", String)
-], Supplier.prototype, "supplier_name", void 0);
+], Supplier.prototype, "name", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         required: false,
-        type: String,
+        type: Object,
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], Supplier.prototype, "address", void 0);
 __decorate([
     (0, mongoose_1.Prop)({

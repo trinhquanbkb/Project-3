@@ -1,6 +1,6 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Loading from "../../../components/Loading";
-import { useGetCategoryDetailQuery } from "../../../api/categoryApi";
+import { useGetProductDetailQuery } from "../../../api/productApi";
 
 const ViewCategory = ({
 	id,
@@ -12,7 +12,7 @@ const ViewCategory = ({
 	isClass: string;
 }) => {
 	const { data: CategoryDetail, isFetching: fetchingCategory } =
-		useGetCategoryDetailQuery(id);
+		useGetProductDetailQuery(id);
 
 	return (
 		<>
@@ -23,7 +23,7 @@ const ViewCategory = ({
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Thông tin nhà kho</h2>
+						<h2>Thông tin danh mục sản phẩm</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 
@@ -38,12 +38,14 @@ const ViewCategory = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Mã nhà kho
+														Mã sản phẩm
 													</Form.Label>
 													<Form.Control
 														type="text"
 														name="code"
-														value={CategoryDetail?._id}
+														value={
+															CategoryDetail?._id
+														}
 														disabled
 													/>
 												</Form.Group>
@@ -51,16 +53,30 @@ const ViewCategory = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Tên nhà kho
+														Tên sản phẩm
 													</Form.Label>
 													<Form.Control
 														type="text"
 														name="name"
 														value={
-															CategoryDetail?.name
+															CategoryDetail?.product_name
 														}
 														disabled
 													/>
+												</Form.Group>
+											</Col>
+
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>Ảnh</Form.Label>
+													<div className="img-product">
+														<img
+															src={
+																CategoryDetail?.url
+															}
+															alt="img-product"
+														/>
+													</div>
 												</Form.Group>
 											</Col>
 										</Row>

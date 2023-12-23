@@ -1,4 +1,5 @@
 import { IPagination } from "./pagination.model";
+import { IWarehouse } from "./warehouse.model";
 
 export interface IUser {
 	password: string;
@@ -33,9 +34,7 @@ export interface ICreateUser {
 export interface IUserQuery {
 	page: number;
 	pageSize: number;
-	username?: string;
-	role_id: string;
-	email: string;
+	filter: { username?: string; role_id: string; email: string };
 }
 
 export interface ITableUser {
@@ -52,4 +51,18 @@ export interface ITableUser {
 				email: string;
 		  }[]
 		| null;
+}
+
+export interface IUserLogged {
+	password: string;
+	_id: string;
+	username: string;
+	email: string;
+	phone: string;
+	role_id: number;
+	parent_id: number;
+	warehouse_id: IWarehouse;
+	createdAt: Date;
+	updatedAt: Date;
+	__v: any;
 }

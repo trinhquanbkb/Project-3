@@ -1,11 +1,11 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
-import { 
-	IReceipt, 
+import {
+	IReceipt,
 	IReceiptQuery,
 	IUpdateReceipt,
-	ICreateReceipt 
+	ICreateReceipt,
 } from "../models/receipt.model";
 
 export const successToastAction = createAction<string>("toast/success");
@@ -17,7 +17,7 @@ const ReceiptApi = api.injectEndpoints({
 				data: IReceipt[];
 				paginations: IPagination;
 			},
-			IReceiptQuery
+			any
 		>({
 			query: (params) => ({
 				url: "financial-transaction",
@@ -64,8 +64,31 @@ const ReceiptApi = api.injectEndpoints({
 				method: "POST",
 				data,
 			}),
-			invalidatesTags: [{ type: "Receipt", id: "List" }],
-		})
+			invalidatesTags: [
+				{ type: "Receipt", id: "List" },
+				{ type: "Receipt", id: "Detail" },
+			],
+		}),
+		approveReceipt: build.mutation<any, string>({
+			query: (id) => ({
+				url: `financial-transaction/approve/${id}`,
+				method: "POST",
+			}),
+			invalidatesTags: [
+				{ type: "Receipt", id: "List" },
+				{ type: "Receipt", id: "Detail" },
+			],
+		}),
+		cancelReceipt: build.mutation<any, string>({
+			query: (id) => ({
+				url: `financial-transaction/cancel/${id}`,
+				method: "POST",
+			}),
+			invalidatesTags: [
+				{ type: "Receipt", id: "List" },
+				{ type: "Receipt", id: "Detail" },
+			],
+		}),
 	}),
 });
 
@@ -75,4 +98,6 @@ export const {
 	useUpdateReceiptMutation,
 	useDeleteReceiptMutation,
 	useCreateReceiptMutation,
+	useApproveReceiptMutation,
+	useCancelReceiptMutation,
 } = ReceiptApi;

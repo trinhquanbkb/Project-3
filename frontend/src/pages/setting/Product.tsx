@@ -2,17 +2,13 @@ import { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import queryString from "query-string";
 
-import { useDeleteCategoryMutation, useGetCategoryListQuery } from "../../api/categoryApi";
+import { useGetCategoryListQuery } from "../../api/categoryApi";
 import NotFoundTable from "../../components/NotFoundTable";
 import Loading from "../../components/Loading";
 import EditCategory from "./component/EditCategory";
 import ViewCategory from "./component/ViewCategory";
 import CreateCategory from "./component/CreateCategory";
-import ModalConfirm from "../../components/ModalConfirm";
-import { toast } from "react-toastify";
 import TableCategory from "./component/TableCategory";
-import { ICategoryQuery } from "../../models/category.model";
-
 
 const listBreadCrumb = [
 	{
@@ -28,23 +24,21 @@ const listBreadCrumb = [
 	},
 ];
 
-
 const CategoryList = () => {
 	const [idCategory, setIdCategory] = useState("");
 	const [keywordCategoryName, setKeywordCategoryName] = useState("");
 	const [viewModal, setViewModal] = useState(false);
 	const [createModal, setCreateModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
-	const [deleteModal, setDeleteModal] = useState(false);
-	const [search, setSearch] = useState<ICategoryQuery>({
+	const [search, setSearch] = useState<any>({
 		page: 1,
 		pageSize: 10,
 		name: "",
 	});
 
-	const { data: listCategory, isFetching } = useGetCategoryListQuery({ ...search });
-
-	const [deleteCategoryApi] = useDeleteCategoryMutation();
+	const { data: listCategory, isFetching } = useGetCategoryListQuery({
+		...search,
+	});
 
 	useEffect(() => {
 		const query = queryString.stringifyUrl(
@@ -82,18 +76,12 @@ const CategoryList = () => {
 		setIdCategory(id);
 	};
 
-	const handleDeleteCategory = (id: string) => {
-		setDeleteModal(!deleteModal);
-		setIdCategory(id);
-	};
-
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
 			setSearch({
 				...search,
 				name: keywordCategoryName.trim(),
-
 			});
 		}
 	};
@@ -105,21 +93,8 @@ const CategoryList = () => {
 		if (editModal) {
 			setEditModal(!editModal);
 		}
-		if (deleteModal) {
-			setDeleteModal(!deleteModal);
-		}
 		if (createModal) {
 			setCreateModal(!createModal);
-		}
-	};
-
-	const apiDeleteCategory = async () => {
-		const res: any = await deleteCategoryApi(idCategory);
-		if (res?.data) {
-			setDeleteModal(!deleteModal);
-			toast.success("Xóa nhà kho thành công!");
-		} else {
-			toast.error("Xóa nhà kho thất bại");
 		}
 	};
 
@@ -167,7 +142,8 @@ const CategoryList = () => {
 										setCreateModal(!createModal);
 									}}
 								>
-									<i className="uil-plus me-1"></i> Thêm loai san pham
+									<i className="uil-plus me-1"></i> Thêm loai
+									san pham
 								</Button>
 							</div>
 						</div>
@@ -205,8 +181,7 @@ const CategoryList = () => {
 													onClick={() => {
 														setSearch({
 															...search,
-															name:
-																keywordCategoryName.trim(),
+															name: keywordCategoryName.trim(),
 														});
 													}}
 												></Button>
@@ -228,7 +203,6 @@ const CategoryList = () => {
 					paginations={listCategory.paginations}
 					handleViewCategory={handleViewCategory}
 					handleEditCategory={handleEditCategory}
-					handleDeleteCategory={handleDeleteCategory}
 					data={
 						listCategory
 							? listCategory.data.map((item) => {
@@ -257,15 +231,6 @@ const CategoryList = () => {
 					isClass={"active"}
 					id={idCategory}
 					handleClose={handleClosePopup}
-				/>
-			)}
-
-			{deleteModal && (
-				<ModalConfirm
-					show={deleteModal}
-					content={`Xác nhận xóa nhà kho?`}
-					handleAction={apiDeleteCategory}
-					onHide={() => setDeleteModal(false)}
 				/>
 			)}
 

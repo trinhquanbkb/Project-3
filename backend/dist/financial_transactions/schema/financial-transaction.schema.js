@@ -12,57 +12,59 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FinancialTransactionSchema = exports.FinancialTransaction = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const configuration_1 = require("../../config/configuration");
+const warehouse_schema_1 = require("../../warehouse/schema/warehouse.schema");
 let FinancialTransaction = class FinancialTransaction {
 };
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
+        require: true,
         type: String,
     }),
     __metadata("design:type", String)
-], FinancialTransaction.prototype, "transaction_name", void 0);
+], FinancialTransaction.prototype, "id", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
+        require: true,
+        type: Number,
+    }),
+    __metadata("design:type", Number)
+], FinancialTransaction.prototype, "weight", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        require: true,
+        type: String
+    }),
+    __metadata("design:type", String)
+], FinancialTransaction.prototype, "supplierId", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        require: true,
         type: String,
     }),
     __metadata("design:type", String)
-], FinancialTransaction.prototype, "product_id", void 0);
+], FinancialTransaction.prototype, "warehouseId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
-        type: Number,
-    }),
-    __metadata("design:type", Number)
-], FinancialTransaction.prototype, "quantity", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-        type: Number,
-    }),
-    __metadata("design:type", Number)
-], FinancialTransaction.prototype, "unit_price", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-        type: Number,
-    }),
-    __metadata("design:type", Number)
-], FinancialTransaction.prototype, "total_amount", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-        type: String,
+        require: true,
+        type: String
     }),
     __metadata("design:type", String)
-], FinancialTransaction.prototype, "type", void 0);
+], FinancialTransaction.prototype, "note", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: true,
+        require: false,
         type: String,
+        default: "Chờ duyệt"
     }),
     __metadata("design:type", String)
 ], FinancialTransaction.prototype, "status", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        require: true,
+        type: (Array)
+    }),
+    __metadata("design:type", Array)
+], FinancialTransaction.prototype, "products", void 0);
 FinancialTransaction = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true

@@ -25,13 +25,13 @@
 import { Document } from 'mongoose';
 export type FinancialTransactionsDocument = FinancialTransaction & Document;
 export declare class FinancialTransaction {
-    transaction_name: string;
-    product_id: string;
-    quantity: Number;
-    unit_price: Number;
-    total_amount: Number;
-    type: String;
-    status: String;
+    id: string;
+    weight: number;
+    supplierId: string;
+    warehouseId: string;
+    note: string;
+    status: string;
+    products: Array<String>;
 }
 export declare const FinancialTransactionSchema: import("mongoose").Schema<FinancialTransaction, import("mongoose").Model<FinancialTransaction, any, any, any, Document<unknown, any, FinancialTransaction> & FinancialTransaction & {
     _id: import("mongoose").Types.ObjectId;

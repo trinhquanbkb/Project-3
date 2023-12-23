@@ -21,10 +21,12 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 export class FinancialTransactionController {
   constructor(
     private readonly financialTransactionService: FinancialTransactionService,
-  ) { }
+  ) {}
 
   @Post()
-  async create(@Body() createFinancialTransactionDto: CreateFinancialTransactionDto) {
+  async create(
+    @Body() createFinancialTransactionDto: CreateFinancialTransactionDto,
+  ) {
     return this.financialTransactionService.create(
       createFinancialTransactionDto,
     );
@@ -32,20 +34,37 @@ export class FinancialTransactionController {
 
   @Post('/approve/:id')
   async approve(@Param('id') id: string) {
-    return this.financialTransactionService.update(id, { status: "Thành công" })
+    return this.financialTransactionService.update(id, {
+      status: 'Thành công',
+    });
   }
 
-  @Post('/cancel:id')
+  @Post('/cancel/:id')
   async cancel(@Param('id') id: string) {
-    return this.financialTransactionService.update(id, { status: "Huỷ" })
+    return this.financialTransactionService.update(id, { status: 'Huỷ' });
   }
 
-  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
-  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'pageSize',
+    type: Number,
+    required: false,
+    description: 'Page size',
+  })
+  @ApiQuery({
+    name: 'filter',
+    type: String,
+    required: false,
+    description: 'Filter',
+  })
   @Get()
   findAll(@Query() pagination: any, @Query('filter') filter: string) {
-    const parsedFilter = JSON.parse(filter ? filter : "{}");
+    const parsedFilter = JSON.parse(filter ? filter : '{}');
     return this.financialTransactionService.findAll(pagination, parsedFilter);
   }
 

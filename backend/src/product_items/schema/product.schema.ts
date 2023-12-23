@@ -6,9 +6,14 @@ import { Document } from 'mongoose';
 export type ProductItemDocument = ProductItem & Document;
 
 @Schema({
-  timestamps: true
+  timestamps: true,
 })
 export class ProductItem {
+  @Prop({
+    require: true,
+    type: String,
+  })
+  id: string;
 
   @Prop({
     required: false,
@@ -55,7 +60,6 @@ export class ProductItem {
     type: Boolean,
   })
   hide: Boolean;
-
 }
 
 export const ProductItemSchema = SchemaFactory.createForClass(ProductItem);

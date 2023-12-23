@@ -15,12 +15,12 @@ const columns = [
 		accessor: "name",
 		sort: true,
 	},
-  {
+	{
 		Header: "Điện thoại",
 		accessor: "phone",
 		sort: true,
 	},
-  {
+	{
 		Header: "Email",
 		accessor: "email",
 		sort: true,
@@ -49,6 +49,7 @@ const columns = [
 		Header: "Hành động",
 		accessor: "action",
 		sort: false,
+		width: 200,
 	},
 ];
 
@@ -82,7 +83,7 @@ const TableSupplier = (props: ITableSupplier) => {
 					</Card>
 				</Col>
 			</Row>
-									
+
 			{props.data == null || undefined
 				? null
 				: props.data.forEach(

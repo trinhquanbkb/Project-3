@@ -25,8 +25,8 @@
 import { Document } from 'mongoose';
 export type SupplierDocument = Supplier & Document;
 export declare class Supplier {
-    supplier_name: string;
-    address: string;
+    name: string;
+    address: Object;
     phone: string;
     email: string;
 }

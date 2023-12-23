@@ -5,10 +5,10 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
 import {
-	useGetCategoryDetailQuery,
-	useUpdateCategoryMutation,
-} from "../../../api/categoryApi";
-import FormAddress from "../../../components/FormAddress";
+	useGetProductDetailQuery,
+	useUpdateProductMutation,
+} from "../../../api/productApi";
+import ImageUpload from "../../../components/ImageUpload";
 
 const EditCategory = ({
 	id,
@@ -20,27 +20,31 @@ const EditCategory = ({
 	isClass: string;
 }) => {
 	const { data: CategoryDetail, isFetching: fetchingCategory } =
-		useGetCategoryDetailQuery(id);
-	const [updateCategory] = useUpdateCategoryMutation();
-
+		useGetProductDetailQuery(id);
+	const [updateCategory] = useUpdateProductMutation();
 
 	const formik = useFormik({
 		initialValues: {
-			name: ""
+			name: "",
+			url: "",
 		},
+		validationSchema: Yup.object({
+			name: Yup.string().required("Trường bắt buộc!"),
+			url: Yup.string().required("Trường bắt buộc!"),
+		}),
 		onSubmit: async (values: any) => {
 			const res: any = await updateCategory({
 				id: id,
 				data: {
-					name: values.name
-				}
+					product_name: values.name,
+				},
 			});
 			if (res?.data) {
 				handleClose();
 
-				toast.success("Sửa thông tin nhà kho thành công!");
+				toast.success("Sửa thông tin danh mục sản phẩm thành công!");
 			} else {
-				toast.error("Sửa thông tin nhà kho thất bại!");
+				toast.error("Sửa thông tin danh mục sản phẩm thất bại!");
 			}
 		},
 	});
@@ -48,7 +52,8 @@ const EditCategory = ({
 	useEffect(() => {
 		if (CategoryDetail) {
 			formik.setValues({
-				name: CategoryDetail.name
+				name: CategoryDetail.product_name,
+				url: CategoryDetail.product_name,
 			});
 		}
 	}, [CategoryDetail]);
@@ -56,12 +61,13 @@ const EditCategory = ({
 	return (
 		<>
 			<div
-				className={`popup-info main-view-order ${isClass === "active" ? "opened" : ""
-					}`}
+				className={`popup-info main-view-order ${
+					isClass === "active" ? "opened" : ""
+				}`}
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Sửa thông tin nhà kho</h2>
+						<h2>Sửa thông tin danh mục sản phẩm</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 
@@ -82,85 +88,71 @@ const EditCategory = ({
 												<Col xs={12} md={6}>
 													<Form.Group className="mb-3">
 														<Form.Label>
-															Tên nhà kho
+															Tên sản phẩm
 														</Form.Label>
 														<Form.Control
 															type="text"
 															name="name"
 															value={
-																formik.values.name
+																formik.values
+																	.name
 															}
 															onChange={
 																formik.handleChange
 															}
 														/>
-													</Form.Group>
-												</Col>
-
-
-												{/* <Col xs={12} md={6}>
-													<Form.Group className="mb-3">
-														<Form.Label>
-															Đường
-														</Form.Label>
-														<Form.Control
-															type="text"
-															name="wards"
-															value={
-																formik.values.wards
-															}
-															onChange={
-																formik.handleChange
-															}
-														/>
+														{formik.errors.name &&
+															formik.touched
+																.name && (
+																<p className="error mb-0">
+																	{
+																		formik
+																			.errors
+																			.name as string
+																	}
+																</p>
+															)}
 													</Form.Group>
 												</Col>
 
 												<Col xs={12} md={6}>
 													<Form.Group className="mb-3">
 														<Form.Label>
-															Đường
+															Ảnh
 														</Form.Label>
-														<Form.Control
-															type="text"
-															name="district"
-															value={
-																formik.values.district
+														<ImageUpload
+															url={
+																formik.values
+																	.url
 															}
-															onChange={
-																formik.handleChange
-															}
+															setUrl={(
+																url: any
+															) => {
+																console.log(
+																	url
+																);
+																formik.setValues(
+																	{
+																		...formik.values,
+																		url: url,
+																	}
+																);
+															}}
 														/>
+
+														{formik.errors.url &&
+															formik.touched
+																.url && (
+																<p className="error mb-0">
+																	{
+																		formik
+																			.errors
+																			.url as string
+																	}
+																</p>
+															)}
 													</Form.Group>
 												</Col>
-
-												<Col xs={12} md={6}>
-													<Form.Group className="mb-3">
-														<Form.Label>
-															Đường
-														</Form.Label>
-														<Form.Control
-															type="text"
-															name="city"
-															value={
-																formik.values.city
-															}
-															onChange={
-																formik.handleChange
-															}
-														/>
-													</Form.Group>
-												</Col> */}
-												{/* <Form onSubmit={formik.handleSubmit}>
-													<FormAddress
-														city={formik.values.city}
-														district={formik.values.district}
-														wards={formik.values.wards}
-														onCityChange={(value: any) => formik.setFieldValue("city", value)}
-														onDistrictChange={(value: any) => formik.setFieldValue("district", value)}
-														onWardsChange={(value: any) => formik.setFieldValue("wards", value)}
-													/>
-												</Form> */}
 
 												<Col
 													xs={12}

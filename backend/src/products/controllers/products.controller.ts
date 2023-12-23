@@ -1,6 +1,16 @@
 // roles.controller.ts
 
-import { Controller, Post, Get, Put, Delete, Param, Body, UseGuards, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { OrdersService } from '../services/products.service';
 import { ProductsDTO } from '../dto/products.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -19,12 +29,30 @@ export class OrdersController {
     return this.rolesService.createRole(roleDto);
   }
 
-  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
-  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'pageSize',
+    type: Number,
+    required: false,
+    description: 'Page size',
+  })
+  @ApiQuery({
+    name: 'filter',
+    type: String,
+    required: false,
+    description: 'Filter',
+  })
   @Get()
   findAllRoles(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.rolesService.findAllRoles(pagination, JSON.parse(filter?filter:"{}"));
+    return this.rolesService.findAllRoles(
+      pagination,
+      JSON.parse(filter ? filter : '{}'),
+    );
   }
 
   @Get(':id')
@@ -34,7 +62,7 @@ export class OrdersController {
 
   @Get('/search/:search')
   searchProduct(@Param('search') search: string) {
-    return this.rolesService.search(search);
+    return this.rolesService.search(search ? search : '');
   }
 
   @Post('test')

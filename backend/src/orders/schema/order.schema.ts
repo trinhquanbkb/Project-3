@@ -7,10 +7,9 @@ import { ProductsType } from '../dto/orders.dto';
 export type OrderDocument = Order & Document;
 
 @Schema({
-  timestamps: true
+  timestamps: true,
 })
 export class Order {
-
   @Prop({
     required: true,
     type: String,
@@ -32,7 +31,7 @@ export class Order {
   @Prop({
     required: false,
     type: String,
-    default: "Chờ duyệt"
+    default: 'Chờ duyệt',
   })
   status: string;
 
@@ -43,10 +42,22 @@ export class Order {
   note: string;
 
   @Prop({
-    required: true,
+    required: false,
     type: String,
   })
   shipping_id: string;
+
+  @Prop({
+    required: true,
+    type: String,
+  })
+  address: string;
+
+  @Prop({
+    required: false,
+    type: String,
+  })
+  tracking: string;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

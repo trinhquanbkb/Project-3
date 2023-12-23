@@ -235,3 +235,8 @@ input.form-control[type="range"] {
 		}
 	}
 }
+
+.form-input-disabled {
+	background-color: #e3e5e6;
+	cursor: no-drop;
+}

@@ -17,6 +17,12 @@ const roles_module_1 = require("./roles/roles.module");
 const permisstions_module_1 = require("./permissions/permisstions.module");
 const warehouses_module_1 = require("./warehouse/warehouses.module");
 const financial_transaction_module_1 = require("./financial_transactions/financial-transaction.module");
+const products_module_1 = require("./products/products.module");
+const products_module_2 = require("./product_items/products.module");
+const categories_module_1 = require("./categories/categories.module");
+const orders_module_1 = require("./orders/orders.module");
+const suppliers_module_1 = require("./suppliers/suppliers.module");
+const shipping_module_1 = require("./shipping/shipping.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -31,6 +37,13 @@ AppModule = __decorate([
             permisstions_module_1.PermisstionsModule,
             warehouses_module_1.WarehousesModule,
             financial_transaction_module_1.FinancialTransactionModule,
+            products_module_1.ProductsModule,
+            products_module_2.ProductItemsModule,
+            categories_module_1.CategoriesModule,
+            orders_module_1.OrdersModule,
+            permisstions_module_1.PermisstionsModule,
+            suppliers_module_1.SuppliersModule,
+            shipping_module_1.ShippingsModule
         ],
     })
 ], AppModule);

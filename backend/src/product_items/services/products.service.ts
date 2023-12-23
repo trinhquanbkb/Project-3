@@ -15,7 +15,7 @@ export class OrdersService {
   async createRole(roleDto: ProductItemDTO): Promise<ProductItemDocument> {
     const createdRole = new this.roleModel(roleDto);
     const product_item = await createdRole.save();
-    return product_item
+    return product_item;
   }
 
   async findAllRoles(pagination: any, filter: any) {
@@ -39,19 +39,26 @@ export class OrdersService {
       .exec();
     const total = await this.roleModel.countDocuments(filter).exec();
     const paginations = {
-      "page": page,
-      "pageSize": pageSize,
-      "total": total,
-      "totalPage": Math.ceil(total / pageSize)
-    }
-    return { data, paginations, messenger: "succes" };
+      page: page,
+      pageSize: pageSize,
+      total: total,
+      totalPage: Math.ceil(total / pageSize),
+    };
+    return { data, paginations, messenger: 'succes' };
   }
 
   async findRoleById(id: string): Promise<ProductItemDocument | null> {
     return this.roleModel.findById(id).exec();
   }
 
-  async updateRole(id: string, roleDto: ProductItemDTO): Promise<ProductItemDocument | null> {
+  async search(inputString: string) {
+    return await this.roleModel.findById(inputString).exec();
+  }
+
+  async updateRole(
+    id: string,
+    roleDto: ProductItemDTO,
+  ): Promise<ProductItemDocument | null> {
     return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }
 

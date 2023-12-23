@@ -1,11 +1,5 @@
-export declare class UpdateFinancialTransactionDto {
-    transaction_name: string;
-    product_id: string;
-    phone: string;
-    email: string;
-    quantity: Number;
-    unit_price: Number;
-    total_amount: Number;
-    type: String;
-    status: String;
+import { CreateFinancialTransactionDto } from './create-financial-transaction.dto';
+declare const UpdateFinancialTransactionDto_base: import("@nestjs/mapped-types").MappedType<Partial<CreateFinancialTransactionDto>>;
+export declare class UpdateFinancialTransactionDto extends UpdateFinancialTransactionDto_base {
 }
+export {};

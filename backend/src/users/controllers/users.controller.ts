@@ -24,11 +24,29 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @ApiQuery({ name: 'page', type: Number, required: false, description: 'Page number' })
-  @ApiQuery({ name: 'pageSize', type: Number, required: false, description: 'Page size' })
-  @ApiQuery({ name: 'filter', type: String, required: false, description: 'Filter' })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'pageSize',
+    type: Number,
+    required: false,
+    description: 'Page size',
+  })
+  @ApiQuery({
+    name: 'filter',
+    type: String,
+    required: false,
+    description: 'Filter',
+  })
   async findAll(@Query() pagination: any, @Query('filter') filter: string) {
-    return this.usersService.findAll(pagination, JSON.parse(filter?filter:"{}"));
+    return this.usersService.findAll(
+      pagination,
+      JSON.parse(filter ? filter : '{}'),
+    );
   }
 
   @Get(':id')

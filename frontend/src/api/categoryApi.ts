@@ -1,11 +1,11 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
-import { 
-	ICategory, 
+import {
+	ICategory,
 	ICategoryQuery,
 	IUpdateCategory,
-	ICreateCategory 
+	ICreateCategory,
 } from "../models/category.model";
 
 export const successToastAction = createAction<string>("toast/success");
@@ -17,10 +17,10 @@ const CategoryApi = api.injectEndpoints({
 				data: ICategory[];
 				paginations: IPagination;
 			},
-			ICategoryQuery
+			any
 		>({
 			query: (params) => ({
-				url: "Categories",
+				url: "Products",
 				method: "GET",
 				params,
 			}),
@@ -28,7 +28,7 @@ const CategoryApi = api.injectEndpoints({
 		}),
 		getCategoryDetail: build.query<ICategory, string>({
 			query: (id) => ({
-				url: `Categories/${id}`,
+				url: `Products/${id}`,
 				method: "GET",
 			}),
 			providesTags: [{ type: "Category", id: "Detail" }],
@@ -41,7 +41,7 @@ const CategoryApi = api.injectEndpoints({
 			}
 		>({
 			query: ({ id, ...data }) => ({
-				url: `Categories/${id}`,
+				url: `Products/${id}`,
 				method: "PUT",
 				...data,
 			}),
@@ -53,19 +53,19 @@ const CategoryApi = api.injectEndpoints({
 		}),
 		deleteCategory: build.mutation<any, string>({
 			query: (id) => ({
-				url: `Categories/${id}`,
+				url: `Products/${id}`,
 				method: "DELETE",
 			}),
 			invalidatesTags: [{ type: "Category", id: "List" }],
 		}),
 		createCategory: build.mutation<any, ICreateCategory>({
 			query: (data) => ({
-				url: "Categories",
+				url: "Products",
 				method: "POST",
 				data,
 			}),
 			invalidatesTags: [{ type: "Category", id: "List" }],
-		})
+		}),
 	}),
 });
 

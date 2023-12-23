@@ -1,11 +1,14 @@
-export declare class CreateFinancialTransactionDto {
-    transaction_name: string;
-    product_id: string;
-    phone: string;
-    email: string;
+type ProductsType = {
+    expriry_data: string;
     quantity: Number;
-    unit_price: Number;
-    total_amount: Number;
-    type: String;
-    status: String;
+    price: Number;
+    product_id: string;
+    weight: Number;
+};
+export declare class CreateFinancialTransactionDto {
+    supplierId: string;
+    note: string;
+    warehouseId: string;
+    products: ProductsType[];
 }
+export {};
