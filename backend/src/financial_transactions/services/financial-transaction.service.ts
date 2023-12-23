@@ -79,7 +79,7 @@ export class FinancialTransactionService {
         this.productItemModel.updateMany(
           { _id: { $in: data.products } }, // Chọn các bản ghi dựa trên mảng các id
           { $set: { hide: false } }
-        )
+        ).exec()
       }
     }
     return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();

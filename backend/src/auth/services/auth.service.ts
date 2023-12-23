@@ -20,7 +20,6 @@ export class AuthService {
   ) {}
 
   async signUp(data: SignUpDto) {
-    data.password = hashSync(data.password, configs.saltOrRound)
     return await this.userService.create(data);
   }
 
