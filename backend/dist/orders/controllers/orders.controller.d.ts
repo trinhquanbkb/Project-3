@@ -4,7 +4,10 @@ export declare class OrdersController {
     private readonly rolesService;
     constructor(rolesService: OrdersService);
     createRole(roleDto: OrdersDTO): Promise<import("../schema/order.schema").OrderDocument>;
-    approve(id: string): Promise<import("../schema/order.schema").OrderDocument>;
+    approve(id: string, roleDto: {
+        shipping_id: string;
+        tracking: string;
+    }): Promise<import("../schema/order.schema").OrderDocument>;
     waiting(id: string): Promise<import("../schema/order.schema").OrderDocument>;
     cancel(id: string): Promise<import("../schema/order.schema").OrderDocument>;
     findAllRoles(pagination: any, filter: string): Promise<{

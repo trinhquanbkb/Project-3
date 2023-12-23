@@ -4,10 +4,14 @@ import { Document } from 'mongoose';
 export type ShippingDocument = Shipping & Document;
 
 @Schema({
-  timestamps: true
+  timestamps: true,
 })
 export class Shipping {
-
+  @Prop({
+    required: true,
+    type: String,
+  })
+  _id: string;
   @Prop({
     required: true,
     type: String,
@@ -31,7 +35,6 @@ export class Shipping {
     type: String,
   })
   email: string;
-
 }
 
 export const ShippingSchema = SchemaFactory.createForClass(Shipping);

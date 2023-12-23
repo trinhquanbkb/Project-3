@@ -25,17 +25,21 @@ let OrdersController = class OrdersController {
     createRole(roleDto) {
         return this.rolesService.createRole(roleDto);
     }
-    async approve(id) {
-        return this.rolesService.update(id, { status: "Thành công" });
+    async approve(id, roleDto) {
+        return this.rolesService.update(id, {
+            status: 'Thành công',
+            shipping_id: roleDto.shipping_id,
+            tracking: roleDto.tracking,
+        });
     }
     async waiting(id) {
-        return this.rolesService.update(id, { status: "Chờ xuất kho" });
+        return this.rolesService.update(id, { status: 'Chờ xuất kho' });
     }
     async cancel(id) {
-        return this.rolesService.update(id, { status: "Huỷ" });
+        return this.rolesService.update(id, { status: 'Huỷ' });
     }
     findAllRoles(pagination, filter) {
-        return this.rolesService.findAllRoles(pagination, JSON.parse(filter ? filter : "{}"));
+        return this.rolesService.findAllRoles(pagination, JSON.parse(filter ? filter : '{}'));
     }
     findRoleById(id) {
         return this.rolesService.findRoleById(id);
@@ -57,8 +61,9 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/approve/:id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "approve", null);
 __decorate([
@@ -69,16 +74,31 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "waiting", null);
 __decorate([
-    (0, common_1.Post)('/cancel:id'),
+    (0, common_1.Post)('/cancel/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "cancel", null);
 __decorate([
-    (0, swagger_1.ApiQuery)({ name: 'page', type: Number, required: false, description: 'Page number' }),
-    (0, swagger_1.ApiQuery)({ name: 'pageSize', type: Number, required: false, description: 'Page size' }),
-    (0, swagger_1.ApiQuery)({ name: 'filter', type: String, required: false, description: 'Filter' }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        type: Number,
+        required: false,
+        description: 'Page number',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'pageSize',
+        type: Number,
+        required: false,
+        description: 'Page size',
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'filter',
+        type: String,
+        required: false,
+        description: 'Filter',
+    }),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, common_1.Query)('filter')),

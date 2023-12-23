@@ -1,9 +1,9 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Loading from "../../../components/Loading";
-import { useGetReceiptDetailQuery } from "../../../api/receiptApi";
 import { convertDate } from "../../../utils/function";
+import { useGetDeliveryBillDetailQuery } from "../../../api/deliveryBillApi";
 
-const ViewReceipt = ({
+const ViewDeliveryBill = ({
 	id,
 	handleClose,
 	isClass,
@@ -12,7 +12,8 @@ const ViewReceipt = ({
 	handleClose: () => void;
 	isClass: string;
 }) => {
-	const { data, isFetching } = useGetReceiptDetailQuery(id);
+	const { data, isFetching } = useGetDeliveryBillDetailQuery(id);
+	let index = 0;
 
 	return (
 		<>
@@ -23,7 +24,7 @@ const ViewReceipt = ({
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
-						<h2>Thông tin chi tiết phiếu nhập kho</h2>
+						<h2>Thông tin chi tiết phiếu xuất kho</h2>
 						<span className="close" onClick={handleClose}></span>
 					</div>
 
@@ -39,13 +40,25 @@ const ViewReceipt = ({
 												<Col xs={12} md={6}>
 													<Form.Group className="mb-3">
 														<Form.Label>
-															Đối tác
+															Người gửi
 														</Form.Label>
 														<Form.Control
-															name="supplierId"
+															className="form-input-disabled"
+															name="sender"
+															value={data?.sender}
+															disabled={true}
+														></Form.Control>
+													</Form.Group>
+												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Nguời nhận
+														</Form.Label>
+														<Form.Control
+															name="receiver"
 															value={
-																data?.supplierId
-																	.name
+																data?.receiver
 															}
 														></Form.Control>
 													</Form.Group>
@@ -53,27 +66,11 @@ const ViewReceipt = ({
 												<Col xs={12} md={6}>
 													<Form.Group className="mb-3">
 														<Form.Label>
-															Nhập về kho
-														</Form.Label>
-														<Form.Control
-															name="warehouseId"
-															value={
-																data
-																	?.warehouseId
-																	.name
-															}
-														></Form.Control>
-													</Form.Group>
-												</Col>
-												<Col xs={12} md={6}>
-													<Form.Group className="mb-3">
-														<Form.Label>
-															Ghi chú
+															Trạng thái
 														</Form.Label>
 														<Form.Control
 															type="text"
-															name="note"
-															value={data?.note}
+															value={data?.status}
 														/>
 													</Form.Group>
 												</Col>
@@ -90,6 +87,31 @@ const ViewReceipt = ({
 														/>
 													</Form.Group>
 												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Địa chỉ
+														</Form.Label>
+														<Form.Control
+															name="address"
+															value={
+																data?.address
+															}
+														></Form.Control>
+													</Form.Group>
+												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Ghi chú
+														</Form.Label>
+														<Form.Control
+															type="text"
+															name="note"
+															value={data?.note}
+														/>
+													</Form.Group>
+												</Col>
 												<div className="popup-inner view-order px-2">
 													<table
 														role="table"
@@ -99,122 +121,103 @@ const ViewReceipt = ({
 															<tr>
 																<th
 																	style={{
-																		width: "5%",
+																		width: "6%",
 																	}}
 																>
 																	STT
 																</th>
 																<th
 																	style={{
-																		width: "40%",
+																		width: "25%",
 																	}}
 																>
-																	Sản phẩm
+																	Mã sản phẩm
 																</th>
 																<th
 																	style={{
-																		width: "13%",
+																		width: "25%",
 																	}}
 																>
-																	Cân nặng
+																	Tên sản phẩm
 																</th>
 																<th
 																	style={{
-																		width: "13%",
+																		width: "22%",
 																	}}
 																>
-																	Số lượng{" "}
+																	Số lượng
+																	xuất hàng
 																</th>
 																<th
 																	style={{
-																		width: "13%",
+																		width: "22%",
 																	}}
 																>
-																	Giá nhập
+																	Giá xuất
 																</th>
-																<th
-																	style={{
-																		width: "13%",
-																	}}
-																>
-																	Ngày hết hạn
-																</th>
-																<th></th>
 															</tr>
 														</thead>
 														<tbody>
 															{data?.products.map(
-																(
-																	row,
-																	index
-																) => (
-																	<tr
-																		key={
-																			index
-																		}
-																	>
-																		<td>
-																			{
-																				index
-																			}
-																		</td>
-																		<td>
-																			<input
-																				className="form-control"
-																				type="text"
-																				value={
-																					row
-																						.product_id
-																						.product_name
+																(item) => {
+																	return item.product_item.map(
+																		(
+																			row
+																		) => (
+																			<tr
+																				key={
+																					index
 																				}
-																			/>
-																		</td>
-																		<td>
-																			<input
-																				className="form-control"
-																				type="text"
-																				value={
-																					row.weight
-																				}
-																			/>
-																		</td>
-																		<td>
-																			<input
-																				className="form-control"
-																				type="text"
-																				value={
-																					row.quantity
-																				}
-																			/>
-																		</td>
-																		<td>
-																			<input
-																				className="form-control"
-																				type="text"
-																				value={
-																					row.price
-																				}
-																			/>
-																		</td>
-																		<td>
-																			{row.expriry_data ? (
-																				<input
-																					className="form-control"
-																					type="date"
-																					value={
-																						row.expriry_data
+																			>
+																				<td>
+																					{
+																						index++
 																					}
-																				/>
-																			) : (
-																				<input
-																					className="form-control"
-																					type="text"
-																					value="Không có"
-																				/>
-																			)}
-																		</td>
-																	</tr>
-																)
+																				</td>
+																				<td>
+																					<input
+																						type="text"
+																						className="form-control"
+																						value={
+																							row.product_item_id
+																						}
+																					/>
+																				</td>
+																				<td>
+																					<input
+																						type="text"
+																						className="form-control"
+																						value={
+																							item
+																								.product_id
+																								.product_name
+																						}
+																					/>
+																				</td>
+																				<td>
+																					<input
+																						type="number"
+																						value={
+																							row.quantity
+																						}
+																						className="form-control"
+																						disabled
+																					/>
+																				</td>
+																				<td>
+																					<input
+																						type="number"
+																						className="form-control"
+																						value={
+																							row.priceSold
+																						}
+																						disabled
+																					/>
+																				</td>
+																			</tr>
+																		)
+																	);
+																}
 															)}
 														</tbody>
 													</table>
@@ -245,4 +248,4 @@ const ViewReceipt = ({
 	);
 };
 
-export default ViewReceipt;
+export default ViewDeliveryBill;

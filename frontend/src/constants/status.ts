@@ -4,6 +4,9 @@ export const checkStatus = (data: any) => {
 		case "Chờ duyệt":
 			statusClass = "cho-duyet";
 			break;
+		case "Chờ xuất kho":
+			statusClass = "cho-xuat-kho";
+			break;
 		case "Hủy":
 			statusClass = "huy";
 			break;

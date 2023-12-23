@@ -8,15 +8,16 @@ import Loading from "../../components/Loading";
 import NotFoundTable from "../../components/NotFoundTable";
 import { toast } from "react-toastify";
 import { IReceiptQuery } from "../../models/receipt.model";
-import {
-	useApproveReceiptMutation,
-	useCancelReceiptMutation,
-	useGetReceiptListQuery,
-} from "../../api/receiptApi";
-import TableReceipt from "./component/TableReceipt";
-import ViewReceipt from "./component/ViewReceipt";
 import ModalApprove from "./component/ModalApprove";
 import CreateDeliveryBill from "./component/CreateDeliveyBill";
+import {
+	useCancelDeliveryBillMutation,
+	useGetDeliveryBillListQuery,
+	useWaitingDeliveryBillMutation,
+} from "../../api/deliveryBillApi";
+import TableDeliveryBill from "./component/TableDeliveryBill";
+import ViewDeliveryBill from "./component/ViewDeliveryBill";
+import ModalExport from "./component/ModalExport";
 
 const listBreadCrumb = [
 	{
@@ -42,17 +43,19 @@ const ReceiptList = () => {
 	const [editModal, setEditModal] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [approveModal, setApproveModal] = useState(false);
-	const [approveApi] = useApproveReceiptMutation();
-	const [cancelApi] = useCancelReceiptMutation();
+	const [exportModal, setExportModal] = useState(false);
+	const [waitingApi] = useWaitingDeliveryBillMutation();
+	const [cancelApi] = useCancelDeliveryBillMutation();
 	const [search, setSearch] = useState<IReceiptQuery>({
 		page: 1,
 		pageSize: 10,
 	});
 	const [filter, setFilter] = useState({ code: "" });
-	const { data: listReceipt, isFetching } = useGetReceiptListQuery({
-		...search,
-		filter: filter,
-	});
+	const { data: listDeliveryBill, isFetching: fetchingDeliveryBill } =
+		useGetDeliveryBillListQuery({
+			...search,
+			filter: filter,
+		});
 
 	useEffect(() => {
 		const query = location.search;
@@ -98,23 +101,28 @@ const ReceiptList = () => {
 		});
 	};
 
-	const handleViewReceipt = (id: string) => {
+	const handleViewDeliveryBill = (id: string) => {
 		setViewModal(!viewModal);
 		setId(id);
 	};
 
-	const handleEditReceipt = (id: string) => {
+	const handleEditDeliveryBill = (id: string) => {
 		setEditModal(!editModal);
 		setId(id);
 	};
 
-	const handleDeleteReceipt = (id: string) => {
+	const handleDeleteDelieryBill = (id: string) => {
 		setDeleteModal(!deleteModal);
 		setId(id);
 	};
 
-	const handleApproveReceipt = (id: string) => {
+	const handleApproveDelieryBill = (id: string) => {
 		setApproveModal(!approveModal);
+		setId(id);
+	};
+
+	const handleExportDelieryBill = (id: string) => {
+		setExportModal(!exportModal);
 		setId(id);
 	};
 
@@ -143,13 +151,13 @@ const ReceiptList = () => {
 	};
 
 	const fetchApprove = async () => {
-		const res = await approveApi(id);
+		const res = await waitingApi(id);
 		if (res) {
 			toast.success("Duyệt phiếu thành công!");
 			setApproveModal(!approveModal);
 			setButtonDisabled(false);
 		} else {
-			toast.error("Lỗi duyệt phiếu!");
+			toast.error("Server: Lỗi xử lý!");
 			setButtonDisabled(false);
 		}
 	};
@@ -161,7 +169,7 @@ const ReceiptList = () => {
 			setApproveModal(!approveModal);
 			setButtonDisabled(false);
 		} else {
-			toast.error("Lỗi hủy phiếu!");
+			toast.error("Server: Lỗi xử lý!");
 			setButtonDisabled(false);
 		}
 	};
@@ -262,28 +270,31 @@ const ReceiptList = () => {
 				</Col>
 			</Row>
 
-			{isFetching ? (
+			{fetchingDeliveryBill ? (
 				<Loading />
-			) : listReceipt ? (
-				<TableReceipt
+			) : listDeliveryBill ? (
+				<TableDeliveryBill
 					handleFilter={handleFilterPage}
-					paginations={listReceipt.paginations}
-					handleViewReceipt={handleViewReceipt}
-					handleEditReceipt={handleEditReceipt}
-					handleDeleteReceipt={handleDeleteReceipt}
-					handleApproveReceipt={handleApproveReceipt}
+					paginations={listDeliveryBill.paginations}
+					handleViewDeliveryBill={handleViewDeliveryBill}
+					handleEditDeliveryBill={handleEditDeliveryBill}
+					handleDeleteDelieryBill={handleDeleteDelieryBill}
+					handleApproveDelieryBill={handleApproveDelieryBill}
+					handleExportDelieryBill={handleExportDelieryBill}
 					data={
-						listReceipt
-							? listReceipt.data.map((item) => {
+						listDeliveryBill
+							? listDeliveryBill.data.map((item) => {
 									return {
 										id: item._id,
-										supplierId: item.supplierId.name,
-										quantity: item.products.length,
-										weight: item.weight,
-										note: item.note,
-										warehouseId: item?.warehouseId.name,
 										status: item.status,
-										statusCss: item.status,
+										sender: item.sender,
+										receiver: item.receiver,
+										shipping: item.shipping_id
+											? item.shipping_id
+											: null,
+										address: item.address,
+										createdAt: item.createdAt,
+										tracking: item.tracking,
 									};
 							  })
 							: null
@@ -294,7 +305,7 @@ const ReceiptList = () => {
 			)}
 
 			{viewModal && (
-				<ViewReceipt
+				<ViewDeliveryBill
 					isClass={"active"}
 					id={id}
 					handleClose={handleClosePopup}
@@ -304,10 +315,25 @@ const ReceiptList = () => {
 			{approveModal && (
 				<ModalApprove
 					show={approveModal}
-					content={`Xác nhận duyệt phiếu nhập kho?`}
+					content={`Xác nhận duyệt phiếu xuất kho?`}
 					handleAction={fetchApprove}
 					handleCancel={fetchCancel}
 					onHide={() => setApproveModal(false)}
+					buttonDisabled={buttonDisabled}
+					handleButton={handleClick}
+				/>
+			)}
+
+			{exportModal && (
+				<ModalExport
+					show={exportModal}
+					content={`Điền thông tin vận chuyển đơn hàng:`}
+					handleAction={() => {
+						setButtonDisabled(false);
+						setExportModal(!exportModal);
+					}}
+					id={id}
+					onHide={() => setExportModal(!exportModal)}
 					buttonDisabled={buttonDisabled}
 					handleButton={handleClick}
 				/>

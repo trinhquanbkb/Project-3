@@ -33,9 +33,6 @@ const CreateReceipt = ({
 	isClass: string;
 }) => {
 	const [createReceipt] = useCreateReceiptMutation();
-	const [products, setProducts] = useState<Array<ProdutType>>([
-		{ ...productDefault },
-	]);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const [supplier, setSupplier] = useState<Array<any>>([]);
 	const [warehose, setWarehose] = useState<Array<any>>([]);

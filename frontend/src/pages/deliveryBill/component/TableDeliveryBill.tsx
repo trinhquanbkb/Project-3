@@ -16,16 +16,25 @@ const columns = [
 		sort: false,
 	},
 	{
-		Header: "Số lượng",
-		accessor: "quantity",
+		Header: "Người gửi",
+		accessor: "sender",
 	},
 	{
-		Header: "Đối tác",
-		accessor: "supplierId",
+		Header: "Người nhận",
+		accessor: "receiver",
 	},
 	{
-		Header: "Kho",
-		accessor: "warehouseId",
+		Header: "Địa chỉ",
+		accessor: "address",
+		sort: false,
+	},
+	{
+		Header: "Đơn vị vận chuyển",
+		accessor: "shipping",
+	},
+	{
+		Header: "Tracking",
+		accessor: "tracking",
 	},
 	{
 		Header: "Ghi chú",
@@ -39,7 +48,7 @@ const columns = [
 	},
 ];
 
-const TableReceipt = (props: ITableReceipt) => {
+const TableDeliveryBill = (props: any) => {
 	return (
 		<>
 			<Row>
@@ -80,7 +89,9 @@ const TableReceipt = (props: ITableReceipt) => {
 										type="button"
 										className="btn btn-create-order"
 										onClick={() => {
-											props.handleViewReceipt(item.id);
+											props.handleViewDeliveryBill(
+												item.id
+											);
 										}}
 									>
 										<i className="uil uil-eye"></i>
@@ -88,20 +99,35 @@ const TableReceipt = (props: ITableReceipt) => {
 											Xem chi tiết
 										</span>
 									</button>
-									{item.status !== "Thành công" &&
-									item.status !== "Huỷ" ? (
+									{item.status === "Chờ duyệt" ? (
 										<button
 											type="button"
 											className="btn btn-delete-tracking"
 											onClick={() => {
-												props.handleApproveReceipt(
+												props.handleApproveDelieryBill(
 													item.id
 												);
 											}}
 										>
 											<i className="uil uil-check"></i>
 											<span className="title">
-												Duyệt phiếu nhập kho
+												Duyệt phiếu xuất kho
+											</span>
+										</button>
+									) : null}
+									{item.status === "Chờ xuất kho" ? (
+										<button
+											type="button"
+											className="btn btn-delete-tracking"
+											onClick={() => {
+												props.handleExportDelieryBill(
+													item.id
+												);
+											}}
+										>
+											<i className="uil uil-check"></i>
+											<span className="title">
+												Duyệt phiếu xuất kho
 											</span>
 										</button>
 									) : null}
@@ -122,4 +148,4 @@ const TableReceipt = (props: ITableReceipt) => {
 	);
 };
 
-export default TableReceipt;
+export default TableDeliveryBill;
