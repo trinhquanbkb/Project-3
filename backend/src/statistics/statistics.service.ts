@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
+// import { OrdersService } from 'src/products/services/products.service';
 
 @Injectable()
 export class StatisticsService {
-  calculateStatistics(): string {
-    // Thực hiện tính toán thống kê ở đây
-    
-    return 'Thống kê sẽ được hiển thị ở đây';
-  }
+
+  
 }

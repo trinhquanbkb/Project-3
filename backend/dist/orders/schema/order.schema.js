@@ -51,7 +51,7 @@ __decorate([
 ], Order.prototype, "note", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
-        required: false,
+        required: true,
         type: String,
     }),
     __metadata("design:type", String)

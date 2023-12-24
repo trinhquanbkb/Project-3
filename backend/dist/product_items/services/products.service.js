@@ -16,27 +16,43 @@ exports.OrdersService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
+const product_schema_1 = require("../../products/schema/product.schema");
 let OrdersService = class OrdersService {
     constructor(roleModel) {
         this.roleModel = roleModel;
     }
     async createRole(roleDto) {
         const createdRole = new this.roleModel(roleDto);
-        return createdRole.save();
+        const product_item = await createdRole.save();
+        return product_item;
     }
     async findAllRoles(pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
-        const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10)).exec();
-        ;
+        const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10))
+            .populate([{
+                path: 'product_id',
+                model: 'Product',
+                select: "product_name"
+            },
+            {
+                path: 'warehouse_id',
+                model: 'Warehouse',
+            },
+            {
+                path: 'supplier_id',
+                model: 'Supplier',
+            }
+        ])
+            .exec();
         const total = await this.roleModel.countDocuments(filter).exec();
         const paginations = {
-            "page": page,
-            "pageSize": pageSize,
-            "total": total,
-            "totalPage": Math.ceil(total / pageSize)
+            page: page,
+            pageSize: pageSize,
+            total: total,
+            totalPage: Math.ceil(total / pageSize),
         };
-        return { data, paginations, messenger: "succes" };
+        return { data, paginations, messenger: 'succes' };
     }
     async findRoleById(id) {
         return this.roleModel.findById(id).exec();
@@ -44,8 +60,8 @@ let OrdersService = class OrdersService {
     async findProductItemsByWarehouseId(warehouseId) {
         return this.roleModel.find({ warehouse_id: warehouseId }).exec();
     }
-    async sortByQuantitySoldWareHouse(warehouseId, limit) {
-        return this.roleModel.find({ warehouse_id: warehouseId }).sort({ quantity_sold: -1 }).limit(limit).exec();
+    async search(inputString) {
+        return await this.roleModel.findById(inputString).exec();
     }
     async updateRole(id, roleDto) {
         return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
@@ -60,5 +76,4 @@ OrdersService = __decorate([
     __metadata("design:paramtypes", [mongoose_1.Model])
 ], OrdersService);
 exports.OrdersService = OrdersService;
-
 //# sourceMappingURL=products.service.js.map
