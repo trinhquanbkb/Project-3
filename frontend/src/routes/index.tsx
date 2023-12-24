@@ -46,7 +46,10 @@ const InventoryDetail = React.lazy(
 const EmployeeList = React.lazy(() => import("../pages/employee/index"));
 
 // statistics
-const Statistics = React.lazy(() => import("../pages/statistics/index"));
+const StatisticsRemain = React.lazy(() => import("../pages/statistics/Remain"));
+const StatisticsSold = React.lazy(() => import("../pages/statistics/Sold"));
+const StatisticsTopRemain = React.lazy(() => import("../pages/statistics/TopRemain"));
+const StatisticsTopSold = React.lazy(() => import("../pages/statistics/TopSold"));
 
 export interface RoutesProps {
 	path: RouteProps["path"];
@@ -166,9 +169,27 @@ const projectAppRoutes: RoutesProps[] = [
 		icon: "uil-briefcase",
 		children: [
 			{
-				path: "/statistics",
-				name: "Statistics List",
-				component: Statistics,
+				path: "/statistics/remain",
+				name: "Statistics Remain",
+				component: StatisticsRemain,
+				route: PrivateRoute,
+			},
+			{
+				path: "/statistics/sold",
+				name: "Statistics Sold",
+				component: StatisticsSold,
+				route: PrivateRoute,
+			},
+			{
+				path: "/statistics/top-remain",
+				name: "Statistics Top Remain",
+				component: StatisticsTopRemain,
+				route: PrivateRoute,
+			},
+			{
+				path: "/statistics/top-sold",
+				name: "Statistics Top Sold",
+				component: StatisticsTopSold,
 				route: PrivateRoute,
 			},
 		],
