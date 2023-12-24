@@ -58,6 +58,13 @@ export class TopProductController {
       const sortedProducts = productsArray.sort((a, b) => b.quantity - a.quantity);
       const topProducts = sortedProducts.slice(0, top);
 
+      topProducts.forEach((product) => {
+        const totalSold = product.product_items.reduce((acc, item) => acc + item.quantity_sold, 0);
+        const inventory = product.quantity - totalSold;
+        product.total_sold = totalSold;
+        product.inventory = inventory;
+      });
+
       return topProducts;
     }
   }
