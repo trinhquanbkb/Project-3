@@ -84,7 +84,7 @@ const TopRemainList = () => {
     return (
         <React.Fragment>
 
-            <Row>
+            <Row className='mt-3'>
                 <Col xs={12}>
                     <div className="wrap-filter">
                         <div className="list-input">
@@ -128,7 +128,7 @@ const TopRemainList = () => {
                     <BarChart
                         basicBarChartData={basicBarChartData}
                         showLoader={!isChatInitilized}
-                        name={"Top các sản phẩm tồn kho"}
+                        name={"Các sản phẩm tồn kho nhiều nhất"}
                         categories={categories}
                     />
                 </Col>

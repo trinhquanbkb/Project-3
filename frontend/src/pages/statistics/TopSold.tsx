@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
-
+import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 
 import BarChart from './BarChart';
 
@@ -11,6 +10,16 @@ import {
 
 const TopSoldList = () => {
     const [isChatInitilized, setIsChatInitilized] = useState<boolean>(false);
+    const [numberTop, setNumberTop] = useState(5);
+    const [search, setSearch] = useState(5);
+
+    const handleSearchOnEnter = (event: any) => {
+		event.preventDefault();
+		if (event.key === "Enter") {
+			setSearch(numberTop);
+		}
+	};
+
 
     useEffect(() => {
         // set deafult config of apex chart
@@ -59,36 +68,68 @@ const TopSoldList = () => {
         };
     }, []);
 
-        const categories: any = [
-            'South Korea',
-            'Canada',
-            'United Kingdom',
-            'Netherlands',
-            'Italy',
-            'France',
-            'Japan',
-            'United States',
-            'China',
-            'Germany',
-        ];
+    const categories: any = [
+        'South Korea',
+        'Canada',
+        'United Kingdom',
+        'Netherlands',
+        'Italy',
+        'France',
+        'Japan',
+        'United States',
+        'China',
+        'Germany',
+    ];
 
     return (
         <React.Fragment>
-            {/* <PageTitle
-                breadCrumbItems={[
-                    { label: 'Apps', path: '/components/charts' },
-                    { label: 'Charts', path: '/components/charts', active: true },
-                ]}
-                title={'Charts'}
-            /> */}
+
+            <Row className='mt-3'>
+                <Col xs={12}>
+                    <div className="wrap-filter">
+                        <div className="list-input">
+                            <Row>
+                                <Col xs={3}>
+                                    <div className="col-left">
+                                        <div className="input-search">
+                                            <Form.Group className="form-search-user form-search-tracking">
+                                                <Form.Control
+                                                    type="search"
+                                                    placeholder="Số sản phẩm muốn hiển thị"
+                                                    onChange={(e) => {
+                                                        setNumberTop(
+                                                            parseInt(e.target.value)
+                                                        );
+                                                    }}
+                                                    value={numberTop}
+                                                    onKeyUp={
+                                                        handleSearchOnEnter
+                                                    }
+                                                />
+                                                <Button
+                                                    type="submit"
+                                                    className="btn-search"
+                                                    onClick={() => {
+                                                        setSearch(numberTop);
+                                                    }}
+                                                ></Button>
+                                            </Form.Group>
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </div>
+                    </div>
+                </Col>
+            </Row>
 
             <Row>
                 <Col xl={20}>
-                    <BarChart 
-                        basicBarChartData={basicBarChartData} 
-                        showLoader={!isChatInitilized} 
-                        name={"Top các sản phẩm bán chạy"}
-                        categories={categories}    
+                    <BarChart
+                        basicBarChartData={basicBarChartData}
+                        showLoader={!isChatInitilized}
+                        name={"Các sản phẩm bán chạy nhất"}
+                        categories={categories}
                     />
                 </Col>
             </Row>

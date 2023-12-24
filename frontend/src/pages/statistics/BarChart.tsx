@@ -1,4 +1,3 @@
-import React from 'react';
 import Chart from 'react-apexcharts';
 import { Card } from 'react-bootstrap';
 import { ApexOptions } from 'apexcharts';
@@ -19,7 +18,7 @@ interface BarChartProps {
 const BarChart = ({ basicBarChartData, showLoader, name, categories }: BarChartProps) => {
     const options: ApexOptions = {
         chart: {
-            height: 380,
+            height: 500,
             type: 'bar',
         },
         plotOptions: {
