@@ -105,7 +105,7 @@ let FinancialTransactionService = class FinancialTransactionService {
         if (roleDto.status == 'Thành công') {
             const data = await this.roleModel.findById(id);
             if (data) {
-                this.productItemModel.updateMany({ _id: { $in: data.products } }, { $set: { hide: false } });
+                this.productItemModel.updateMany({ _id: { $in: data.products } }, { $set: { hide: false } }).exec();
             }
         }
         return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();

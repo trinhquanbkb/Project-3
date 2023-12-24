@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-// components
-import PageTitle from '../../components/PageTitle';
 
 import BarChart from './BarChart';
 
@@ -11,7 +9,7 @@ import {
     basicBarChartData,
 } from './data';
 
-const ApexChart = () => {
+const RemainList = () => {
     const [isChatInitilized, setIsChatInitilized] = useState<boolean>(false);
 
     useEffect(() => {
@@ -61,65 +59,41 @@ const ApexChart = () => {
         };
     }, []);
 
+        const categories: any = [
+            'South Korea',
+            'Canada',
+            'United Kingdom',
+            'Netherlands',
+            'Italy',
+            'France',
+            'Japan',
+            'United States',
+            'China',
+            'Germany',
+        ];
+
     return (
         <React.Fragment>
-            <PageTitle
+            {/* <PageTitle
                 breadCrumbItems={[
                     { label: 'Apps', path: '/components/charts' },
                     { label: 'Charts', path: '/components/charts', active: true },
                 ]}
                 title={'Charts'}
-            />
-
-            {/* <Row>
-                <Col xl={6}>
-                    <StackedAreaChart stackedAreaChartData={stackedAreaChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xl={6}>
-                    <ColumnChart basicColumnChartData={basicColumnChartData} showLoader={!isChatInitilized} />
-                </Col>
-            </Row> */}
-
-            {/* <Row>
-                <Col xl={6}>
-                    <ColumnDataLabelsChart columnChartData={columnChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xl={6}>
-                    <MixedChart mixedChart1Data={mixedChart1Data} showLoader={!isChatInitilized} />
-                </Col>
-            </Row> */}
+            /> */}
 
             <Row>
                 <Col xl={20}>
-                    <BarChart basicBarChartData={basicBarChartData} showLoader={!isChatInitilized} />
-                </Col>
-                {/* <Col xl={6}>
-                    <MultipleYaxisChart multiYaxisChartData={multiYaxisChartData} showLoader={!isChatInitilized} />
-                </Col> */}
-            </Row>
-
-            {/* <Row>
-                <Col xl={6}>
-                    <BubbleChart bubbleChartData={bubbleChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xl={6}>
-                    <ThreeDBubbleChart threeDBubbleChartData={threeDBubbleChartData} showLoader={!isChatInitilized} />
-                </Col>
-            </Row> */}
-
-            {/* <Row>
-                <Col xl={6}>
-                    <ScatterChart scatterChartData={scatterChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xl={6}>
-                    <ScatterDateTimeChart
-                        scatterDateTimeChartData={scatterDateTimeChartData}
-                        showLoader={!isChatInitilized}
+                    <BarChart 
+                        basicBarChartData={basicBarChartData} 
+                        showLoader={!isChatInitilized} 
+                        name={"Top các sản phẩm bán chạy"}
+                        categories={categories}    
                     />
                 </Col>
-            </Row> */}
+            </Row>
         </React.Fragment>
     );
 };
 
-export default ApexChart;
+export default RemainList;
