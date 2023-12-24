@@ -26,15 +26,13 @@ export class InventoryProductsController {
     
     if (warehouseId) {
       const productItems: any = await this.ordersService.findProductItemsByWarehouseId(warehouseId);
+      const uniqueData = Array.from(new Set(productItems.map(item => item.product_id))).map(productId => {
+        return productItems.find(item => item.product_id === productId);
+      });
       const productsArray: any[] = [];
       const itemsInWarehouse: any[]= [];
-      for (const productId of productItems) {
-        // const quantity = productId.get('quantity') || 0;
-        // const quantity_sold = productId.get('quantity_sold') || 0;
-        // const remainingQuantity = quantity - quantity_sold;
-
+      for (const productId of uniqueData) {
         const product_id = productId.get('product_id')
-        console.log(apiUrl + product_id)
         const response = await axios.get(apiUrl + product_id, {
           headers: {
             Authorization: request.headers.authorization
@@ -42,7 +40,6 @@ export class InventoryProductsController {
         });
         const data = response.data;
 
-        console.log(data)
         productsArray.push(data);
         
       }
@@ -60,7 +57,6 @@ export class InventoryProductsController {
         product.total_sold = totalSold;
         product.inventory = inventory;
       });
-
 
       return productsArray;
     }
