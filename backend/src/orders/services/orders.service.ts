@@ -54,7 +54,7 @@ export class OrdersService {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
     const data = await this.roleModel
-      .find()
+      .find(filter)
       .skip(skip)
       .limit(parseInt(pageSize, 10))
       .populate([
