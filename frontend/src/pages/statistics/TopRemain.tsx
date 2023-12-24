@@ -8,7 +8,7 @@ import {
     basicBarChartData,
 } from './data';
 
-const RemainList = () => {
+const TopRemainList = () => {
     const [isChatInitilized, setIsChatInitilized] = useState<boolean>(false);
     const [numberTop, setNumberTop] = useState(5);
     const [search, setSearch] = useState(5);
@@ -137,4 +137,4 @@ const RemainList = () => {
     );
 };
 
-export default RemainList;
+export default TopRemainList;

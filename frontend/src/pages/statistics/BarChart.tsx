@@ -29,16 +29,6 @@ const BarChart = ({ basicBarChartData, showLoader, name, categories }: BarChartP
         },
         xaxis: {
             categories: [
-                // 'South Korea',
-                // 'Canada',
-                // 'United Kingdom',
-                // 'Netherlands',
-                // 'Italy',
-                // 'France',
-                // 'Japan',
-                // 'United States',
-                // 'China',
-                // 'Germany',
                 ...categories
             ],
         },
@@ -46,7 +36,7 @@ const BarChart = ({ basicBarChartData, showLoader, name, categories }: BarChartP
 
     const series = [
         {
-            data: basicBarChartData.data || [],
+            data: basicBarChartData || [],
         },
     ];
 
@@ -63,7 +53,7 @@ const BarChart = ({ basicBarChartData, showLoader, name, categories }: BarChartP
                         options={options}
                         series={series}
                         type="bar"
-                        height={380}
+                        height={500}
                         className="apex-charts"
                         dir="ltr"
                     />

@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-
+import Loading from "../../components/Loading";
 
 import BarChart from './BarChart';
 
 // dummy data
-import {
-    basicBarChartData,
-} from './data';
 import { useGetRemainListQuery } from '../../api/statisticApi';
 
 const RemainList = () => {
     const [isChatInitilized, setIsChatInitilized] = useState<boolean>(false);
 
-    const { data, error, isLoading } = useGetRemainListQuery({});
+    const { data, isFetching } = useGetRemainListQuery({});
+
+    const convertValue = (data: any) => {
+        const productNames: any = [];
+        const inventories: any = [];
+        data.forEach((product: any) => {
+            productNames.push(product.product_name);
+            inventories.push(product.inventory);
+        });
+        return {
+            productNames,
+            inventories
+        }
+    }
 
 
     useEffect(() => {
@@ -63,40 +73,25 @@ const RemainList = () => {
         };
     }, []);
 
-        const categories: any = [
-            'South Korea',
-            'Canada',
-            'United Kingdom',
-            'Netherlands',
-            'Italy',
-            'France',
-            'Japan',
-            'United States',
-            'China',
-            'Germany',
-        ];
-
     return (
         <React.Fragment>
-            {console.log(data)}
-            {/* <PageTitle
-                breadCrumbItems={[
-                    { label: 'Apps', path: '/components/charts' },
-                    { label: 'Charts', path: '/components/charts', active: true },
-                ]}
-                title={'Charts'}
-            /> */}
+            {isFetching ? (
+                <Loading />
+            ) : (
+                <>
+                    <Row className='mt-3'>
+                        <Col xl={20}>
+                            <BarChart
+                                basicBarChartData={convertValue(data).inventories}
+                                showLoader={!isChatInitilized}
+                                name={"Thống kê số lượng sản phẩm tồn kho"}
+                                categories={convertValue(data).productNames}
+                            />
+                        </Col>
+                    </Row>
+                </>
+            )}
 
-            <Row>
-                <Col xl={20}>
-                    <BarChart 
-                        basicBarChartData={basicBarChartData} 
-                        showLoader={!isChatInitilized} 
-                        name={"Thống kê số lượng sản phẩm tồn kho"}
-                        categories={categories}    
-                    />
-                </Col>
-            </Row>
         </React.Fragment>
     );
 };

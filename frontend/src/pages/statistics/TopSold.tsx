@@ -9,7 +9,7 @@ import {
     basicBarChartData,
 } from './data';
 
-const RemainList = () => {
+const TopSoldList = () => {
     const [isChatInitilized, setIsChatInitilized] = useState<boolean>(false);
 
     useEffect(() => {
@@ -96,4 +96,4 @@ const RemainList = () => {
     );
 };
 
-export default RemainList;
+export default TopSoldList;
