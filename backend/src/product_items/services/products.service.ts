@@ -50,6 +50,10 @@ export class OrdersService {
   async findRoleById(id: string): Promise<ProductItemDocument | null> {
     return this.roleModel.findById(id).exec();
   }
+  
+  async findProductItemsByWarehouseId(warehouseId: string) {
+    return this.roleModel.find({ warehouse_id: warehouseId }).exec();
+  }
 
 
   async search(inputString: string) {

@@ -41,16 +41,16 @@ export class User {
   password: string;
 
   @Prop({
-    required: false,
-    type: Array,
-  })
-  role_id?: Array<String>;
-
-  @Prop({
-    required: false,
+    required: true,
     type: String,
   })
-  warehouse_id?: string;
+  role_id: string;
+
+  @Prop({
+    required: true,
+    type: String,
+  })
+  warehouse_id: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

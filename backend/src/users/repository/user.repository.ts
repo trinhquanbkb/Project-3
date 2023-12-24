@@ -38,7 +38,18 @@ export class UsersRepository {
     skip: number,
     limit: number,
   ): Promise<UserDocument[]> {
-    return this.userModel.find(filter).skip(skip).limit(limit).exec();
+    return this.userModel.find(filter).skip(skip).limit(limit)
+    .populate([
+      {
+        path: 'warehouse_id', 
+        model: 'Warehouse', 
+      },
+      {
+        path: 'role_id', 
+        model: 'Role', 
+      }
+    ])
+    .exec();
   }
   async delete(_id: string): Promise<UserDocument> {
     return await this.userModel.findByIdAndDelete(_id);
