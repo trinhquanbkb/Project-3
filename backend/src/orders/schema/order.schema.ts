@@ -42,7 +42,7 @@ export class Order {
   note: string;
 
   @Prop({
-    required: false,
+    required: true,
     type: String,
   })
   shipping_id: string;

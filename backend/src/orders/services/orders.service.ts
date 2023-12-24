@@ -59,10 +59,6 @@ export class OrdersService {
       .limit(parseInt(pageSize, 10))
       .populate([
         {
-          path: 'shipping_id',
-          model: 'Shipping',
-        },
-        {
           path: 'products.product_id',
           model: 'Product',
           select: 'product_name category url',
@@ -81,6 +77,10 @@ export class OrdersService {
             },
           ],
         },
+        {
+          path: 'shipping_id',
+          model: 'Shipping',
+        }
       ])
       .exec();
     const total = await this.roleModel.countDocuments().exec();
