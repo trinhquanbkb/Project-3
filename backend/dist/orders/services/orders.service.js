@@ -51,8 +51,12 @@ let OrdersService = class OrdersService {
     async findAllRoles(pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
+        let filterData = {};
+        if (filter.code !== '') {
+            filterData['_id'] = filter.code;
+        }
         const data = await this.roleModel
-            .find(filter)
+            .find(filterData)
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(parseInt(pageSize, 10))
@@ -82,7 +86,7 @@ let OrdersService = class OrdersService {
             },
         ])
             .exec();
-        const total = await this.roleModel.countDocuments(filter).exec();
+        const total = await this.roleModel.countDocuments(filterData).exec();
         const paginations = {
             page: page,
             pageSize: pageSize,
@@ -110,8 +114,10 @@ let OrdersService = class OrdersService {
                 products.map((product) => {
                     product_item = [...product_item, ...product === null || product === void 0 ? void 0 : product.product_item];
                 });
+                console.log(product_item);
                 const updatePromises = product_item.map(({ product_item_id, quantity }) => {
-                    return this.productItemModel.findByIdAndUpdate(product_item_id, { $inc: { quantity: -quantity, quantity_sold: quantity } }, { new: true });
+                    console.log(quantity);
+                    return this.productItemModel.findByIdAndUpdate(product_item_id, { $inc: { quantity: -quantity, quantity_sold: +quantity } }, { new: true });
                 });
                 Promise.all(updatePromises)
                     .then((updatedDocuments) => {

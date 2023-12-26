@@ -29,10 +29,11 @@ export class OrdersController {
   }
 
   @Post('/approve/:id')
-  async approve(
+  approve(
     @Param('id') id: string,
     @Body() roleDto: { shipping_id: string; tracking: string },
   ) {
+    console.log('hello');
     return this.rolesService.update(id, {
       status: 'Thành công',
       shipping_id: roleDto.shipping_id,
@@ -41,12 +42,12 @@ export class OrdersController {
   }
 
   @Post('/waiting_for_delivery/:id')
-  async waiting(@Param('id') id: string) {
+  waiting(@Param('id') id: string) {
     return this.rolesService.update(id, { status: 'Chờ xuất kho' });
   }
 
   @Post('/cancel/:id')
-  async cancel(@Param('id') id: string) {
+  cancel(@Param('id') id: string) {
     return this.rolesService.update(id, { status: 'Huỷ' });
   }
 

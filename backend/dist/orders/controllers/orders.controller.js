@@ -25,17 +25,18 @@ let OrdersController = class OrdersController {
     createRole(roleDto) {
         return this.rolesService.createRole(roleDto);
     }
-    async approve(id, roleDto) {
+    approve(id, roleDto) {
+        console.log('hello');
         return this.rolesService.update(id, {
             status: 'Thành công',
             shipping_id: roleDto.shipping_id,
             tracking: roleDto.tracking,
         });
     }
-    async waiting(id) {
+    waiting(id) {
         return this.rolesService.update(id, { status: 'Chờ xuất kho' });
     }
-    async cancel(id) {
+    cancel(id) {
         return this.rolesService.update(id, { status: 'Huỷ' });
     }
     findAllRoles(pagination, filter) {
@@ -64,21 +65,21 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "approve", null);
 __decorate([
     (0, common_1.Post)('/waiting_for_delivery/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "waiting", null);
 __decorate([
     (0, common_1.Post)('/cancel/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "cancel", null);
 __decorate([
     (0, swagger_1.ApiQuery)({

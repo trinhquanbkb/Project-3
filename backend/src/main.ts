@@ -22,7 +22,6 @@ async function bootstrap() {
       warehouse_id: null,
     };
     await userService.create(admin);
-    console.log('Admin user created successfully.');
   }
 
   const config = new DocumentBuilder()
