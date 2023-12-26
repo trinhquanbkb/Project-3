@@ -18,7 +18,7 @@ export class TopProductController {
     private readonly productsService: OrdersServiceProduct,
   ) {}
 
-  @Get('top')
+  @Get(':top')
   async getStatistics(@Req() request: any, @Param('top') top: number) {
     const apiUrl = request.protocol + '://' + request.get('host') + '/products/';
     const token = request.headers.authorization.replace('Bearer ', '');
