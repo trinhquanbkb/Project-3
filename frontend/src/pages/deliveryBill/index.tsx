@@ -290,7 +290,7 @@ const ReceiptList = () => {
 										sender: item.sender,
 										receiver: item.receiver,
 										shipping: item.shipping_id
-											? item.shipping_id
+											? item.shipping_id.name
 											: null,
 										address: item.address,
 										createdAt: item.createdAt,

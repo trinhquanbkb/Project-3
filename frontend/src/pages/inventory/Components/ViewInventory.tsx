@@ -28,8 +28,8 @@ const listBreadCrumb = [
 
 const columns = [
 	{
-		Header: "Mã PNK",
-		accessor: "idWarehouse",
+		Header: "Mã sản phẩm",
+		accessor: "id",
 		sort: false,
 		width: 80,
 	},
@@ -84,7 +84,7 @@ const ViewInventory = () => {
 		if (data) {
 			const dataRender = data.product_items.map((item) => {
 				return {
-					idWarehouse: null,
+					id: item._id,
 					quantity: item.quantity,
 					quantitySold: item.quantity_sold,
 					weight: item.weight,
@@ -146,7 +146,8 @@ const ViewInventory = () => {
 							</Card.Header>
 							<Card.Body className="d-flex flex-column flex-lg-row align-items-lg-center align-items-start justify-content-start">
 								<span className="me-2">
-									Mã sản phẩm: <strong>{data?._id}</strong>
+									Mã danh mục sản phẩm:{" "}
+									<strong>{data?._id}</strong>
 								</span>
 								<span className="my-1 ms-md-4">
 									Tên sản phẩm:{" "}

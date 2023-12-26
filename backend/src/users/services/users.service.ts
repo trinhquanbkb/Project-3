@@ -21,16 +21,16 @@ export class UsersService {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
 
-    // let filterData = {};
-    // if (filter.username !== '') {
-    //   filterData['username'] = filter.username;
-    // }
-    // if (filter.role_id !== '') {
-    //   filterData['role_id'] = filter.role_id;
-    // }
-    // if (filter.email !== '') {
-    //   filterData['email'] = filter.email;
-    // }
+    let filterData = {};
+    if (filter.username !== '') {
+      filterData['username'] = filter.username;
+    }
+    if (filter.role_id !== '') {
+      filterData['role_id'] = filter.role_id;
+    }
+    if (filter.email !== '') {
+      filterData['email'] = filter.email;
+    }
 
     const data = await this.usersRepository.findAll(
       filter,

@@ -2,12 +2,11 @@ import React from "react";
 import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
-import { ITableReceipt } from "../../../models/receipt.model";
 import { checkStatus } from "../../../constants/status";
 
 const columns = [
 	{
-		Header: "Mã PNK",
+		Header: "Mã PXK",
 		accessor: "id",
 	},
 	{

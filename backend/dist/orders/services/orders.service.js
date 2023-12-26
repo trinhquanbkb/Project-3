@@ -44,7 +44,7 @@ let OrdersService = class OrdersService {
             .catch((error) => {
             console.error(error);
         });
-        const result = Object.assign(Object.assign({}, roleDto), { status: 'Chờ duyệt', shipping_id: '' });
+        const result = Object.assign(Object.assign({}, roleDto), { status: 'Chờ duyệt', shipping_id: null });
         const createdRole = new this.roleModel(result);
         return createdRole.save();
     }
@@ -52,10 +52,14 @@ let OrdersService = class OrdersService {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
         const data = await this.roleModel
-            .find(filter)
+            .find()
             .skip(skip)
             .limit(parseInt(pageSize, 10))
             .populate([
+            {
+                path: 'shipping_id',
+                model: 'Shipping',
+            },
             {
                 path: 'products.product_id',
                 model: 'Product',
@@ -75,10 +79,6 @@ let OrdersService = class OrdersService {
                     },
                 ],
             },
-            {
-                path: 'shipping_id',
-                model: 'Shipping',
-            }
         ])
             .exec();
         const total = await this.roleModel.countDocuments().exec();
