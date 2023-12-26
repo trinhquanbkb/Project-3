@@ -47,7 +47,32 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		label: "Thống kê",
 		isTitle: false,
 		icon: "dollar-sign",
-		url: "/statistics",
+		children: [
+			{
+				key: "statistics-remain",
+				label: "Thống kê số lượng sản phẩm tồn kho",
+				url: "/statistics/remain",
+				parentKey: "statistics",
+			},
+			{
+				key: "statistics-sold",
+				label: "Thống kê số lượng sản phẩm đã bán",
+				url: "/statistics/sold",
+				parentKey: "statistics",
+			},
+			{
+				key: "statistics-top-remain",
+				label: "Top các sản phẩm tồn kho",
+				url: "/statistics/top-remain",
+				parentKey: "statistics",
+			},
+			{
+				key: "statistics-top-sold",
+				label: "Top các sản phẩm bán chạy",
+				url: "/statistics/top-sold",
+				parentKey: "statistics",
+			},
+		],
 	},
 	{
 		key: "setting",

@@ -4,49 +4,11 @@ import { Row, Col } from 'react-bootstrap';
 // components
 import PageTitle from '../../components/PageTitle';
 
-import LineChart from './LineChart';
-import LineGradientChart from './LineGradientChart';
-import StackedAreaChart from './StackedAreaChart';
-import ColumnChart from './ColumnChart';
-import ColumnDataLabelsChart from './ColumnDataLabelsChart';
-import MixedChart from './MixedChart';
 import BarChart from './BarChart';
-import BarChartWithNegativeValues from './BarChartWithNegativeValues';
-import LineColumnAreaChart from './LineColumnAreaChart';
-import MultipleYaxisChart from './MultipleYaxisChart';
-import BubbleChart from './BubbleChart';
-import ThreeDBubbleChart from './ThreeDBubbleChart';
-import ScatterChart from './ScatterChart';
-import ScatterDateTimeChart from './ScatterDateTimeChart';
-import PieChart from './PieChart';
-import DonutChart from './DonutChart';
-import DonutPatternedChart from './DonutPatternedChart';
-import RadialBarChart from './RadialBarChart';
-import RadialBarMultipleChart from './RadialBarMultipleChart';
-import CircularGuageChart from './CircularGuageChart';
 
 // dummy data
 import {
-    lineChartWithData,
-    gradientLineChartData,
-    stackedAreaChartData,
-    basicColumnChartData,
-    columnChartData,
-    mixedChart1Data,
     basicBarChartData,
-    barWithNegativeData,
-    mixedChart2Data,
-    multiYaxisChartData,
-    bubbleChartData,
-    threeDBubbleChartData,
-    scatterChartData,
-    scatterDateTimeChartData,
-    pieChartData,
-    gradientDonutChartData,
-    patternedDonutChartData,
-    radarChartData,
-    multiRadarChartData,
-    gaugeChartData,
 } from './data';
 
 const ApexChart = () => {
@@ -109,64 +71,43 @@ const ApexChart = () => {
                 title={'Charts'}
             />
 
-            <Row>
-                <Col xl={6}>
-                    <LineChart lineChartWithData={lineChartWithData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xl={6}>
-                    <LineGradientChart gradientLineChartData={gradientLineChartData} showLoader={!isChatInitilized} />
-                </Col>
-            </Row>
-
-            <Row>
+            {/* <Row>
                 <Col xl={6}>
                     <StackedAreaChart stackedAreaChartData={stackedAreaChartData} showLoader={!isChatInitilized} />
                 </Col>
                 <Col xl={6}>
                     <ColumnChart basicColumnChartData={basicColumnChartData} showLoader={!isChatInitilized} />
                 </Col>
-            </Row>
+            </Row> */}
 
-            <Row>
+            {/* <Row>
                 <Col xl={6}>
                     <ColumnDataLabelsChart columnChartData={columnChartData} showLoader={!isChatInitilized} />
                 </Col>
                 <Col xl={6}>
                     <MixedChart mixedChart1Data={mixedChart1Data} showLoader={!isChatInitilized} />
                 </Col>
-            </Row>
+            </Row> */}
 
             <Row>
-                <Col xl={6}>
+                <Col xl={20}>
                     <BarChart basicBarChartData={basicBarChartData} showLoader={!isChatInitilized} />
                 </Col>
-                <Col xl={6}>
-                    <BarChartWithNegativeValues
-                        barWithNegativeData={barWithNegativeData}
-                        showLoader={!isChatInitilized}
-                    />
-                </Col>
-            </Row>
-
-            <Row>
-                <Col xl={6}>
-                    <LineColumnAreaChart mixedChart2Data={mixedChart2Data} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xl={6}>
+                {/* <Col xl={6}>
                     <MultipleYaxisChart multiYaxisChartData={multiYaxisChartData} showLoader={!isChatInitilized} />
-                </Col>
+                </Col> */}
             </Row>
 
-            <Row>
+            {/* <Row>
                 <Col xl={6}>
                     <BubbleChart bubbleChartData={bubbleChartData} showLoader={!isChatInitilized} />
                 </Col>
                 <Col xl={6}>
                     <ThreeDBubbleChart threeDBubbleChartData={threeDBubbleChartData} showLoader={!isChatInitilized} />
                 </Col>
-            </Row>
+            </Row> */}
 
-            <Row>
+            {/* <Row>
                 <Col xl={6}>
                     <ScatterChart scatterChartData={scatterChartData} showLoader={!isChatInitilized} />
                 </Col>
@@ -176,32 +117,7 @@ const ApexChart = () => {
                         showLoader={!isChatInitilized}
                     />
                 </Col>
-            </Row>
-
-            <Row>
-                <Col xxl={4} md={6}>
-                    <PieChart pieChartData={pieChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xxl={4} md={6}>
-                    <DonutChart gradientDonutChartData={gradientDonutChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xxl={4} md={6}>
-                    <DonutPatternedChart
-                        patternedDonutChartData={patternedDonutChartData}
-                        showLoader={!isChatInitilized}
-                    />
-                </Col>
-
-                <Col xxl={4} md={6}>
-                    <RadialBarChart radarChartData={radarChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xxl={4} md={6}>
-                    <RadialBarMultipleChart multiRadarChartData={multiRadarChartData} showLoader={!isChatInitilized} />
-                </Col>
-                <Col xxl={4} md={6}>
-                    <CircularGuageChart gaugeChartData={gaugeChartData} showLoader={!isChatInitilized} />
-                </Col>
-            </Row>
+            </Row> */}
         </React.Fragment>
     );
 };

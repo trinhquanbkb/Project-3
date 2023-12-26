@@ -18,7 +18,7 @@ export class TopProductController {
     private readonly productsService: OrdersServiceProduct,
   ) {}
 
-  @Get(':top')
+  @Get('top')
   async getStatistics(@Req() request: any, @Param('top') top: number) {
     const apiUrl = request.protocol + '://' + request.get('host') + '/products/';
     const token = request.headers.authorization.replace('Bearer ', '');
@@ -62,6 +62,57 @@ export class TopProductController {
         product.total_sold = totalSold;
         product.inventory = inventory;
       });
+
+      return topProducts;
+    }
+  }
+
+  @Get(':topInventory')
+  async getTopInventoryProducts(@Req() request: any, @Param('topInventory') top: number) {
+    const apiUrl = request.protocol + '://' + request.get('host') + '/products/';
+    const token = request.headers.authorization.replace('Bearer ', '');
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const warehouseId = decodedToken["warehouse_id"]._id;
+    
+    if (warehouseId) {
+      const productItems: any = await this.ordersService.findProductItemsByWarehouseId(warehouseId);
+      const uniqueData = Array.from(new Set(productItems.map(item => item.product_id))).map(productId => {
+        return productItems.find(item => item.product_id === productId);
+      });
+      const productsArray: any[] = [];
+      const itemsInWarehouse: any[]= [];
+      for (const productId of uniqueData) {
+        const product_id = productId.get('product_id')
+        const response = await axios.get(apiUrl + product_id, {
+          headers: {
+            Authorization: request.headers.authorization
+          }
+        });
+        const data = response.data;
+
+        console.log(data)
+        productsArray.push(data);
+        
+      }
+      for (const product of productsArray) {
+        const filteredProductItems = product.product_items.filter(
+          (item) => item.warehouse_id === warehouseId
+        );
+        product.product_items = filteredProductItems;
+
+      }
+
+      productsArray.forEach((product) => {
+        const totalSold = product.product_items.reduce((acc, item) => acc + item.quantity_sold, 0);
+        const inventory = product.quantity - totalSold;
+        product.total_sold = totalSold;
+        product.inventory = inventory;
+      });
+
+      const sortedProducts = productsArray.sort((a, b) => b.inventory - a.inventory);
+      const topProducts = sortedProducts.slice(0, top);
+
+
 
       return topProducts;
     }
