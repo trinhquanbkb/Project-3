@@ -14,14 +14,14 @@ const statisticApi = api.injectEndpoints({
 		}),
 		getTopRemainList: build.query({
 			query: (top) => ({
-				url: `top-product/${top}`,
+				url: `top-product/top-product/${top}`,
 				method: "GET",
 			}),
 			providesTags: [{ type: "Statistic", id: "TopRemain" }],
 		}),
 		getTopSoldList: build.query({
 			query: (topInventory) => ({
-				url: `top-product/${topInventory}`,
+				url: `top-product/top-inventory/${topInventory}`,
 				method: "GET",
 			}),
 			providesTags: [{ type: "Statistic", id: "TopInventory" }],

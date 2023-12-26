@@ -87,6 +87,7 @@ const TopSoldList = () => {
             <Row className='mt-3'>
                 <Col xs={12}>
                     <div className="wrap-filter">
+                        Chọn số lượng sản phẩm muốn hiển thị
                         <Form.Select aria-label="Default select example"
                             value={search}
                             onChange={(e) => {
