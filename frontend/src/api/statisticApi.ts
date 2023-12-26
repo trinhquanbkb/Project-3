@@ -12,13 +12,20 @@ const statisticApi = api.injectEndpoints({
 			}),
 			providesTags: [{ type: "Statistic", id: "List" }],
 		}),
-		// getWarehouseDetail: build.query({
-		// 	query: (id) => ({
-		// 		url: `warehouses/${id}`,
-		// 		method: "GET",
-		// 	}),
-		// 	providesTags: [{ type: "Statistic", id: "Detail" }],
-		// }),
+		getTopRemainList: build.query({
+			query: (top) => ({
+				url: `top-product/${top}`,
+				method: "GET",
+			}),
+			providesTags: [{ type: "Statistic", id: "TopRemain" }],
+		}),
+		getTopSoldList: build.query({
+			query: (topInventory) => ({
+				url: `top-product/${topInventory}`,
+				method: "GET",
+			}),
+			providesTags: [{ type: "Statistic", id: "TopInventory" }],
+		}),
 		// deleteWarehouse: build.mutation<any, string>({
 		// 	query: (id) => ({
 		// 		url: `warehouses/${id}`,
@@ -31,5 +38,6 @@ const statisticApi = api.injectEndpoints({
 
 export const {
 	useGetRemainListQuery,
-	// useGetWarehouseDetailQuery
+	useGetTopRemainListQuery,
+	useGetTopSoldListQuery,
 } = statisticApi;

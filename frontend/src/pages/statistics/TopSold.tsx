@@ -1,24 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
+import { Row, Col, Button, Form } from "react-bootstrap";
+import Loading from "../../components/Loading";
 
 import BarChart from './BarChart';
-
-// dummy data
-import {
-    basicBarChartData,
-} from './data';
+import queryString from "query-string";
+import { useGetTopSoldListQuery } from '../../api/statisticApi';
+import { useLocation } from 'react-router-dom';
 
 const TopSoldList = () => {
     const [isChatInitilized, setIsChatInitilized] = useState<boolean>(false);
     const [numberTop, setNumberTop] = useState(5);
     const [search, setSearch] = useState(5);
+    const location = useLocation();
+
+
+    const { data, isFetching } = useGetTopSoldListQuery(search);
+
+    const convertValue = (data: any) => {
+        const productNames: any = [];
+        const total_solds: any = [];
+        data.forEach((product: any) => {
+            productNames.push(product.product_name);
+            total_solds.push(product.total_sold);
+        });
+        return {
+            productNames,
+            total_solds
+        }
+    }
 
     const handleSearchOnEnter = (event: any) => {
-		event.preventDefault();
-		if (event.key === "Enter") {
-			setSearch(numberTop);
-		}
-	};
+        event.preventDefault();
+        if (event.key === "Enter") {
+            setSearch(numberTop);
+        }
+    };
+
+    useEffect(() => {
+    	const query = location.search;
+    	const parsed = queryString.parse(query);
+
+    	setSearch(numberTop);
+    }, []);
 
 
     useEffect(() => {
@@ -68,22 +91,8 @@ const TopSoldList = () => {
         };
     }, []);
 
-    const categories: any = [
-        'South Korea',
-        'Canada',
-        'United Kingdom',
-        'Netherlands',
-        'Italy',
-        'France',
-        'Japan',
-        'United States',
-        'China',
-        'Germany',
-    ];
-
     return (
-        <React.Fragment>
-
+        <>
             <Row className='mt-3'>
                 <Col xs={12}>
                     <div className="wrap-filter">
@@ -97,9 +106,13 @@ const TopSoldList = () => {
                                                     type="search"
                                                     placeholder="Số sản phẩm muốn hiển thị"
                                                     onChange={(e) => {
-                                                        setNumberTop(
-                                                            parseInt(e.target.value)
-                                                        );
+                                                        if (e.target.value === ""){
+                                                            setNumberTop(0);
+                                                        }else{
+                                                            setNumberTop(
+                                                                parseInt(e.target.value)
+                                                            );
+                                                        }
                                                     }}
                                                     value={numberTop}
                                                     onKeyUp={
@@ -122,18 +135,28 @@ const TopSoldList = () => {
                     </div>
                 </Col>
             </Row>
+            <React.Fragment>
+                {isFetching ? (
+                    <Loading />
+                ) : (
+                    <>
+                        <Row>
+                            <Col xl={20}>
+                                {/* {console.log(data)} */}
+                                <BarChart
+                                    basicBarChartData={convertValue(data).total_solds}
+                                    showLoader={!isChatInitilized}
+                                    name={"Các sản phẩm bán chạy nhất"}
+                                    categories={convertValue(data).productNames}
+                                />
+                            </Col>
+                        </Row>
+                    </>
+                )}
 
-            <Row>
-                <Col xl={20}>
-                    <BarChart
-                        basicBarChartData={basicBarChartData}
-                        showLoader={!isChatInitilized}
-                        name={"Các sản phẩm bán chạy nhất"}
-                        categories={categories}
-                    />
-                </Col>
-            </Row>
-        </React.Fragment>
+
+            </React.Fragment>
+        </>
     );
 };
 
