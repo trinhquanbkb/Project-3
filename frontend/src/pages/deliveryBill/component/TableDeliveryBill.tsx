@@ -3,6 +3,7 @@ import Table from "../../../components/Table";
 import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
 import { checkStatus } from "../../../constants/status";
+import { getLoggedInUser } from "../../../utils/getLoggedInUser";
 
 const columns = [
 	{
@@ -98,7 +99,10 @@ const TableDeliveryBill = (props: any) => {
 											Xem chi tiết
 										</span>
 									</button>
-									{item.status === "Chờ duyệt" ? (
+									{item.status === "Chờ duyệt" &&
+									["Admin", "Quản lý", "Kế toán"].includes(
+										getLoggedInUser().role_id.name
+									) ? (
 										<button
 											type="button"
 											className="btn btn-delete-tracking"
@@ -114,7 +118,10 @@ const TableDeliveryBill = (props: any) => {
 											</span>
 										</button>
 									) : null}
-									{item.status === "Chờ xuất kho" ? (
+									{item.status === "Chờ xuất kho" &&
+									["Admin", "Quản lý", "Kế toán"].includes(
+										getLoggedInUser().role_id.name
+									) ? (
 										<button
 											type="button"
 											className="btn btn-delete-tracking"

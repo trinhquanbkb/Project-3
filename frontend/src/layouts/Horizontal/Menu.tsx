@@ -11,6 +11,7 @@ import { MenuItemTypes } from "../../constants/menu";
 
 // custom hook
 import { useViewport } from "../../hooks/useViewPort";
+import { getLoggedInUser } from "../../utils/getLoggedInUser";
 
 interface MenuItems {
 	item: MenuItemTypes;
@@ -225,39 +226,47 @@ const AppMenu = ({ menuItems }: AppMenuProps) => {
 	useEffect(() => {
 		if (topnavMenuItems && topnavMenuItems.length > 0) activeMenu();
 	}, [activeMenu, topnavMenuItems]);
-	console.log(topnavMenuItems);
+
 	return (
 		<>
 			<ul className="navbar-nav" ref={menuRef} id="main-side-menu">
 				{(topnavMenuItems || []).map((item, idx) => {
-					return (
-						<React.Fragment key={idx}>
-							{item.children ? (
-								<MenuItemWithChildren
-									item={item}
-									tag="li"
-									className="nav-item"
-									subMenuClassNames="dropdown-menu"
-									activeMenuItems={activeMenuItems}
-									linkClassName="nav-link"
-									toggleMenu={toggleMenu}
-								/>
-							) : (
-								<MenuItem
-									item={item}
-									linkClassName={classNames(
-										"nav-link",
-										"dropdown-toggle",
-										{
-											active: activeMenuItems.includes(
-												item.key
-											),
-										}
-									)}
-								/>
-							)}
-						</React.Fragment>
-					);
+					if (
+						item.permission?.includes(
+							getLoggedInUser().role_id.name
+						)
+					) {
+						return (
+							<React.Fragment key={idx}>
+								{item.children ? (
+									<MenuItemWithChildren
+										item={item}
+										tag="li"
+										className="nav-item"
+										subMenuClassNames="dropdown-menu"
+										activeMenuItems={activeMenuItems}
+										linkClassName="nav-link"
+										toggleMenu={toggleMenu}
+									/>
+								) : (
+									<MenuItem
+										item={item}
+										linkClassName={classNames(
+											"nav-link",
+											"dropdown-toggle",
+											{
+												active: activeMenuItems.includes(
+													item.key
+												),
+											}
+										)}
+									/>
+								)}
+							</React.Fragment>
+						);
+					} else {
+						return null;
+					}
 				})}
 			</ul>
 		</>

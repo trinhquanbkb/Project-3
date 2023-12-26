@@ -11,6 +11,7 @@ export interface MenuItemTypes {
 	parentKey?: string;
 	target?: string;
 	children?: MenuItemTypes[];
+	permission?: string[];
 }
 
 const MENU_ITEMS: MenuItemTypes[] = [
@@ -20,6 +21,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		isTitle: false,
 		icon: "package",
 		url: "/receipt",
+		permission: ["Admin", "Quản lý", "Nhân viên kho", "Kế toán"],
 	},
 	{
 		key: "delivery-bill",
@@ -27,6 +29,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		isTitle: false,
 		icon: "shopping-bag",
 		url: "/delivery-bill",
+		permission: ["Admin", "Quản lý", "Nhân viên kho", "Kế toán"],
 	},
 	{
 		key: "inventory",
@@ -34,6 +37,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		isTitle: false,
 		icon: "archive",
 		url: "/inventory",
+		permission: ["Admin", "Quản lý", "Nhân viên kho", "Kế toán"],
 	},
 	{
 		key: "employee",
@@ -41,12 +45,14 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		isTitle: false,
 		icon: "users",
 		url: "/employees",
+		permission: ["Admin", "Quản lý"],
 	},
 	{
 		key: "statistics",
 		label: "Thống kê",
 		isTitle: false,
 		icon: "dollar-sign",
+		permission: ["Admin", "Quản lý", "Kế toán"],
 		children: [
 			{
 				key: "statistics-remain",
@@ -79,6 +85,7 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		label: "Cấu hình",
 		isTitle: false,
 		icon: "settings",
+		permission: ["Admin"],
 		children: [
 			{
 				key: "setting-category",

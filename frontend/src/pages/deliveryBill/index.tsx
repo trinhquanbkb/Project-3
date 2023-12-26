@@ -94,7 +94,6 @@ const ReceiptList = () => {
 
 	// handle filter page with page and pageSize
 	const handleFilterPage = (filter: any) => {
-		console.log(filter);
 		setSearch({
 			...search,
 			page: filter.page,

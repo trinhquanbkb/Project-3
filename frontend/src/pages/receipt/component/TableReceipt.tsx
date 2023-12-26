@@ -4,6 +4,7 @@ import { sizePerPageList } from "../../../constants/sizePerPageList";
 import { Card, Col, Row } from "react-bootstrap";
 import { ITableReceipt } from "../../../models/receipt.model";
 import { checkStatus } from "../../../constants/status";
+import { getLoggedInUser } from "../../../utils/getLoggedInUser";
 
 const columns = [
 	{
@@ -89,7 +90,10 @@ const TableReceipt = (props: ITableReceipt) => {
 										</span>
 									</button>
 									{item.status !== "Thành công" &&
-									item.status !== "Huỷ" ? (
+									item.status !== "Huỷ" &&
+									["Admin", "Quản lý", "Kế toán"].includes(
+										getLoggedInUser().role_id.name
+									) ? (
 										<button
 											type="button"
 											className="btn btn-delete-tracking"
