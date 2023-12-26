@@ -18,7 +18,7 @@ export class TopProductController {
     private readonly productsService: OrdersServiceProduct,
   ) {}
 
-  @Get(':top')
+  @Get('/top-product/:top')
   async getStatistics(@Req() request: any, @Param('top') top: number) {
     const apiUrl = request.protocol + '://' + request.get('host') + '/products/';
     const token = request.headers.authorization.replace('Bearer ', '');
@@ -67,7 +67,7 @@ export class TopProductController {
     }
   }
 
-  @Get(':topInventory')
+  @Get('/top-inventory/:topInventory')
   async getTopInventoryProducts(@Req() request: any, @Param('topInventory') top: number) {
     const apiUrl = request.protocol + '://' + request.get('host') + '/products/';
     const token = request.headers.authorization.replace('Bearer ', '');
