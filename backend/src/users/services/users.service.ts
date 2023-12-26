@@ -33,11 +33,11 @@ export class UsersService {
     }
 
     const data = await this.usersRepository.findAll(
-      filter,
+      filterData,
       skip,
       parseInt(pageSize, 10),
     );
-    const total = await this.usersRepository.countAll(filter);
+    const total = await this.usersRepository.countAll(filterData);
     const paginations = {
       page: page,
       pageSize: pageSize,

@@ -13,7 +13,7 @@ export class OrdersService {
     @InjectModel('Order') private roleModel: Model<OrderDocument>,
     @InjectModel('ProductItem')
     private productItemModel: Model<ProductItemDocument>,
-  ) { }
+  ) {}
 
   async createRole(roleDto: OrdersDTO): Promise<OrderDocument> {
     const product_items = [];
@@ -54,7 +54,8 @@ export class OrdersService {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
     const data = await this.roleModel
-      .find()
+      .find(filter)
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(pageSize, 10))
       .populate([
@@ -83,7 +84,7 @@ export class OrdersService {
         },
       ])
       .exec();
-    const total = await this.roleModel.countDocuments().exec();
+    const total = await this.roleModel.countDocuments(filter).exec();
     const paginations = {
       page: page,
       pageSize: pageSize,
@@ -106,30 +107,30 @@ export class OrdersService {
   }
 
   async update(id: string, roleDto: any): Promise<OrderDocument | null> {
-    if (roleDto?.status == "Thành công") {
-      this.roleModel.findById(id)
-        .then(data => {
-          let product_item = []
-          const products = data?.products
-          products.map(product => {
-            product_item = [...product_item, ...product?.product_item]
-          })
-          const updatePromises = product_item.map(({  product_item_id, quantity }) => {
+    if (roleDto?.status == 'Thành công') {
+      this.roleModel.findById(id).then((data) => {
+        let product_item = [];
+        const products = data?.products;
+        products.map((product) => {
+          product_item = [...product_item, ...product?.product_item];
+        });
+        const updatePromises = product_item.map(
+          ({ product_item_id, quantity }) => {
             return this.productItemModel.findByIdAndUpdate(
               product_item_id,
               { $inc: { quantity: -quantity, quantity_sold: quantity } },
-              { new: true } 
+              { new: true },
             );
+          },
+        );
+        Promise.all(updatePromises)
+          .then((updatedDocuments) => {
+            console.log(updatedDocuments);
+          })
+          .catch((error) => {
+            console.error(error);
           });
-          Promise.all(updatePromises)
-            .then(updatedDocuments => {
-              console.log(updatedDocuments);
-            })
-            .catch(error => {
-              console.error(error);
-            })
-        })
-
+      });
     }
     return this.roleModel.findByIdAndUpdate(id, roleDto, { new: true }).exec();
   }

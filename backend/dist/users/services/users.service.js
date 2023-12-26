@@ -35,8 +35,8 @@ let UsersService = class UsersService {
         if (filter.email !== '') {
             filterData['email'] = filter.email;
         }
-        const data = await this.usersRepository.findAll(filter, skip, parseInt(pageSize, 10));
-        const total = await this.usersRepository.countAll(filter);
+        const data = await this.usersRepository.findAll(filterData, skip, parseInt(pageSize, 10));
+        const total = await this.usersRepository.countAll(filterData);
         const paginations = {
             page: page,
             pageSize: pageSize,
