@@ -9,7 +9,6 @@ import { useLocation } from 'react-router-dom';
 
 const TopRemainList = () => {
     const [isChatInitilized, setIsChatInitilized] = useState<boolean>(false);
-    const [numberTop, setNumberTop] = useState(5);
     const [search, setSearch] = useState(5);
     const location = useLocation();
 
@@ -29,18 +28,10 @@ const TopRemainList = () => {
         }
     }
 
-    const handleSearchOnEnter = (event: any) => {
-        event.preventDefault();
-        if (event.key === "Enter") {
-            setSearch(numberTop);
-        }
-    };
-
     useEffect(() => {
-    	const query = location.search;
-    	const parsed = queryString.parse(query);
+        const query = location.search;
+        const parsed = queryString.parse(query);
 
-    	setSearch(numberTop);
     }, []);
 
 
@@ -96,42 +87,23 @@ const TopRemainList = () => {
             <Row className='mt-3'>
                 <Col xs={12}>
                     <div className="wrap-filter">
-                        <div className="list-input">
-                            <Row>
-                                <Col xs={3}>
-                                    <div className="col-left">
-                                        <div className="input-search">
-                                            <Form.Group className="form-search-user form-search-tracking">
-                                                <Form.Control
-                                                    type="search"
-                                                    placeholder="Số sản phẩm muốn hiển thị"
-                                                    onChange={(e) => {
-                                                        if (e.target.value === ""){
-                                                            setNumberTop(0);
-                                                        }else{
-                                                            setNumberTop(
-                                                                parseInt(e.target.value)
-                                                            );
-                                                        }
-                                                    }}
-                                                    value={numberTop}
-                                                    onKeyUp={
-                                                        handleSearchOnEnter
-                                                    }
-                                                />
-                                                <Button
-                                                    type="submit"
-                                                    className="btn-search"
-                                                    onClick={() => {
-                                                        setSearch(numberTop);
-                                                    }}
-                                                ></Button>
-                                            </Form.Group>
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </div>
+                        Chọn số lượng sản phẩm muốn hiển thị
+                        <Form.Select aria-label="Default select example"
+                            value={search}
+                            onChange={(e) => {
+                                setSearch(
+                                    parseInt(e.currentTarget.value)
+                                );
+                            }}
+                        >
+                            <option value="1">1</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="25">25</option>
+                        </Form.Select>
+
                     </div>
                 </Col>
             </Row>
