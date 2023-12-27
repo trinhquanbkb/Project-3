@@ -6,7 +6,7 @@ import { ITableSupplier } from "../../../models/supplier.model";
 
 const columns = [
 	{
-		Header: "Mã Nhà kho",
+		Header: "Mã đối tác",
 		accessor: "id",
 		sort: true,
 	},
@@ -24,26 +24,6 @@ const columns = [
 		Header: "Email",
 		accessor: "email",
 		sort: true,
-	},
-	{
-		Header: "Địa chỉ",
-		accessor: "address.address",
-		sort: false,
-	},
-	{
-		Header: "Phường/Xã",
-		accessor: "address.wards",
-		sort: false,
-	},
-	{
-		Header: "Quận/Huyện",
-		accessor: "address.district",
-		sort: false,
-	},
-	{
-		Header: "Thành phố",
-		accessor: "address.city",
-		sort: false,
 	},
 	{
 		Header: "Hành động",
