@@ -53,7 +53,7 @@ export class TopProductController {
 
       }
 
-      const sortedProducts = productsArray.sort((a, b) => b.quantity - a.quantity);
+      const sortedProducts = productsArray.sort((a, b) => b.inventory - a.inventory);
       const topProducts = sortedProducts.slice(0, top);
 
       topProducts.forEach((product) => {
@@ -109,7 +109,7 @@ export class TopProductController {
         product.inventory = inventory;
       });
 
-      const sortedProducts = productsArray.sort((a, b) => b.inventory - a.inventory);
+      const sortedProducts = productsArray.sort((a, b) => b.total_sold - a.total_sold);
       const topProducts = sortedProducts.slice(0, top);
 
 
