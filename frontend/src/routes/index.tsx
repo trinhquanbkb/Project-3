@@ -45,11 +45,18 @@ const InventoryDetail = React.lazy(
 // employee
 const EmployeeList = React.lazy(() => import("../pages/employee/index"));
 
+// user
+const UserInfor = React.lazy(() => import("../pages/user/index"));
+
 // statistics
 const StatisticsRemain = React.lazy(() => import("../pages/statistics/Remain"));
 const StatisticsSold = React.lazy(() => import("../pages/statistics/Sold"));
-const StatisticsTopRemain = React.lazy(() => import("../pages/statistics/TopRemain"));
-const StatisticsTopSold = React.lazy(() => import("../pages/statistics/TopSold"));
+const StatisticsTopRemain = React.lazy(
+	() => import("../pages/statistics/TopRemain")
+);
+const StatisticsTopSold = React.lazy(
+	() => import("../pages/statistics/TopSold")
+);
 
 export interface RoutesProps {
 	path: RouteProps["path"];
@@ -237,6 +244,12 @@ const projectAppRoutes: RoutesProps[] = [
 		path: "/components/charts",
 		name: "Charts",
 		component: Charts,
+		route: PrivateRoute,
+	},
+	{
+		path: "/user-infor",
+		name: "User infor",
+		component: UserInfor,
 		route: PrivateRoute,
 	},
 ];

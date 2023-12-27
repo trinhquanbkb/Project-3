@@ -5,6 +5,7 @@ import { Dropdown } from "react-bootstrap";
 import classNames from "classnames";
 import FeatherIcon from "feather-icons-react";
 import { logoutUser } from "../redux/auth/reducers";
+import { getLoggedInUser } from "../utils/getLoggedInUser";
 
 interface ProfileMenuItem {
 	label: string;
@@ -50,13 +51,16 @@ const ProfileDropdown = (props: ProfileDropdownProps) => {
 			>
 				<img src={profilePic!} className="rounded-circle" alt="" />
 				<span className="pro-user-name ms-2">
-					{props.username} <i className="uil uil-angle-down"></i>
+					<span className="fw-bold">
+						{getLoggedInUser().username}
+					</span>
+					<i className="uil uil-angle-down"></i>
 				</span>
 			</Dropdown.Toggle>
 			<Dropdown.Menu className="dropdown-menu-end profile-dropdown">
 				<div onClick={toggleDropdown}>
 					<div className="dropdown-header noti-title">
-						<h6 className="text-overflow m-0">Welcome !</h6>
+						<h6 className="text-overflow m-0">Xin chào !</h6>
 					</div>
 					{(props.menuItems || []).map((item, i) => {
 						if (item.label === "Logout") {

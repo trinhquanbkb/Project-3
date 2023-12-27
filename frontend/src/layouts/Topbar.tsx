@@ -21,14 +21,9 @@ export interface NotificationItem {
 // get the profilemenu
 const ProfileMenus = [
 	{
-		label: "My Account",
+		label: "Thông tin tài khoản",
 		icon: "user",
-		redirectTo: "/",
-	},
-	{
-		label: "Lock Screen",
-		icon: "lock",
-		redirectTo: "/auth/lock-screen",
+		redirectTo: "/user-infor",
 	},
 	{
 		label: "Logout",
