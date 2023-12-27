@@ -7,7 +7,12 @@ export interface IUser {
 	username: string;
 	email: string;
 	phone: string;
-	role_id: number;
+	role_id: {
+		createdAt: string;
+		name: string;
+		updatedAt: string;
+		_id: string;
+	};
 	parent_id: number;
 	warehouse_id: number;
 	createdAt: Date;

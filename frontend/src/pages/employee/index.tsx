@@ -331,6 +331,7 @@ const TrackingList = () => {
 										username: item.username,
 										email: item.email,
 										phone: item.phone,
+										role: item.role_id.name,
 									};
 							  })
 							: null
