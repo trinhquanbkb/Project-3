@@ -17,8 +17,6 @@ export class ActiveValidation implements PipeTransform<any> {
   async validateOldPassword(value: any) {
     const password = value.password;
 
-    console.log(value);
-
     return true;
 
     // const user = await this.usersService.findOne({ username });

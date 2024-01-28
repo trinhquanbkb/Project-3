@@ -48,24 +48,20 @@ const MENU_ITEMS: MenuItemTypes[] = [
 		permission: ["Admin", "Quản lý"],
 	},
 	{
+		key: "report",
+		label: "Báo cáo",
+		isTitle: false,
+		icon: "mail",
+		url: "/reports",
+		permission: ["Admin", "Quản lý"],
+	},
+	{
 		key: "statistics",
 		label: "Thống kê",
 		isTitle: false,
 		icon: "dollar-sign",
 		permission: ["Admin", "Quản lý", "Kế toán"],
 		children: [
-			{
-				key: "statistics-remain",
-				label: "Thống kê số lượng sản phẩm tồn kho",
-				url: "/statistics/remain",
-				parentKey: "statistics",
-			},
-			{
-				key: "statistics-sold",
-				label: "Thống kê số lượng sản phẩm đã bán",
-				url: "/statistics/sold",
-				parentKey: "statistics",
-			},
 			{
 				key: "statistics-top-remain",
 				label: "Top các sản phẩm tồn kho",

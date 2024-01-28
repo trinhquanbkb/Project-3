@@ -27,6 +27,7 @@ const top_product_module_1 = require("./top_product/top_product.module");
 const inventory_products_module_1 = require("./inventory_products/inventory_products.module");
 const XSSRequestWrapper_1 = require("./middlewares/XSSRequestWrapper");
 const shipping_module_1 = require("./shipping/shipping.module");
+const report_module_1 = require("./report/report.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(XSSRequestWrapper_1.XSSRequestWrapper).forRoutes('*');
@@ -53,7 +54,8 @@ AppModule = __decorate([
             statistics_module_1.StatisticsModule,
             top_product_module_1.TopProductModule,
             inventory_products_module_1.InventoryProductsModule,
-            shipping_module_1.ShippingsModule
+            shipping_module_1.ShippingsModule,
+            report_module_1.ReportsModule,
         ],
     })
 ], AppModule);

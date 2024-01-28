@@ -26,11 +26,11 @@ let OrdersController = class OrdersController {
         return this.rolesService.createRole(roleDto);
     }
     approve(id, roleDto) {
-        console.log('hello');
         return this.rolesService.update(id, {
             status: 'Thành công',
             shipping_id: roleDto.shipping_id,
             tracking: roleDto.tracking,
+            shippingFee: roleDto.shippingFee,
         });
     }
     waiting(id) {

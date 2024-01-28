@@ -8,22 +8,18 @@ const columns = [
 	{
 		Header: "Mã đối tác",
 		accessor: "id",
-		sort: true,
 	},
 	{
 		Header: "Tên đối tác",
 		accessor: "name",
-		sort: true,
 	},
 	{
 		Header: "Điện thoại",
 		accessor: "phone",
-		sort: true,
 	},
 	{
 		Header: "Email",
 		accessor: "email",
-		sort: true,
 	},
 	{
 		Header: "Hành động",

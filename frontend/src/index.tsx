@@ -13,9 +13,6 @@ import config from "./config";
 
 // Cai dat baseURL mac dinh cho cac request su dung axios
 axios.defaults.baseURL = config.API_URL;
-// axios.defaults.headers = { Authorization: `Bearer ${getAccessToken()}` };
-
-// xu ly response tra ve, neu response code = 401, trang thai chua dang nhap, thi thuc hien refresh token
 let isRefreshing = false;
 axios.interceptors.response.use(
 	(response) => {
@@ -31,37 +28,39 @@ axios.interceptors.response.use(
 			) {
 				originalReq._retry = true;
 				const { exp } = getLoggedInUser();
+				console.log(exp);
+				console.log(Date.now());
 				if (exp < Date.now() / 1000 && !isRefreshing) {
-					isRefreshing = true;
-					let res = fetch(
-						axios.defaults.baseURL + "/api/auth/refresh-token",
-						{
-							method: "POST",
-							mode: "cors",
-							cache: "no-cache",
-							headers: {
-								"Content-Type": "application/json",
-								Authorization: `Bearer ${getAccessToken()}`,
-							},
-							body: JSON.stringify({
-								refreshToken: getRefreshToken(),
-							}),
-							redirect: "follow",
-							referrer: "no-referrer",
-						}
-					)
-						.then((res) => res.json())
-						.then((res) => {
-							setSession("access_token", res.token);
-							setSession("refresh_token", res.refreshToken);
-							setSession("user", jwtDecode(res.token));
-							originalReq.headers[
-								"Authorization"
-							] = `Bearer ${res.token}`;
-							return axios(originalReq);
-						})
-						.catch((error) => console.log(error));
-					resolve(res);
+					// isRefreshing = true;
+					// let res = fetch(
+					// 	axios.defaults.baseURL + "/api/auth/refresh-token",
+					// 	{
+					// 		method: "POST",
+					// 		mode: "cors",
+					// 		cache: "no-cache",
+					// 		headers: {
+					// 			"Content-Type": "application/json",
+					// 			Authorization: `Bearer ${getAccessToken()}`,
+					// 		},
+					// 		body: JSON.stringify({
+					// 			refreshToken: getRefreshToken(),
+					// 		}),
+					// 		redirect: "follow",
+					// 		referrer: "no-referrer",
+					// 	}
+					// )
+					// 	.then((res) => res.json())
+					// 	.then((res) => {
+					// 		setSession("access_token", res.token);
+					// 		setSession("refresh_token", res.refreshToken);
+					// 		setSession("user", jwtDecode(res.token));
+					// 		originalReq.headers[
+					// 			"Authorization"
+					// 		] = `Bearer ${res.token}`;
+					// 		return axios(originalReq);
+					// 	})
+					// 	.catch((error) => console.log(error));
+					// resolve(res);
 				}
 			}
 			reject(err);

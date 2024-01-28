@@ -9,6 +9,8 @@ export interface IProduct {
 	createdAt: string;
 	updatedAt: string;
 	__v: any;
+	quantitySold: number;
+	totalWeight: number;
 }
 
 export interface IUpdateProduct {
@@ -63,4 +65,19 @@ export interface IProductItem {
 	hide: boolean;
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface ITableInventory {
+	handleFilter: any;
+	paginations: IPagination;
+	handleViewInventory: any;
+	data:
+		| {
+				code: string;
+				name: string;
+				quantity: number;
+				quantitySold: number;
+				totalWeight: number;
+		  }[]
+		| null;
 }

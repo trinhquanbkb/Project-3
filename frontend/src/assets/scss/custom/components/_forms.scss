@@ -240,3 +240,8 @@ input.form-control[type="range"] {
 	background-color: #e3e5e6;
 	cursor: no-drop;
 }
+
+.input-not-allow {
+	background-color: #d8d6d3 !important;
+	cursor: not-allowed;
+}

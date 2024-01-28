@@ -7,6 +7,7 @@ interface IProps {
 	id: any;
 	handleChange: any;
 	isLabel?: boolean;
+	placeholder?: string;
 }
 
 export default function SelectRole(props: IProps) {
@@ -16,7 +17,7 @@ export default function SelectRole(props: IProps) {
 	});
 
 	let optionRole: OptionTypes[] = [];
-	optionRole.push({ value: "", label: "Select" });
+	optionRole.push({ value: "", label: "Tất cả vai trò" });
 	if (data) {
 		data.data.forEach((item) => {
 			optionRole.push({
@@ -33,11 +34,12 @@ export default function SelectRole(props: IProps) {
 	return (
 		<div>
 			<SelectOption
-				id={props.id ? props.id : null}
+				id={props.id ? props.id : ""}
 				label="Vai trò"
 				handleChange={handleChangeRole}
 				optionData={optionRole}
 				isLabel={props.isLabel}
+				placeholder={props.placeholder}
 			/>
 		</div>
 	);

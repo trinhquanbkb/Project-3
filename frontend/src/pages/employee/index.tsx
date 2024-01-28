@@ -303,6 +303,7 @@ const TrackingList = () => {
 														role_id: id,
 													});
 												}}
+												placeholder="Vai trò"
 											/>
 										</div>
 									</div>
@@ -332,6 +333,7 @@ const TrackingList = () => {
 										email: item.email,
 										phone: item.phone,
 										role: item.role_id.name,
+										warehouse: item.warehouse_id.name,
 									};
 							  })
 							: null

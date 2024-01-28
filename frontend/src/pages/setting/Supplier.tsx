@@ -3,7 +3,10 @@ import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import queryString from "query-string";
 
 import TableSupplier from "./component/TableSupplier";
-import { useDeleteSupplierMutation, useGetSupplierListQuery } from "../../api/supplierApi";
+import {
+	useDeleteSupplierMutation,
+	useGetSupplierListQuery,
+} from "../../api/supplierApi";
 import { ISupplierQuery, IAddress } from "../../models/supplier.model";
 import Loading from "../../components/Loading";
 import ViewSupplier from "./component/ViewSupplier";
@@ -12,7 +15,7 @@ import EditSupplier from "./component/EditSupplier";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import CreateSupplier from "./component/CreateSupplier";
-
+import { useLocation } from "react-router-dom";
 
 const listBreadCrumb = [
 	{
@@ -23,11 +26,10 @@ const listBreadCrumb = [
 	},
 	{
 		path: "/",
-		label: "Quản lý nhà kho",
+		label: "Quản lý đối tác kinh doanh",
 		active: true,
 	},
 ];
-
 
 const SupplierList = () => {
 	// const location = useLocation();
@@ -40,38 +42,31 @@ const SupplierList = () => {
 	const [search, setSearch] = useState<ISupplierQuery>({
 		page: 1,
 		pageSize: 10,
-		name: "",
-		address: {
-			district: "",
-			wards: "",
-			city: "",
-			address: "",
-		}
+		filter: {},
 	});
 
-	const { data: listSupplier, isFetching } = useGetSupplierListQuery({ ...search });
+	const { data: listSupplier, isFetching } = useGetSupplierListQuery({
+		...search,
+	});
 
 	const [deleteSupplierApi] = useDeleteSupplierMutation();
+	const location = useLocation();
 
-	// useEffect(() => {
-	// 	const query = location.search;
-	// 	const parsed = queryString.parse(query);
-	// 	const page = parsed.page ? Number(parsed.page) : 1;
-	// 	const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
-	// 	const name = parsed.name ? parsed.name.toString() : "";
-	// 	// const address = parsed.address ? parsed.address : "";
+	useEffect(() => {
+		const query = location.search;
+		const parsed = queryString.parse(query);
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const filter = parsed.filter ? parsed.filter : {};
+		// const address = parsed.address ? parsed.address : "";
 
-	// 	setSearch({
-	// 		...search,
-	// 		page,
-	// 		pageSize,
-	// 		name,
-	// 	});
-
-	// 	if (name) {
-	// 		setKeywordSupplierName(name);
-	// 	}
-	// }, []);
+		setSearch({
+			...search,
+			page,
+			pageSize,
+			filter,
+		});
+	}, []);
 
 	// xử lý việc url thay đổi khi có filter
 	useEffect(() => {
@@ -81,8 +76,7 @@ const SupplierList = () => {
 				query: {
 					page: search.page,
 					pageSize: search.pageSize,
-					name: search.name,
-
+					filter: JSON.stringify(search.filter),
 				},
 			},
 			{
@@ -119,11 +113,19 @@ const SupplierList = () => {
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
-			setSearch({
-				...search,
-				name: keywordSupplierName.trim(),
-
-			});
+			if (keywordSupplierName.trim() === "") {
+				setSearch({
+					...search,
+					filter: {},
+				});
+			} else {
+				setSearch({
+					...search,
+					filter: {
+						name: keywordSupplierName.trim(),
+					},
+				});
+			}
 		}
 	};
 
@@ -196,7 +198,8 @@ const SupplierList = () => {
 										setCreateModal(!createModal);
 									}}
 								>
-									<i className="uil-plus me-1"></i> Thêm nhà kho
+									<i className="uil-plus me-1"></i> Thêm nhà
+									kho
 								</Button>
 							</div>
 						</div>
@@ -234,8 +237,9 @@ const SupplierList = () => {
 													onClick={() => {
 														setSearch({
 															...search,
-															name:
-																keywordSupplierName.trim(),
+															filter: {
+																name: keywordSupplierName.trim(),
+															},
 														});
 													}}
 												></Button>
@@ -261,14 +265,14 @@ const SupplierList = () => {
 					data={
 						listSupplier
 							? listSupplier.data.map((item) => {
-								return {
-									id: item._id,
-									name: item.name,
-									address: item.address,
-									phone: item.phone,
-									email: item.email
-								};
-							})
+									return {
+										id: item._id,
+										name: item.name,
+										address: item.address,
+										phone: item.phone,
+										email: item.email,
+									};
+							  })
 							: null
 					}
 				/>

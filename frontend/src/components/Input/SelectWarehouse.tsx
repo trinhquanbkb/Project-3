@@ -13,11 +13,11 @@ export default function SelectWarehouse(props: IProps) {
 	const { data, isFetching } = useGetWarehouseListQuery({
 		page: 1,
 		pageSize: 100,
-		filter: ""
+		filter: "",
 	});
 
 	let optionWarehouse: OptionTypes[] = [];
-	optionWarehouse.push({ value: null, label: "Select" });
+	optionWarehouse.push({ value: null, label: "Chọn" });
 	if (data) {
 		data.data.forEach((item) => {
 			optionWarehouse.push({

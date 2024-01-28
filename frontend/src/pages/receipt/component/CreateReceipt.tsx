@@ -299,7 +299,7 @@ const CreateReceipt = ({
 																	width: "12%",
 																}}
 															>
-																Cân nặng
+																Đơn vị tính
 															</th>
 															<th
 																style={{
@@ -313,7 +313,7 @@ const CreateReceipt = ({
 																	width: "12%",
 																}}
 															>
-																Giá nhập
+																Giá nhập/sản phẩm
 															</th>
 															<th
 																style={{

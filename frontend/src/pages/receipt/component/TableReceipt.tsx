@@ -29,9 +29,15 @@ const columns = [
 		accessor: "warehouseId",
 	},
 	{
+		Header: "Ngày tạo",
+		accessor: "createdAt",
+		sort: false,
+	},
+	{
 		Header: "Ghi chú",
 		accessor: "note",
 		sort: false,
+		width: 180,
 	},
 	{
 		Header: "Hành động",
@@ -119,6 +125,9 @@ const TableReceipt = (props: ITableReceipt) => {
 								>
 									{item.status}
 								</p>
+							)),
+							(item["note"] = (
+								<p className="text-wrap">{item.note}</p>
 							))
 						)
 				  )}

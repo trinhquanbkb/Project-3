@@ -58,6 +58,12 @@ export class Order {
     type: String,
   })
   tracking: string;
+
+  @Prop({
+    required: false,
+    type: Number,
+  })
+  shippingFee: string;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

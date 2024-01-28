@@ -192,7 +192,11 @@ const CreateDeliveryBill = ({
 	useEffect(() => {
 		formik.setValues({
 			...formik.values,
-			sender: getLoggedInUser().warehouse_id.name,
+			sender:
+				getLoggedInUser().username +
+				" (" +
+				getLoggedInUser().warehouse_id.name +
+				")",
 		});
 	}, []);
 
@@ -385,6 +389,27 @@ const CreateDeliveryBill = ({
 													/>
 												</Form.Group>
 											</Col>
+
+											<span className="fs-6">
+												(*) Lưu ý: Nhập mã sản phẩm và
+												điền thông tin về{" "}
+												<span className="fw-bold">
+													"số lượng xuất hàng"
+												</span>{" "}
+												và{" "}
+												<span className="fw-bold">
+													"giá xuất/sản phẩm"
+												</span>
+												,{" "}
+												<span className="fw-bold">
+													"số lượng tồn kho"
+												</span>{" "}
+												và{" "}
+												<span className="fw-bold">
+													"ngày hết hạn"
+												</span>{" "}
+												là thông tin bổ trợ.
+											</span>
 											<div className="popup-inner view-order px-2">
 												<table
 													role="table"
@@ -433,7 +458,8 @@ const CreateDeliveryBill = ({
 																	width: "22%",
 																}}
 															>
-																Giá xuất
+																Giá xuất/sản
+																phẩm
 															</th>
 															<th></th>
 														</tr>
@@ -508,7 +534,7 @@ const CreateDeliveryBill = ({
 																			value={
 																				row.quantity
 																			}
-																			className="form-control"
+																			className="form-control input-not-allow"
 																			disabled
 																		/>
 																	</td>
@@ -517,7 +543,7 @@ const CreateDeliveryBill = ({
 																		row.expriry_data ? (
 																			<input
 																				type="date"
-																				className="form-control"
+																				className="form-control input-not-allow"
 																				value={
 																					row.expriry_data
 																				}
@@ -552,7 +578,7 @@ const CreateDeliveryBill = ({
 																		  !row.expriry_data ? (
 																			<input
 																				type="text"
-																				className="form-control"
+																				className="form-control input-not-allow"
 																				value={
 																					"Không có"
 																				}
@@ -561,7 +587,7 @@ const CreateDeliveryBill = ({
 																		) : (
 																			<input
 																				type="date"
-																				className="form-control"
+																				className="form-control input-not-allow"
 																				disabled
 																			/>
 																		)}

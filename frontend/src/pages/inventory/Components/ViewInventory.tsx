@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useGetProductDetailQuery } from "../../../api/productApi";
 import Loading from "../../../components/Loading";
 import { useParams } from "react-router-dom";
-import { Breadcrumb, Card } from "react-bootstrap";
+import { Breadcrumb, Button, Card, Modal } from "react-bootstrap";
 import { convertDate } from "../../../utils/function";
 import TableFullData from "../../../components/TableFullData";
 import { checkStatusProductItem } from "../../../constants/status";
+import { useCreateReportMutation } from "../../../api/reportApi";
+import { toast } from "react-toastify";
 
 const listBreadCrumb = [
 	{
@@ -49,12 +51,12 @@ const columns = [
 		sort: false,
 	},
 	{
-		Header: "Cân nặng",
+		Header: "Đơn vị tính",
 		accessor: "weight",
 		sort: false,
 	},
 	{
-		Header: "Giá nhập",
+		Header: "Giá nhập/sản phẩm",
 		accessor: "price",
 		sort: false,
 	},
@@ -79,6 +81,12 @@ const ViewInventory = () => {
 	const { id } = useParams<{ id: string }>();
 	const { data, isFetching } = useGetProductDetailQuery(id);
 	const [dataTable, setDataTable] = useState<any[]>();
+	const [show, setShow] = useState(false);
+	const [content, setContent] = useState<string>("");
+	const [createReport] = useCreateReportMutation();
+
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
 
 	useEffect(() => {
 		if (data) {
@@ -89,8 +97,8 @@ const ViewInventory = () => {
 					quantitySold: item.quantity_sold,
 					weight: item.weight,
 					price: item.price,
-					warehouse: item.warehouse_id,
-					supplier: item.supplier_id,
+					warehouse: item.warehouse_id[0].name,
+					supplier: item.supplier_id[0].name,
 					expriryData: item.expriry_data
 						? convertDate(item.expriry_data)
 						: "Không có",
@@ -134,6 +142,20 @@ const ViewInventory = () => {
 					);
 				})}
 			</Breadcrumb>
+
+			<div className="page-title-right mt-1 mb-2">
+				<div className="mt-2 mt-md-0 d-flex justify-content-end">
+					<Button
+						variant="primary"
+						className="mb-2 mb-sm-0"
+						onClick={() => {
+							handleShow();
+						}}
+					>
+						<i className="uil-plus me-1"></i> Tạo báo cáo
+					</Button>
+				</div>
+			</div>
 
 			{data ? (
 				<>
@@ -180,6 +202,47 @@ const ViewInventory = () => {
 			) : (
 				<Loading />
 			)}
+
+			<Modal show={show} onHide={handleClose} animation={false}>
+				<Modal.Header closeButton>
+					<Modal.Title>Nhập nội dung</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<textarea
+						className="w-100 px-2 py-1"
+						style={{ minHeight: "120px" }}
+						onChange={(e) => {
+							setContent(e.target.value);
+						}}
+					></textarea>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>
+						Đóng
+					</Button>
+					<Button
+						variant="primary"
+						onClick={async () => {
+							const res = await createReport({
+								product_id: data?._id,
+								note: content,
+							});
+							if (res) {
+								toast.success(
+									`Tạo báo cáo cho sản phẩm '${data?.product_name}' thành công!`
+								);
+							} else {
+								toast.error(
+									`Tạo báo cáo cho sản phẩm '${data?.product_name}' thất bại!`
+								);
+							}
+							handleClose();
+						}}
+					>
+						Gửi báo cáo
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</>
 	);
 };

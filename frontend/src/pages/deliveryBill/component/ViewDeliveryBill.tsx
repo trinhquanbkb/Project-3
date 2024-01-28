@@ -2,6 +2,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Loading from "../../../components/Loading";
 import { convertDate } from "../../../utils/function";
 import { useGetDeliveryBillDetailQuery } from "../../../api/deliveryBillApi";
+import { NumericFormat } from "react-number-format";
 
 const ViewDeliveryBill = ({
 	id,
@@ -15,6 +16,15 @@ const ViewDeliveryBill = ({
 	const { data, isFetching } = useGetDeliveryBillDetailQuery(id);
 	let index = 0;
 
+	const renderTotalMoney = () => {
+		let total = 0;
+		data?.products.forEach((item) => {
+			item.product_item.forEach((pr) => {
+				total += (pr.priceSold || 0) * (pr.quantity || 0);
+			});
+		});
+		return total + (data?.shippingFee || 0);
+	};
 	return (
 		<>
 			<div
@@ -112,6 +122,51 @@ const ViewDeliveryBill = ({
 														/>
 													</Form.Group>
 												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Đơn vị vận chuyển
+														</Form.Label>
+														<Form.Control
+															type="text"
+															name="shipping"
+															value={
+																data
+																	?.shipping_id
+																	.name
+															}
+														/>
+													</Form.Group>
+												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Mã tracking
+														</Form.Label>
+														<Form.Control
+															type="text"
+															name="tracking"
+															value={
+																data?.tracking
+															}
+														/>
+													</Form.Group>
+												</Col>
+												<Col xs={12} md={6}>
+													<Form.Group className="mb-3">
+														<Form.Label>
+															Phí vận chuyển
+														</Form.Label>
+														<Form.Control
+															type="number"
+															name="shippingFee"
+															value={
+																data?.shippingFee ||
+																0
+															}
+														/>
+													</Form.Group>
+												</Col>
 												<div className="popup-inner view-order px-2">
 													<table
 														role="table"
@@ -153,7 +208,8 @@ const ViewDeliveryBill = ({
 																		width: "22%",
 																	}}
 																>
-																	Giá xuất
+																	Giá xuất/sản
+																	phẩm
 																</th>
 															</tr>
 														</thead>
@@ -166,13 +222,13 @@ const ViewDeliveryBill = ({
 																		) => (
 																			<tr
 																				key={
-																					index
+																					index +
+																					1
 																				}
 																			>
 																				<td>
-																					{
-																						index++
-																					}
+																					{index +
+																						1}
 																				</td>
 																				<td>
 																					<input
@@ -223,6 +279,17 @@ const ViewDeliveryBill = ({
 													</table>
 												</div>
 											</Row>
+											<p className="text-danger fs-3">
+												Tổng tiền:{" "}
+												<NumericFormat
+													value={
+														renderTotalMoney() || 0
+													}
+													thousandSeparator=","
+													displayType="text"
+													suffix=" đ"
+												/>
+											</p>
 										</div>
 									</Form>
 								</div>

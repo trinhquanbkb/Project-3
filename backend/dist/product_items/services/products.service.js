@@ -29,11 +29,15 @@ let OrdersService = class OrdersService {
     async findAllRoles(pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
-        const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10))
-            .populate([{
+        const data = await this.roleModel
+            .find(filter)
+            .skip(skip)
+            .limit(parseInt(pageSize, 10))
+            .populate([
+            {
                 path: 'product_id',
                 model: 'Product',
-                select: "product_name"
+                select: 'product_name',
             },
             {
                 path: 'warehouse_id',
@@ -42,7 +46,7 @@ let OrdersService = class OrdersService {
             {
                 path: 'supplier_id',
                 model: 'Supplier',
-            }
+            },
         ])
             .exec();
         const total = await this.roleModel.countDocuments(filter).exec();

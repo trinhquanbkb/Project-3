@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import classNames from "classnames";
 import ProfileDropdown from "../components/ProfileDropdown";
 
 // images
@@ -8,6 +7,8 @@ import profilePic from "../assets/images/users/avatar-1.jpg";
 import logoSm from "../assets/images/logo-sm.png";
 import logoDark from "../assets/images/logo-warehouse.png";
 import logoLight from "../assets/images/logo-light.png";
+import { Button } from "react-bootstrap";
+import { getLoggedInUser } from "../utils/getLoggedInUser";
 
 export interface NotificationItem {
 	id: number;
@@ -45,22 +46,15 @@ const Topbar = ({
 	openLeftMenuCallBack,
 	topbarDark,
 }: TopbarProps) => {
-	const [isopen, setIsopen] = useState<boolean>(false);
 	const navbarCssClasses: string = navCssClasses || "";
 	const containerCssClasses: string = !hideLogo ? "container-fluid" : "";
-
-	/**
-	 * Toggle the leftmenu when having mobile screen
-	 */
-	const handleLeftMenuCallBack = () => {
-		setIsopen(!isopen);
-		if (openLeftMenuCallBack) openLeftMenuCallBack();
-	};
 
 	return (
 		<React.Fragment>
 			<div className={`navbar-custom ${navbarCssClasses}`}>
-				<div className={containerCssClasses}>
+				<div
+					className={`d-flex flex-row justify-content-between ${containerCssClasses}`}
+				>
 					{!hideLogo && (
 						<div className="logo-box">
 							<Link to="/" className="logo logo-dark">
@@ -81,37 +75,26 @@ const Topbar = ({
 							</Link>
 						</div>
 					)}
-					<ul className="list-unstyled topnav-menu float-end mb-0">
-						<li className="dropdown notification-list topbar-dropdown">
-							<ProfileDropdown
-								profilePic={profilePic}
-								menuItems={ProfileMenus}
-								username={"Nik Patel"}
-							/>
-						</li>
-					</ul>
 
-					<ul className="list-unstyled topnav-menu topnav-menu-left m-0">
-						{/* Mobile menu toggle (Horizontal Layout) */}
-						<li>
-							<Link
-								to="#"
-								className={classNames(
-									"navbar-toggle nav-link",
-									{
-										open: isopen,
-									}
-								)}
-								onClick={handleLeftMenuCallBack}
-							>
-								<div className="lines">
-									<span></span>
-									<span></span>
-									<span></span>
-								</div>
-							</Link>
-						</li>
-					</ul>
+					<div
+						style={{ width: "fit-content" }}
+						className="d-flex justify-content-between"
+					>
+						<div className="btn-warehouse-wrapper">
+							<Button className="btn-warehouse me-1">
+								{getLoggedInUser().warehouse_id.name}
+							</Button>
+						</div>
+						<ul className="list-unstyled topnav-menu float-end mb-0">
+							<li className="dropdown notification-list topbar-dropdown">
+								<ProfileDropdown
+									profilePic={profilePic}
+									menuItems={ProfileMenus}
+									username={"Nik Patel"}
+								/>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</React.Fragment>

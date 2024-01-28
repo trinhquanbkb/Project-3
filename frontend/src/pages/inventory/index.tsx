@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import { useGetProductListQuery } from "../../api/productApi";
-import ItemProduct from "./Components/ItemProduct";
-import PaginationSingle from "../../components/PaginationSingle";
 import Loading from "../../components/Loading";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import axios from "axios";
+import queryString from "query-string";
+import { getAccessToken } from "../../utils/getAccessToken";
+import TableInventory from "./Components/TableInventory";
+import { IProduct } from "../../models/product.model";
 
 const listBreadCrumb = [
 	{
@@ -22,20 +25,95 @@ const listBreadCrumb = [
 
 const UserList = () => {
 	const history = useHistory();
+	const location = useLocation();
+	const [keywordCode, setKeywordCode] = useState("");
+	const [keywordName, setKeywordName] = useState("");
 	const [search, setSearch] = useState<any>({
 		page: 1,
-		pageSize: 20,
+		pageSize: 10,
 	});
-	const { data: listProduct, isFetching } = useGetProductListQuery({
+	const [filter, setFilter] = useState<{ code: string; name: string }>({
+		code: "",
+		name: "",
+	});
+	const { data: listProduct } = useGetProductListQuery({
 		...search,
+		filter: filter,
 	});
 
-	const handlePagination = (page: number) => {
-		setSearch({ ...search, page: page });
-	};
+	useEffect(() => {
+		const query = location.search;
+		const parsed = queryString.parse(query);
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const code = parsed.code ? parsed.code.toString() : "";
+		const name = parsed.name ? parsed.name.toString() : "";
+
+		setSearch({
+			...search,
+			page,
+			pageSize,
+		});
+
+		setFilter({ code: code, name: name });
+		setKeywordCode(code);
+		setKeywordName(name);
+	}, []);
+
+	// xử lý việc url thay đổi khi có filter
+	useEffect(() => {
+		const query = queryString.stringifyUrl(
+			{
+				url: "/inventory",
+				query: {
+					page: search.page,
+					pageSize: search.pageSize,
+					code: filter.code,
+					name: filter.name,
+				},
+			},
+			{
+				skipEmptyString: true,
+			}
+		);
+		window.history.pushState(null, "", query);
+	}, [search, filter]);
 
 	const handleViewModal = (id: string) => {
 		history.push(`/inventory/${id}`);
+	};
+
+	const handleFilterPage = (filter: any) => {
+		setSearch({
+			...search,
+			page: filter.page,
+			pageSize: filter.pageSize,
+		});
+	};
+
+	const handleExcel = async () => {
+		try {
+			const response = await axios.get(
+				"http://localhost:3304/Products/excel",
+				{
+					responseType: "blob",
+					headers: {
+						Authorization: `Bearer ${getAccessToken()}`,
+					},
+				}
+			);
+
+			const blob = new Blob([response.data], {
+				type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+			});
+
+			const link = document.createElement("a");
+			link.href = window.URL.createObjectURL(blob);
+			link.download = "hang_ton_kho.xlsx";
+			link.click();
+		} catch (error) {
+			console.error("Error downloading Excel file", error);
+		}
 	};
 
 	return (
@@ -86,21 +164,99 @@ const UserList = () => {
 					<div className="wrap-filter">
 						<div className="list-input">
 							<Row>
-								<Col xs={3}>
-									<div className="col-left">
-										<div className="input-search">
-											<Form.Group className="form-search-user form-search-tracking">
-												<Form.Control
-													type="search"
-													placeholder="Tìm kiếm theo tên sản phẩm"
-												/>
-												<Button
-													type="submit"
-													className="btn-search"
-												></Button>
-											</Form.Group>
-										</div>
-									</div>
+								<Col xs={6}>
+									<Row>
+										<Col xs={6}>
+											<div className="col-left">
+												<div className="input-search">
+													<Form.Group className="form-search-user form-search-tracking">
+														<Form.Control
+															type="search"
+															placeholder="Tìm kiếm theo mã danh mục"
+															onChange={(e) => {
+																setKeywordCode(
+																	e.target
+																		.value
+																);
+															}}
+															onKeyUp={(e) => {
+																if (
+																	e.key ===
+																	"Enter"
+																) {
+																	setFilter({
+																		...filter,
+																		code: keywordCode.trim(),
+																	});
+																}
+															}}
+														/>
+														<Button
+															className="btn-search"
+															onClick={() => {
+																setFilter({
+																	...filter,
+																	code: keywordCode.trim(),
+																});
+															}}
+														></Button>
+													</Form.Group>
+												</div>
+											</div>
+										</Col>
+										<Col xs={6}>
+											<div className="col-left">
+												<div className="input-search">
+													<Form.Group className="form-search-user form-search-tracking">
+														<Form.Control
+															type="search"
+															placeholder="Tìm kiếm theo tên sản phẩm"
+															onChange={(e) => {
+																setKeywordName(
+																	e.target
+																		.value
+																);
+															}}
+															onKeyUp={(e) => {
+																if (
+																	e.key ===
+																	"Enter"
+																) {
+																	setFilter({
+																		...filter,
+																		name: keywordName.trim(),
+																	});
+																}
+															}}
+														/>
+														<Button
+															className="btn-search"
+															onClick={() => {
+																setFilter({
+																	...filter,
+																	code: keywordName.trim(),
+																});
+															}}
+														></Button>
+													</Form.Group>
+												</div>
+											</div>
+										</Col>
+									</Row>
+								</Col>
+								<Col
+									xs={6}
+									className="d-flex justify-content-end"
+								>
+									<Button
+										className="px-3 py-0"
+										onClick={() => {
+											handleExcel();
+										}}
+									>
+										<i className="uil uil-download-alt"></i>{" "}
+										Tải file excel
+									</Button>
 								</Col>
 							</Row>
 						</div>
@@ -109,27 +265,25 @@ const UserList = () => {
 			</Row>
 
 			{listProduct ? (
-				<div>
-					<Row>
-						{listProduct?.data.map((dt, index) => {
-							return (
-								<Col xs={4} lg={3} key={index}>
-									<ItemProduct
-										data={dt}
-										handleView={handleViewModal}
-									/>
-								</Col>
-							);
-						})}
-					</Row>
-
-					<PaginationSingle
-						page={search.page}
-						handlePagination={handlePagination}
-						totalPage={listProduct.paginations.totalPage}
-						className="mt-2 mb-5"
-					/>
-				</div>
+				<TableInventory
+					handleFilter={handleFilterPage}
+					paginations={listProduct.paginations}
+					handleViewInventory={handleViewModal}
+					data={
+						listProduct
+							? listProduct.data.map((item: IProduct) => {
+									return {
+										id: item._id,
+										code: item._id,
+										name: item.product_name,
+										quantity: item.quantity,
+										quantitySold: item.quantitySold,
+										totalWeight: item.totalWeight,
+									};
+							  })
+							: null
+					}
+				/>
 			) : (
 				<Loading />
 			)}

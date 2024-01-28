@@ -33,6 +33,13 @@ const userApi = api.injectEndpoints({
 			}),
 			providesTags: [{ type: "User", id: "Detail" }],
 		}),
+		getUserLogged: build.query<IUser, void>({
+			query: () => ({
+				url: `users/user-logged`,
+				method: "GET",
+			}),
+			providesTags: [{ type: "User", id: "Logged" }],
+		}),
 		updateUser: build.mutation<
 			any,
 			{
@@ -75,4 +82,5 @@ export const {
 	useUpdateUserMutation,
 	useDeleteUserMutation,
 	useCreateUserMutation,
+	useGetUserLoggedQuery,
 } = userApi;

@@ -21,6 +21,11 @@ const columns = [
 		sort: false,
 	},
 	{
+		Header: "Kho",
+		accessor: "warehouse",
+		sort: false,
+	},
+	{
 		Header: "Email",
 		accessor: "email",
 		sort: false,
@@ -34,6 +39,7 @@ const columns = [
 		Header: "Hành động",
 		accessor: "action",
 		sort: false,
+		width: 200,
 	},
 ];
 

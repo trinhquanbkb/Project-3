@@ -9,12 +9,14 @@ import {
   Delete,
   UseGuards,
   Query,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { FilterQuery } from 'mongoose';
+import * as jwt from 'jsonwebtoken';
 
 @Controller('users')
 @ApiTags('Users')
@@ -42,8 +44,13 @@ export class UsersController {
     required: false,
     description: 'Filter',
   })
-  async findAll(@Query() pagination: any, @Query('filter') filter: string) {
+  async findAll(
+    @Req() req: any,
+    @Query() pagination: any,
+    @Query('filter') filter: string,
+  ) {
     return this.usersService.findAll(
+      req,
       pagination,
       JSON.parse(filter ? filter : '{}'),
     );
@@ -51,6 +58,15 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
+    return this.usersService.findOne({ _id: id });
+  }
+
+  @Get('/user-logged')
+  findLogged(@Req() req: any) {
+    const token = req.headers.authorization.replace('Bearer ', '');
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decodedToken);
+    const id: string = decodedToken['_id']._id;
     return this.usersService.findOne({ _id: id });
   }
 

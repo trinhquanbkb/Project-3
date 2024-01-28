@@ -27,16 +27,19 @@ let SuppliersService = class SuppliersService {
     async findAllRoles(pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
-        const data = await this.roleModel.find(filter).skip(skip).limit(parseInt(pageSize, 10)).exec();
-        ;
+        const data = await this.roleModel
+            .find(filter)
+            .skip(skip)
+            .limit(parseInt(pageSize, 10))
+            .exec();
         const total = await this.roleModel.countDocuments(filter).exec();
         const paginations = {
-            "page": page,
-            "pageSize": pageSize,
-            "total": total,
-            "totalPage": Math.ceil(total / pageSize)
+            page: page,
+            pageSize: pageSize,
+            total: total,
+            totalPage: Math.ceil(total / pageSize),
         };
-        return { data, paginations, messenger: "succes" };
+        return { data, paginations, messenger: 'succes' };
     }
     async findRoleById(id) {
         return this.roleModel.findById(id).exec();

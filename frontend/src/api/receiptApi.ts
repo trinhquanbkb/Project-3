@@ -3,7 +3,6 @@ import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
 import {
 	IReceipt,
-	IReceiptQuery,
 	IUpdateReceipt,
 	ICreateReceipt,
 } from "../models/receipt.model";

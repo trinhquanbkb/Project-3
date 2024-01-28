@@ -2,13 +2,9 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import {
-	useCreateWarehouseMutation
-} from "../../../api/warehouseApi";
+import { useCreateWarehouseMutation } from "../../../api/warehouseApi";
 import SelectWarehouse from "../../../components/Input/SelectWarehouse";
 import FormAddress from "../../../components/FormAddress";
-
-
 
 const CreateWarehouse = ({
 	handleClose,
@@ -19,47 +15,42 @@ const CreateWarehouse = ({
 }) => {
 	const [createWarehouse] = useCreateWarehouseMutation();
 
-
 	const formik = useFormik({
 		initialValues: {
 			name: "",
 			address: "",
 			wards: "",
 			district: "",
-			city: ""
+			city: "",
 		},
 		validationSchema: Yup.object({
-			address: Yup.string()
-				.required("Trường bắt buộc!")
+			address: Yup.string().required("Trường bắt buộc!"),
 		}),
 		onSubmit: async (values: any) => {
-
-			const res: any = await createWarehouse(
-				{
-					name: values.name,
-					address: {
-						district: values.district,
-						wards: values.wards,
-						city: values.city,
-						address: values.address,
-					}
-				}
-			);
+			const res: any = await createWarehouse({
+				name: values.name,
+				address: {
+					district: values.district,
+					wards: values.wards,
+					city: values.city,
+					address: values.address,
+				},
+			});
 			if (res?.data) {
 				toast.success("Tạo mới nhà kho thành công");
 				handleClose();
 			} else {
 				toast.error("Tạo mới nhà kho thất bại");
 			}
-
 		},
 	});
 
 	return (
 		<>
 			<div
-				className={`popup-info main-view-order ${isClass === "active" ? "opened" : ""
-					}`}
+				className={`popup-info main-view-order ${
+					isClass === "active" ? "opened" : ""
+				}`}
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
@@ -99,13 +90,14 @@ const CreateWarehouse = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Đường
+														Địa chỉ cụ thể
 													</Form.Label>
 													<Form.Control
 														type="text"
 														name="address"
 														value={
-															formik.values.address
+															formik.values
+																.address
 														}
 														onChange={
 															formik.handleChange
@@ -125,14 +117,39 @@ const CreateWarehouse = ({
 												</Form.Group>
 											</Col>
 
-											<Form onSubmit={formik.handleSubmit}>
+											<Form
+												onSubmit={formik.handleSubmit}
+											>
 												<FormAddress
 													city={formik.values.city}
-													district={formik.values.district}
+													district={
+														formik.values.district
+													}
 													wards={formik.values.wards}
-													onCityChange={(value: any) => formik.setFieldValue("city", value)}
-													onDistrictChange={(value: any) => formik.setFieldValue("district", value)}
-													onWardsChange={(value: any) => formik.setFieldValue("wards", value)}
+													onCityChange={(
+														value: any
+													) =>
+														formik.setFieldValue(
+															"city",
+															value
+														)
+													}
+													onDistrictChange={(
+														value: any
+													) =>
+														formik.setFieldValue(
+															"district",
+															value
+														)
+													}
+													onWardsChange={(
+														value: any
+													) =>
+														formik.setFieldValue(
+															"wards",
+															value
+														)
+													}
 												/>
 											</Form>
 
@@ -173,4 +190,3 @@ const CreateWarehouse = ({
 };
 
 export default CreateWarehouse;
-

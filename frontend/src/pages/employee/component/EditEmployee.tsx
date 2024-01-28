@@ -4,10 +4,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
 	useGetUserDetailQuery,
 	useUpdateUserMutation,
 } from "../../../api/userApi";
+import SelectRole from "../../../components/Input/SelectRole";
+import SelectWarehouse from "../../../components/Input/SelectWarehouse";
+import { getLoggedInUser } from "../../../utils/getLoggedInUser";
+import { logoutUser } from "../../../redux/auth/reducers";
 
 const EditEmployee = ({
 	id,
@@ -18,6 +24,8 @@ const EditEmployee = ({
 	handleClose: () => void;
 	isClass: string;
 }) => {
+	const dispatch = useDispatch();
+	const history = useHistory();
 	const { data: userDetail, isFetching: fetchingUser } =
 		useGetUserDetailQuery(id);
 	const [updateUser] = useUpdateUserMutation();
@@ -32,6 +40,8 @@ const EditEmployee = ({
 			username: "",
 			phone: "",
 			email: "",
+			warehouse_id: "",
+			role_id: "",
 		},
 		validationSchema: Yup.object({
 			username: Yup.string().required("Trường bắt buộc!"),
@@ -41,6 +51,8 @@ const EditEmployee = ({
 			email: Yup.string()
 				.required("Trường bắt buộc!")
 				.matches(emailRegex, "Email không hợp lệ"),
+			warehouse_id: Yup.string().nullable().required("Trường bắt buộc!"),
+			role_id: Yup.string().nullable().required("Trường bắt buộc!"),
 		}),
 		onSubmit: async (values: any) => {
 			const res: any = await updateUser({
@@ -48,8 +60,15 @@ const EditEmployee = ({
 				...values,
 			});
 			if (res?.data) {
-				handleClose();
-				toast.success("Sửa thông tin nhân sự thành công!");
+				if (res.data._id === getLoggedInUser()._id) {
+					dispatch(logoutUser({ history }));
+					toast.success(
+						"Sửa thông tin cá nhân thành công, vui lòng đăng nhập lại!"
+					);
+				} else {
+					handleClose();
+					toast.success("Sửa thông tin nhân sự thành công!");
+				}
 			} else {
 				toast.error("Sửa thông tin nhân sự thất bại!");
 			}
@@ -63,6 +82,8 @@ const EditEmployee = ({
 				username: userDetail.username,
 				phone: userDetail.phone,
 				email: userDetail.email,
+				warehouse_id: userDetail.warehouse_id._id,
+				role_id: userDetail.role_id._id,
 			});
 		}
 	}, [userDetail]);
@@ -186,6 +207,74 @@ const EditEmployee = ({
 																</p>
 															)}
 													</Form.Group>
+												</Col>
+
+												<Col
+													xs={12}
+													md={6}
+													className="mb-3"
+												>
+													<SelectRole
+														id={
+															formik.values
+																.role_id
+														}
+														handleChange={(
+															id: any
+														) => {
+															formik.setValues({
+																...formik.values,
+																role_id: id,
+															});
+														}}
+														isLabel={true}
+													/>
+													{formik.errors.role_id &&
+														formik.touched
+															.role_id && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.role_id as string
+																}
+															</p>
+														)}
+												</Col>
+
+												<Col
+													xs={12}
+													md={6}
+													className="mb-3"
+												>
+													<SelectWarehouse
+														id={
+															formik.values
+																.warehouse_id
+														}
+														handleChange={(
+															id: any
+														) => {
+															formik.setValues({
+																...formik.values,
+																warehouse_id:
+																	id,
+															});
+														}}
+														isLabel={true}
+													/>
+													{formik.errors
+														.warehouse_id &&
+														formik.touched
+															.warehouse_id && (
+															<p className="error mb-0">
+																{
+																	formik
+																		.errors
+																		.warehouse_id as string
+																}
+															</p>
+														)}
 												</Col>
 
 												<Col

@@ -8,14 +8,7 @@ export class XSSRequestWrapper implements NestMiddleware {
       req.params = this.sanitizeRequestObject(req.params);
       req.query = this.sanitizeRequestObject(req.query);
       req.body = this.sanitizeRequestObject(req.body);
-
-      console.log('Sanitized Request Params:', {
-        params: req.params,
-        query: req.query,
-        body: req.body,
-      });
     } catch (error) {
-      console.error('Error sanitizing input:', error);
       res.status(HttpStatus.BAD_REQUEST).json({ error: 'Invalid input' });
       next();
     }

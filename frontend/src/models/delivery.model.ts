@@ -21,6 +21,7 @@ export interface IDelivery {
 	createdAt: string;
 	updatedAt: string;
 	tracking: string;
+	shippingFee: number;
 }
 
 export interface IProductDelviery {
@@ -69,8 +70,18 @@ export interface IDeliveryDetail {
 	}[];
 	status: string;
 	note: string;
-	shipping_id: string;
+	shipping_id: {
+		_id: string;
+		name: string;
+		address: IAddress;
+		phone: string;
+		email: string;
+		createdAt: string;
+		updatedAt: string;
+	};
+	tracking: string;
 	address: string;
 	createdAt: string;
 	updatedAt: string;
+	shippingFee: number;
 }

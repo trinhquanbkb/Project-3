@@ -3,16 +3,18 @@ import { Row, Col, Button, Form, Breadcrumb } from "react-bootstrap";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import TableShipper from "./component/TableShipper";
-import { useDeleteShipperMutation, useGetShipperListQuery } from "../../api/shipperApi";
-import { IShipperQuery, IAddress } from "../../models/shipper.model";
+import {
+	useDeleteShipperMutation,
+	useGetShipperListQuery,
+} from "../../api/shipperApi";
+import { IShipperQuery } from "../../models/shipper.model";
 import Loading from "../../components/Loading";
-import ViewShipper from "./component/ViewShipper"
+import ViewShipper from "./component/ViewShipper";
 import NotFoundTable from "../../components/NotFoundTable";
 import EditShipper from "./component/EditShipper";
 import ModalConfirm from "../../components/ModalConfirm";
 import { toast } from "react-toastify";
 import CreateShipper from "./component/CreateShipper";
-
 
 const listBreadCrumb = [
 	{
@@ -28,7 +30,6 @@ const listBreadCrumb = [
 	},
 ];
 
-
 const ShipperList = () => {
 	const location = useLocation();
 	const [idShipper, setIdShipper] = useState("");
@@ -40,18 +41,18 @@ const ShipperList = () => {
 	const [search, setSearch] = useState<IShipperQuery>({
 		page: 1,
 		pageSize: 10,
-		filter: {}
+		filter: {},
 	});
 
-	const { data: listShipper, isFetching } = useGetShipperListQuery({ ...search });
+	const { data: listShipper, isFetching } = useGetShipperListQuery({
+		...search,
+	});
 
 	const [deleteShipperApi] = useDeleteShipperMutation();
 
 	useEffect(() => {
-
 		const query = location.search;
 		const parsed = queryString.parse(query);
-		
 		const page = parsed.page ? Number(parsed.page) : 1;
 		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
 		const filter = parsed.filter ? parsed.filter : {};
@@ -73,7 +74,6 @@ const ShipperList = () => {
 					page: search.page,
 					pageSize: search.pageSize,
 					filter: JSON.stringify(search.filter),
-
 				},
 			},
 			{
@@ -110,19 +110,17 @@ const ShipperList = () => {
 	const handleSearchOnEnter = (event: any) => {
 		event.preventDefault();
 		if (event.key === "Enter") {
-			if (keywordShipperName.trim() === ""){
+			if (keywordShipperName.trim() === "") {
 				setSearch({
 					...search,
-					filter: {
-						
-					}
+					filter: {},
 				});
-			}else {
+			} else {
 				setSearch({
 					...search,
 					filter: {
 						name: keywordShipperName.trim(),
-					}
+					},
 				});
 			}
 		}
@@ -197,7 +195,8 @@ const ShipperList = () => {
 										setCreateModal(!createModal);
 									}}
 								>
-									<i className="uil-plus me-1"></i> Thêm đối tác vận chuyển
+									<i className="uil-plus me-1"></i> Thêm đối
+									tác vận chuyển
 								</Button>
 							</div>
 						</div>
@@ -233,19 +232,20 @@ const ShipperList = () => {
 													type="submit"
 													className="btn-search"
 													onClick={() => {
-														if (keywordShipperName.trim() === ""){
+														if (
+															keywordShipperName.trim() ===
+															""
+														) {
 															setSearch({
 																...search,
-																filter: {
-																	
-																}
+																filter: {},
 															});
-														}else {
+														} else {
 															setSearch({
 																...search,
 																filter: {
 																	name: keywordShipperName.trim(),
-																}
+																},
 															});
 														}
 													}}
@@ -272,14 +272,14 @@ const ShipperList = () => {
 					data={
 						listShipper
 							? listShipper.data.map((item) => {
-								return {
-									id: item._id,
-									name: item.name,
-									address: item.address,
-									phone: item.phone,
-									email: item.email
-								};
-							})
+									return {
+										id: item._id,
+										name: item.name,
+										address: item.address,
+										phone: item.phone,
+										email: item.email,
+									};
+							  })
 							: null
 					}
 				/>

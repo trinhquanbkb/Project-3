@@ -1,11 +1,10 @@
 import { api } from ".";
 import { createAction } from "@reduxjs/toolkit";
 import { IPagination } from "../models/pagination.model";
-import { 
-	ISupplier, 
-	ISupplierQuery,
+import {
+	ISupplier,
 	IUpdateSupplier,
-	ICreateSupplier 
+	ICreateSupplier,
 } from "../models/supplier.model";
 
 export const successToastAction = createAction<string>("toast/success");
@@ -17,7 +16,7 @@ const SupplierApi = api.injectEndpoints({
 				data: ISupplier[];
 				paginations: IPagination;
 			},
-			ISupplierQuery
+			any
 		>({
 			query: (params) => ({
 				url: "Suppliers",
@@ -65,7 +64,7 @@ const SupplierApi = api.injectEndpoints({
 				data,
 			}),
 			invalidatesTags: [{ type: "Supplier", id: "List" }],
-		})
+		}),
 	}),
 });
 

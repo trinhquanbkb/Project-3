@@ -18,8 +18,6 @@ export interface IAddress {
 	address: string;
 }
 
-
-
 export interface IUpdateSupplier {
 	name: string;
 	address: IAddress;
@@ -37,8 +35,8 @@ export interface ICreateSupplier {
 export interface ISupplierQuery {
 	page: number;
 	pageSize: number;
-	name: string;
-	address: IAddress;
+	filter: { name?: string };
+	address?: IAddress;
 }
 
 export interface ITableSupplier {
@@ -48,11 +46,11 @@ export interface ITableSupplier {
 	handleEditSupplier: any;
 	handleDeleteSupplier: any;
 	data:
-	| {
-		name: string;
-		address: IAddress;
-		phone: number;
-		email: string;
-	}[]
-	| null;
+		| {
+				name: string;
+				address: IAddress;
+				phone: number;
+				email: string;
+		  }[]
+		| null;
 }

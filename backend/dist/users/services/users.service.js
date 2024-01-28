@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const user_repository_1 = require("../repository/user.repository");
 const configuration_1 = require("../../config/configuration");
 const bcrypt_1 = require("bcrypt");
+const jwt = require("jsonwebtoken");
 let UsersService = class UsersService {
     constructor(usersRepository) {
         this.usersRepository = usersRepository;
@@ -22,9 +23,18 @@ let UsersService = class UsersService {
         createUserDto.password = (0, bcrypt_1.hashSync)(createUserDto.password, configuration_1.configs.saltOrRound);
         return await this.usersRepository.create(createUserDto);
     }
-    async findAll(pagination, filter) {
+    async findAll(req, pagination, filter) {
         const { page, pageSize } = pagination;
         const skip = (page - 1) * pageSize;
+        const token = req.headers.authorization.replace('Bearer ', '');
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        let warehouseId;
+        if (decodedToken['role_id'].name === 'Admin') {
+            warehouseId = null;
+        }
+        else {
+            warehouseId = decodedToken['warehouse_id']._id;
+        }
         let filterData = {};
         if (filter.username !== '') {
             filterData['username'] = filter.username;
@@ -34,6 +44,12 @@ let UsersService = class UsersService {
         }
         if (filter.email !== '') {
             filterData['email'] = filter.email;
+        }
+        if (warehouseId) {
+            filterData['warehouse_id'] = warehouseId;
+        }
+        else {
+            delete filterData['warehouse_id'];
         }
         const data = await this.usersRepository.findAll(filterData, skip, parseInt(pageSize, 10));
         const total = await this.usersRepository.countAll(filterData);
@@ -46,6 +62,9 @@ let UsersService = class UsersService {
         return { data, paginations, messenger: 'success' };
     }
     async findOne(filter) {
+        return await this.usersRepository.findOne(filter);
+    }
+    async findUserLogged(filter) {
         return await this.usersRepository.findOne(filter);
     }
     async update(id, updateUserDto) {

@@ -27,19 +27,17 @@ const columns = [
 		Header: "Địa chỉ",
 		accessor: "address",
 		sort: false,
+		width: 220,
 	},
 	{
-		Header: "Đơn vị vận chuyển",
-		accessor: "shipping",
-	},
-	{
-		Header: "Tracking",
-		accessor: "tracking",
+		Header: "Ngày tạo",
+		accessor: "createdAt",
 	},
 	{
 		Header: "Ghi chú",
 		accessor: "note",
 		sort: false,
+		width: 180,
 	},
 	{
 		Header: "Hành động",
@@ -133,7 +131,7 @@ const TableDeliveryBill = (props: any) => {
 										>
 											<i className="uil uil-check"></i>
 											<span className="title">
-												Duyệt phiếu xuất kho
+												Xác nhận xuất kho
 											</span>
 										</button>
 									) : null}
@@ -147,6 +145,12 @@ const TableDeliveryBill = (props: any) => {
 								>
 									{item.status}
 								</p>
+							)),
+							(item["note"] = (
+								<p className="text-wrap">{item.note}</p>
+							)),
+							(item["address"] = (
+								<p className="text-wrap">{item.address}</p>
 							))
 						)
 				  )}

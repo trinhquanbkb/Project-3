@@ -8,12 +8,10 @@ const columns = [
 	{
 		Header: "Mã Nhà kho",
 		accessor: "id",
-		sort: true,
 	},
 	{
 		Header: "Tên nhà kho",
 		accessor: "name",
-		sort: true,
 	},
 	{
 		Header: "Địa chỉ",
@@ -102,20 +100,6 @@ const TableWarehouse = (props: ITableWarehouse) => {
 										<i className="uil uil-edit-alt"></i>
 										<span className="title">
 											Sửa nhà kho
-										</span>
-									</button>
-									<button
-										type="button"
-										className="btn btn-delete-tracking"
-										onClick={() => {
-											props.handleDeleteWarehouse(
-												item.id
-											);
-										}}
-									>
-										<i className="uil uil-times"></i>
-										<span className="title">
-											Xóa nhà kho
 										</span>
 									</button>
 								</div>

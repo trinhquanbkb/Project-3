@@ -459,3 +459,17 @@ body[data-layout-mode="two-column"] {
 .warehouse-option {
 	border: 1px solid #ccd5d4 !important;
 }
+
+.btn-warehouse-wrapper {
+	height: 100%;
+	width: fit-content;
+	line-height: 68px;
+	.btn-warehouse {
+		padding: 8px 24px;
+		background-color: #ece9e4;
+		color: black;
+		border: none;
+		font-weight: 500;
+		cursor: default;
+	}
+}

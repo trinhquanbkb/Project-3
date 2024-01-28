@@ -14,11 +14,11 @@ import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { SuppliersModule } from './suppliers/suppliers.module';
 import { StatisticsModule } from './statistics/statistics.module';
-import { TopProductModule } from './top_product/top_product.module'
+import { TopProductModule } from './top_product/top_product.module';
 import { InventoryProductsModule } from './inventory_products/inventory_products.module';
 import { XSSRequestWrapper } from './middlewares/XSSRequestWrapper';
 import { ShippingsModule } from './shipping/shipping.module';
-
+import { ReportsModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -40,7 +40,8 @@ import { ShippingsModule } from './shipping/shipping.module';
     StatisticsModule,
     TopProductModule,
     InventoryProductsModule,
-    ShippingsModule
+    ShippingsModule,
+    ReportsModule,
   ],
 })
 export class AppModule {

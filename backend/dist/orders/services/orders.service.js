@@ -103,6 +103,10 @@ let OrdersService = class OrdersService {
                 path: 'products.product_id',
                 model: 'Product',
             },
+            {
+                path: 'shipping_id',
+                model: 'Shipping',
+            },
         ])
             .exec();
     }

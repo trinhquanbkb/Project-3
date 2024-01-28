@@ -70,6 +70,13 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], Order.prototype, "tracking", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({
+        required: false,
+        type: Number,
+    }),
+    __metadata("design:type", String)
+], Order.prototype, "shippingFee", void 0);
 Order = __decorate([
     (0, mongoose_1.Schema)({
         timestamps: true,

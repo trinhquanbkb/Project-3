@@ -45,6 +45,7 @@ const ViewEmployee = ({
 														name="code"
 														value={userDetail?._id}
 														disabled
+														readOnly
 													/>
 												</Form.Group>
 											</Col>
@@ -60,6 +61,7 @@ const ViewEmployee = ({
 															userDetail?.username
 														}
 														disabled
+														readOnly
 													/>
 												</Form.Group>
 											</Col>
@@ -75,6 +77,7 @@ const ViewEmployee = ({
 															userDetail?.email
 														}
 														disabled
+														readOnly
 													/>
 												</Form.Group>
 											</Col>
@@ -90,6 +93,40 @@ const ViewEmployee = ({
 															userDetail?.phone
 														}
 														disabled
+														readOnly
+													/>
+												</Form.Group>
+											</Col>
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>
+														Vai trò
+													</Form.Label>
+													<Form.Control
+														type="text"
+														name="role"
+														value={
+															userDetail?.role_id
+																.name
+														}
+														disabled
+														readOnly
+													/>
+												</Form.Group>
+											</Col>
+											<Col xs={12} md={6}>
+												<Form.Group className="mb-3">
+													<Form.Label>Kho</Form.Label>
+													<Form.Control
+														type="text"
+														name="warehouse"
+														value={
+															userDetail
+																?.warehouse_id
+																.name
+														}
+														disabled
+														readOnly
 													/>
 												</Form.Group>
 											</Col>

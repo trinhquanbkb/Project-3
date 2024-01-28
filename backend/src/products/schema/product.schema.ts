@@ -2,6 +2,7 @@
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { ProductsItemType } from '../dto/products.dto';
 
 export type ProductDocument = Product & Document;
 
@@ -26,6 +27,12 @@ export class Product {
     type: String,
   })
   url: string;
+
+  @Prop({
+    required: true,
+    type: Object,
+  })
+  product_items: ProductsItemType[];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

@@ -67,6 +67,12 @@ const ProductApi = api.injectEndpoints({
 				method: "GET",
 			}),
 		}),
+		exportExcel: build.mutation<any, void>({
+			query: () => ({
+				url: `Products/excel`,
+				method: "POST",
+			}),
+		}),
 	}),
 });
 
@@ -77,4 +83,5 @@ export const {
 	useDeleteProductMutation,
 	useCreateProductMutation,
 	useSearchProductQuery,
+	useExportExcelMutation,
 } = ProductApi;

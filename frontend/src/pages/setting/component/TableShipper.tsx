@@ -7,32 +7,26 @@ const columns = [
 	{
 		Header: "Mã đơn vị",
 		accessor: "id",
-		sort: true,
 	},
 	{
 		Header: "Tên đối tác",
 		accessor: "name",
-		sort: true,
 	},
 	{
 		Header: "Điện thoại",
 		accessor: "phone",
-		sort: true,
 	},
 	{
 		Header: "Email",
 		accessor: "email",
-		sort: true,
 	},
 	{
 		Header: "Địa chỉ",
 		accessor: "address.address",
-		sort: false,
 	},
 	{
 		Header: "Phường/Xã",
 		accessor: "address.wards",
-		sort: false,
 	},
 	{
 		Header: "Quận/Huyện",

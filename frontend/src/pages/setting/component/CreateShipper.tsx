@@ -2,12 +2,8 @@ import { Row, Col, Button, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import {
-	useCreateShipperMutation
-} from "../../../api/shipperApi";
+import { useCreateShipperMutation } from "../../../api/shipperApi";
 import FormAddress from "../../../components/FormAddress";
-
-
 
 const CreateShipper = ({
 	handleClose,
@@ -18,7 +14,6 @@ const CreateShipper = ({
 }) => {
 	const [createShipper] = useCreateShipperMutation();
 
-
 	const formik = useFormik({
 		initialValues: {
 			name: "",
@@ -26,43 +21,39 @@ const CreateShipper = ({
 			wards: "",
 			district: "",
 			city: "",
-            phone: 0,
-            email: ""
+			phone: 0,
+			email: "",
 		},
 		validationSchema: Yup.object({
-			address: Yup.string()
-				.required("Trường bắt buộc!")
+			address: Yup.string().required("Trường bắt buộc!"),
 		}),
 		onSubmit: async (values: any) => {
-
-			const res: any = await createShipper(
-				{
-					name: values.name,
-					address: {
-						district: values.district,
-						wards: values.wards,
-						city: values.city,
-						address: values.address,
-					},
-                    phone: +values.phone,
-                    email: values.email
-				}
-			);
+			const res: any = await createShipper({
+				name: values.name,
+				address: {
+					district: values.district,
+					wards: values.wards,
+					city: values.city,
+					address: values.address,
+				},
+				phone: +values.phone,
+				email: values.email,
+			});
 			if (res?.data) {
 				toast.success("Tạo mới đối tác thành công");
 				handleClose();
 			} else {
 				toast.error("Tạo mới đối tác thất bại");
 			}
-
 		},
 	});
 
 	return (
 		<>
 			<div
-				className={`popup-info main-view-order ${isClass === "active" ? "opened" : ""
-					}`}
+				className={`popup-info main-view-order ${
+					isClass === "active" ? "opened" : ""
+				}`}
 			>
 				<div className="popup-info-inner">
 					<div className="title-popup">
@@ -98,7 +89,7 @@ const CreateShipper = ({
 													/>
 												</Form.Group>
 											</Col>
-                                            <Col xs={12} md={6}>
+											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
 														Điện thoại
@@ -115,7 +106,7 @@ const CreateShipper = ({
 													/>
 												</Form.Group>
 											</Col>
-                                            <Col xs={12} md={6}>
+											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
 														Email
@@ -136,13 +127,14 @@ const CreateShipper = ({
 											<Col xs={12} md={6}>
 												<Form.Group className="mb-3">
 													<Form.Label>
-														Đường
+														Địa chỉ cụ thể
 													</Form.Label>
 													<Form.Control
 														type="text"
 														name="address"
 														value={
-															formik.values.address
+															formik.values
+																.address
 														}
 														onChange={
 															formik.handleChange
@@ -162,14 +154,39 @@ const CreateShipper = ({
 												</Form.Group>
 											</Col>
 
-											<Form onSubmit={formik.handleSubmit}>
+											<Form
+												onSubmit={formik.handleSubmit}
+											>
 												<FormAddress
 													city={formik.values.city}
-													district={formik.values.district}
+													district={
+														formik.values.district
+													}
 													wards={formik.values.wards}
-													onCityChange={(value: any) => formik.setFieldValue("city", value)}
-													onDistrictChange={(value: any) => formik.setFieldValue("district", value)}
-													onWardsChange={(value: any) => formik.setFieldValue("wards", value)}
+													onCityChange={(
+														value: any
+													) =>
+														formik.setFieldValue(
+															"city",
+															value
+														)
+													}
+													onDistrictChange={(
+														value: any
+													) =>
+														formik.setFieldValue(
+															"district",
+															value
+														)
+													}
+													onWardsChange={(
+														value: any
+													) =>
+														formik.setFieldValue(
+															"wards",
+															value
+														)
+													}
 												/>
 											</Form>
 
@@ -210,4 +227,3 @@ const CreateShipper = ({
 };
 
 export default CreateShipper;
-

@@ -116,7 +116,7 @@ const ViewReceipt = ({
 																		width: "13%",
 																	}}
 																>
-																	Cân nặng
+																	Đơn vị tính
 																</th>
 																<th
 																	style={{
@@ -130,7 +130,8 @@ const ViewReceipt = ({
 																		width: "13%",
 																	}}
 																>
-																	Giá nhập
+																	Giá nhập/sản
+																	phẩm
 																</th>
 																<th
 																	style={{
@@ -154,9 +155,8 @@ const ViewReceipt = ({
 																		}
 																	>
 																		<td>
-																			{
-																				index
-																			}
+																			{index +
+																				1}
 																		</td>
 																		<td>
 																			<input

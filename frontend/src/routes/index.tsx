@@ -58,6 +58,9 @@ const StatisticsTopSold = React.lazy(
 	() => import("../pages/statistics/TopSold")
 );
 
+// reports
+const Report = React.lazy(() => import("../pages/report/index"));
+
 export interface RoutesProps {
 	path: RouteProps["path"];
 	name?: string;
@@ -250,6 +253,12 @@ const projectAppRoutes: RoutesProps[] = [
 		path: "/user-infor",
 		name: "User infor",
 		component: UserInfor,
+		route: PrivateRoute,
+	},
+	{
+		path: "/reports",
+		name: "Report",
+		component: Report,
 		route: PrivateRoute,
 	},
 ];

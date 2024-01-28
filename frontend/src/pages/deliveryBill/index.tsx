@@ -18,6 +18,7 @@ import {
 import TableDeliveryBill from "./component/TableDeliveryBill";
 import ViewDeliveryBill from "./component/ViewDeliveryBill";
 import ModalExport from "./component/ModalExport";
+import { convertDate } from "../../utils/function";
 
 const listBreadCrumb = [
 	{
@@ -253,12 +254,25 @@ const ReceiptList = () => {
 																...filter,
 																code: keywordCode.trim(),
 															});
+															setSearch({
+																...search,
+																page: 1,
+															});
 														}
 													}}
 												/>
 												<Button
-													type="submit"
 													className="btn-search"
+													onClick={() => {
+														setFilter({
+															...filter,
+															code: keywordCode.trim(),
+														});
+														setSearch({
+															...search,
+															page: 1,
+														});
+													}}
 												></Button>
 											</Form.Group>
 										</div>
@@ -293,7 +307,7 @@ const ReceiptList = () => {
 											? item.shipping_id.name
 											: null,
 										address: item.address,
-										createdAt: item.createdAt,
+										createdAt: convertDate(item.createdAt),
 										tracking: item.tracking,
 									};
 							  })

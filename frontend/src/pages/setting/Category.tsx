@@ -10,6 +10,7 @@ import ViewCategory from "./component/ViewCategory";
 import CreateCategory from "./component/CreateCategory";
 import TableCategory from "./component/TableCategory";
 import { useGetProductListQuery } from "../../api/productApi";
+import { useLocation } from "react-router-dom";
 
 const listBreadCrumb = [
 	{
@@ -26,6 +27,7 @@ const listBreadCrumb = [
 ];
 
 const Category = () => {
+	const location = useLocation();
 	const [idCategory, setIdCategory] = useState("");
 	const [keywordCategoryName, setKeywordCategoryName] = useState("");
 	const [viewModal, setViewModal] = useState(false);
@@ -39,8 +41,25 @@ const Category = () => {
 
 	const { data: listCategory, isFetching } = useGetProductListQuery({
 		...search,
-		product_name: search.name,
+		filter: { name: search.name },
 	});
+
+	useEffect(() => {
+		const query = location.search;
+		const parsed = queryString.parse(query);
+		const page = parsed.page ? Number(parsed.page) : 1;
+		const pageSize = parsed.pageSize ? Number(parsed.pageSize) : 10;
+		const name = parsed.name ? parsed.name.toString() : "";
+
+		setSearch({
+			...search,
+			page,
+			pageSize,
+			name,
+		});
+
+		setKeywordCategoryName(name);
+	}, []);
 
 	useEffect(() => {
 		const query = queryString.stringifyUrl(

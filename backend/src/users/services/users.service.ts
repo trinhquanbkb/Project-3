@@ -5,6 +5,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { UsersRepository } from '../repository/user.repository';
 import { configs } from 'src/config/configuration';
 import { hashSync } from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UsersService {
@@ -17,9 +18,18 @@ export class UsersService {
     return await this.usersRepository.create(createUserDto);
   }
 
-  async findAll(pagination: any, filter: any) {
+  async findAll(req, pagination: any, filter: any) {
     const { page, pageSize } = pagination;
     const skip = (page - 1) * pageSize;
+
+    const token = req.headers.authorization.replace('Bearer ', '');
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    let warehouseId;
+    if (decodedToken['role_id'].name === 'Admin') {
+      warehouseId = null;
+    } else {
+      warehouseId = decodedToken['warehouse_id']._id;
+    }
 
     let filterData = {};
     if (filter.username !== '') {
@@ -30,6 +40,11 @@ export class UsersService {
     }
     if (filter.email !== '') {
       filterData['email'] = filter.email;
+    }
+    if (warehouseId) {
+      filterData['warehouse_id'] = warehouseId;
+    } else {
+      delete filterData['warehouse_id'];
     }
 
     const data = await this.usersRepository.findAll(
@@ -48,6 +63,10 @@ export class UsersService {
   }
 
   async findOne(filter: FilterQuery<any>) {
+    return await this.usersRepository.findOne(filter);
+  }
+
+  async findUserLogged(filter: FilterQuery<any>) {
     return await this.usersRepository.findOne(filter);
   }
 

@@ -19,10 +19,12 @@ const ModalExport = (props: any) => {
 		initialValues: {
 			shipping_id: "",
 			tracking: "",
+			shippingFee: 0,
 		},
 		validationSchema: Yup.object({
 			shipping_id: Yup.string().required("Trường bắt buộc!"),
 			tracking: Yup.string().required("Trường bắt buộc!"),
+			shippingFee: Yup.number().required("Trường bắt buộc!"),
 		}),
 		onSubmit: async (values: any) => {
 			const res = await exportApi({
@@ -58,7 +60,7 @@ const ModalExport = (props: any) => {
 					<Form className="w-100">
 						<div className="order-detail d-flex justify-content-start flex-column w-100">
 							<Row>
-								<Col xs={12} md={6}>
+								<Col xs={12} md={12}>
 									<Form.Group className="mb-3">
 										<Form.Label>
 											Đối tác vận chuyển
@@ -93,7 +95,7 @@ const ModalExport = (props: any) => {
 								</Col>
 								<Col xs={12} md={6}>
 									<Form.Group className="mb-3">
-										<Form.Label>Tracking</Form.Label>
+										<Form.Label>Mã tracking</Form.Label>
 										<Form.Control
 											type="text"
 											name="tracking"
@@ -107,6 +109,26 @@ const ModalExport = (props: any) => {
 												{
 													formik.errors
 														.tracking as string
+												}
+											</p>
+										)}
+								</Col>
+								<Col xs={12} md={6}>
+									<Form.Group className="mb-3">
+										<Form.Label>Phí vận chuyển</Form.Label>
+										<Form.Control
+											type="number"
+											name="shippingFee"
+											value={formik.values.shippingFee}
+											onChange={formik.handleChange}
+										/>
+									</Form.Group>
+									{formik.errors.shippingFee &&
+										formik.touched.shippingFee && (
+											<p className="error mb-0">
+												{
+													formik.errors
+														.shippingFee as string
 												}
 											</p>
 										)}

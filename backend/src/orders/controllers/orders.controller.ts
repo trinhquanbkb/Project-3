@@ -31,13 +31,14 @@ export class OrdersController {
   @Post('/approve/:id')
   approve(
     @Param('id') id: string,
-    @Body() roleDto: { shipping_id: string; tracking: string },
+    @Body()
+    roleDto: { shipping_id: string; tracking: string; shippingFee: number },
   ) {
-    console.log('hello');
     return this.rolesService.update(id, {
       status: 'Thành công',
       shipping_id: roleDto.shipping_id,
       tracking: roleDto.tracking,
+      shippingFee: roleDto.shippingFee,
     });
   }
 

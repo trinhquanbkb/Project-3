@@ -14,7 +14,7 @@ export interface IUser {
 		_id: string;
 	};
 	parent_id: number;
-	warehouse_id: number;
+	warehouse_id: IWarehouse;
 	createdAt: Date;
 	updatedAt: Date;
 	__v: any;

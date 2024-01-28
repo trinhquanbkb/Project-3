@@ -17,6 +17,7 @@ import TableReceipt from "./component/TableReceipt";
 import CreateReceipt from "./component/CreateReceipt";
 import ViewReceipt from "./component/ViewReceipt";
 import ModalApprove from "./component/ModalApprove";
+import { convertDate } from "../../utils/function";
 
 const listBreadCrumb = [
 	{
@@ -249,8 +250,13 @@ const ReceiptList = () => {
 													}}
 												/>
 												<Button
-													type="submit"
 													className="btn-search"
+													onClick={() => {
+														setFilter({
+															...filter,
+															code: keywordCode.trim(),
+														});
+													}}
 												></Button>
 											</Form.Group>
 										</div>
@@ -282,6 +288,7 @@ const ReceiptList = () => {
 										weight: item.weight,
 										note: item.note,
 										warehouseId: item?.warehouseId.name,
+										createdAt: convertDate(item.createdAt),
 										status: item.status,
 										statusCss: item.status,
 									};
